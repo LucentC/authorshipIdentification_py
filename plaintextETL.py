@@ -2,7 +2,8 @@ import nltk
 import re
 
 
-def splitToTokens(sentence):
+def match_tokens_to_bigrams(sentence):
+    """This is the description"""
     previous = ""
     tokens = nltk.word_tokenize(sentence)
     for index in range(len(tokens)):
@@ -19,8 +20,28 @@ def splitToTokens(sentence):
 
 text = "this\'s a sent tokenize test. this is sent two. is this sent three? sent 4 is cool! Now it\'s your turn."
 
-sentences = nltk.sent_tokenize(text)
+#paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
+corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
+paragraphs = corpus.paras()
 
-for i in range(len(sentences)):
-    print "sen_id: ", i + 1, "\nSentence: " + sentences[i]
-    splitToTokens(sentences[i])
+for para in paragraphs:
+    print para, "\n\n"
+    for sentence in para:
+        for word in sentence:
+            previous = ""
+            if re.match(r'.*\w', word):
+                print "Match word: ", word
+                if not previous:
+                    previous = word
+                    continue
+
+                previous = word
+            else:
+                print "Match non-word: ", word
+
+
+#sentences = nltk.sent_tokenize(text)
+
+#for i in range(len(sentences)):
+#    print "sen_id: ", i + 1, "\nSentence: " + sentences[i]
+#    splitToTokens(sentences[i])
