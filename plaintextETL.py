@@ -1,10 +1,21 @@
 import nltk
 import re
 
+dict_of_bigrams = dict()
+
+
+def count_bigrams_in_para(bigram_key):
+    """This is the description"""
+    if bigram_key in dict_of_bigrams:
+        dict_of_bigrams[bigram_key] += 1
+    else:
+        dict_of_bigrams[bigram_key] = 1
+
 
 def match_tokens_to_bigrams(tokens):
     """This is the description"""
     previous = ""
+    tokens = [token.lower() for token in tokens]
     tagged_token = nltk.pos_tag(tokens)
 
     for key, val in tagged_token:
@@ -15,16 +26,18 @@ def match_tokens_to_bigrams(tokens):
                 previous = key
                 continue
 
+            count_bigrams_in_para(previous + "-" + key)
             previous = key
-        else:
-            print "Match non-word: ", key
-            print "Part-of-Speech: ", val
+        #else:
+        # To be added to deal with punctuation
 
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
 corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
 paragraphs = corpus.paras()
 
 for para in paragraphs:
-    print para, "\n\n"
     for sentence in para:
         match_tokens_to_bigrams(sentence)
+
+for x in dict_of_bigrams:
+    print x, ": " ,dict_of_bigrams[x]
