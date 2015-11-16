@@ -2,6 +2,8 @@ import nltk
 import re
 import operator
 import itertools
+import numpy as np
+from sklearn.decomposition import PCA
 
 dict_of_bigrams = dict()
 
@@ -20,10 +22,10 @@ def match_tokens_to_bigrams(tokens):
     tokens = [token.lower() for token in tokens]
     tagged_token = nltk.pos_tag(tokens)
 
-    for key, val in tagged_token:
+    for key in tokens:
         if re.match(r'.*\w', key):
-            print "Match word: ", key
-            print "Part-of-Speech: ", val
+            #print "Match word: ", key
+            #print "Part-of-Speech: ", val
             if not previous:
                 previous = key
                 continue
@@ -33,15 +35,38 @@ def match_tokens_to_bigrams(tokens):
         #else:
         # To be added to deal with punctuation
 
+
+def read_paragraphs_and_split(paragraphs):
+    dict_of_bigrams = dict()
+    for para in paragraphs:
+        for sentence in para:
+            match_tokens_to_bigrams(sentence)
+
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
-corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
-paragraphs = corpus.paras()
+corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "cha1.txt")
+p = corpus.paras()
+read_paragraphs_and_split(p)
+key_list1 = itertools.islice(sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True), 0, 40)
+key_list2 = itertools.islice(sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True), 0, 40)
+key_list3 = itertools.islice(sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True), 0, 40)
+ch1_bigram_list = [dict_of_bigrams.get(x[0]) for x in key_list1]
 
-for para in paragraphs:
-    for sentence in para:
-        match_tokens_to_bigrams(sentence)
-        sorted_bigram_list = itertools.islice(sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True), 0, 20)
-        #sorted_bigram_list = sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True)
+corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "cha2.txt")
+p = corpus.paras()
+read_paragraphs_and_split(p)
+ch2_bigram_list = [dict_of_bigrams.get(y[0]) for y in key_list2]
 
-for x in sorted_bigram_list:
-    print x
+corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "cha3.txt")
+p = corpus.paras()
+read_paragraphs_and_split(p)
+ch3_bigram_list = [dict_of_bigrams.get(z[0]) for z in key_list3]
+
+lists = list()
+lists.append(ch1_bigram_list)
+lists.append(ch2_bigram_list)
+lists.append(ch3_bigram_list)
+
+X = np.array(lists)
+pca = PCA(n_components=40)
+pca.fit(X)
+print(pca.explained_variance_ratio_)
