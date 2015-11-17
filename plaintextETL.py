@@ -1,5 +1,7 @@
 import nltk
 import re
+import operator
+import itertools
 
 dict_of_bigrams = dict()
 
@@ -38,6 +40,8 @@ paragraphs = corpus.paras()
 for para in paragraphs:
     for sentence in para:
         match_tokens_to_bigrams(sentence)
+        sorted_bigram_list = itertools.islice(sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True), 0, 20)
+        #sorted_bigram_list = sorted(dict_of_bigrams.items(), key=operator.itemgetter(1), reverse=True)
 
-for x in dict_of_bigrams:
-    print x, ": " ,dict_of_bigrams[x]
+for x in sorted_bigram_list:
+    print x
