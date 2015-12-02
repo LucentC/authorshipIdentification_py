@@ -4,6 +4,7 @@ import operator
 import itertools
 import numpy as np
 from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 
 dict_of_bigrams = dict()
 
@@ -68,5 +69,15 @@ lists.append(ch3_bigram_list)
 
 X = np.array(lists)
 pca = PCA(n_components=40)
-pca.fit(X)
-print(pca.explained_variance_ratio_)
+transformed_data = pca.fit(X)
+pca_score = pca.explained_variance_ratio_
+first_pc = pca.components_[0]
+second_pc = pca.components_[1]
+
+for i in transformed_data:
+    plt.scatter( first_pc[0] * i[0], first_pc[0] * i[0], color="r")
+    plt.scatter( second_pc[0] * i[0], second_pc[0] * i[0], color="c")
+
+plt.xlabel("First Principal Component")
+plt.ylabel("Second Principal Component")
+plt.show()
