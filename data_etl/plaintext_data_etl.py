@@ -18,7 +18,7 @@ def match_tokens_to_bigrams(tokens):
     tokens = [token.lower() for token in tokens]
     tagged_token = nltk.pos_tag(tokens)
 
-    for key in tagged_token:
+    for key, val in tagged_token:
         if re.match(r'.*\w', key):
             #print "Match word: ", key
             #print "Part-of-Speech: ", val

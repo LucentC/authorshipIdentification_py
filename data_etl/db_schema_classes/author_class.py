@@ -5,4 +5,5 @@ class Author:
         self.authorType = authorType
 
     def get_author_insert_query(self):
-        return "INSERT INTO author(author_name, author_type) VALUES ('" + self.authorName + "', '" + self.authorType + "');"
+        return "INSERT INTO author(author_name, author_type) VALUES ('" \
+               + self.authorName + "', '" + self.authorType + "');"
