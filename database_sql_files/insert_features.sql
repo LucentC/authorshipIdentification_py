@@ -1,9 +1,11 @@
+-- All of the below features are in a paragraph
 -- Lexical Feature
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'total_number_of_words');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'total_number_of_distinct_words');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'average_word_length');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'standard_deviation_of_word_length');
-INSERT INTO feature(feature_type, feature_name) VALUES('lexical', '7_vocabulary_richness_measures');
+INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'vocabulary_richness_measures');
+-- vr = total_number_of_distinct_words / total_number_of_words
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'total_number_of_characters');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'frequency_of_english_characters');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'frequency_of_uppercase_characters');
@@ -11,8 +13,8 @@ INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'frequency_of_
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'frequency_of_numerical_characters');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'frequency_of_special_characters');
 -- Structural Feature
-INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_lines');
-INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_paragraphs');
+--INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_lines');
+--INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_paragraphs');
 INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_sentences');
 INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'average_number_of_words_per_sentence');
 INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'average_number_of_words_per_paragraphs');

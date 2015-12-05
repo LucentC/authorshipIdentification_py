@@ -1,6 +1,6 @@
 class Paragraph:
 
-        def __init__(self, para_no, para_path):
+        def __init__(self, para_no, para_path, num_of_sen, total_num_of_dis_word, avg_sen_length, ):
             self.para_no = para_no
             self.para_path = para_path
 

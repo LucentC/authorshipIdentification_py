@@ -1,6 +1,10 @@
 import nltk
 import re
-
+import db_schema_classes.author_class.Author
+import db_schema_classes.chapter_class.Chapter
+import db_schema_classes.document_class.Document
+import db_schema_classes.paragraph_class.Paragraph
+import db_schema_classes.fact_class.Fact
 dict_of_bigrams = dict()
 
 
@@ -34,8 +38,11 @@ def match_tokens_to_bigrams(tokens):
 
 def read_paragraphs_and_split(paragraphs):
     for para in paragraphs:
+        num_of_sen = 0
         for sentence in para:
-            match_tokens_to_bigrams(sentence)
+            num_of_sen += 1
+            #match_tokens_to_bigrams(sentence)
+        print num_of_sen
 
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
 corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "cha1.txt")
