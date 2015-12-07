@@ -46,7 +46,9 @@ CREATE TABLE chapter (
 
 -- create table bigram
 CREATE TABLE bigram_feature (
+	bigram_id SERIAL PRIMARY KEY NOT NULL,
 	feature_id INTEGER REFERENCES feature(feature_id) NOT NULL,
-	first_word VARCHAR(40) NOT NULL,
-	second_word VARCHAR(40) NOT NULL,
+	doc_id INTEGER REFERENCES document (doc_id) NOT NULL,
+	para_id INTEGER REFERENCES paragraph (para_id) NOT NULL,
+	bigram VARCHAR(40) NOT NULL
 );

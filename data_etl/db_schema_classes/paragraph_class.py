@@ -1,6 +1,7 @@
 import itertools
 import nltk
 import numpy
+from bigram_class import Bigram
 
 
 class Paragraph:
@@ -43,4 +44,7 @@ class Paragraph:
 
         def get_bigrams(self):
             for sentence in self.paragraph:
-                print list(nltk.bigrams(sentence))
+                print sentence
+                for bigram in nltk.bigrams(sentence):
+                    print Bigram(bigram).get_bigram_insert_query()
+
