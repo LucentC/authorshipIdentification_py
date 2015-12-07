@@ -1,6 +1,7 @@
 import re
 import nltk
 from db_schema_classes.paragraph_class import Paragraph
+from db_schema_classes.fact_class import Fact
 
 dict_of_bigrams = dict()
 
@@ -35,9 +36,8 @@ def match_tokens_to_bigrams(tokens):
 
 def read_paragraphs_and_split(paragraphs):
     for para in paragraphs:
-        p = Paragraph(1, para)
-        #print p.get_no_of_sentences()
-        print p.get_average_no_of_words_per_sentence()
+        fact = Fact(1, 1, Paragraph(1, para))
+        print fact.get_fact_insert_query()
         # num_of_sen = 0
         # for sentence in para:
         #     num_of_sen += 1

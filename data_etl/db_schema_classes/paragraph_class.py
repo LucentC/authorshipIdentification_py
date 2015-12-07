@@ -35,7 +35,7 @@ class Paragraph:
         def get_total_no_of_character(self):
             return sum(self.words_length)
 
-        def get_no_of_sentences(self):
+        def get_total_no_of_sentences(self):
             return len(self.paragraph)
 
         def get_average_no_of_words_per_sentence(self):
