@@ -1,4 +1,3 @@
-import re
 import nltk
 from db_schema_classes.paragraph_class import Paragraph
 from db_schema_classes.fact_class import Fact
