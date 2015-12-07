@@ -43,8 +43,8 @@ class Paragraph:
             return numpy.mean([len(sen) for sen in self.paragraph])
 
         def get_bigrams(self):
+            bigram_list = []
             for sentence in self.paragraph:
-                print sentence
                 for bigram in nltk.bigrams(sentence):
-                    print Bigram(bigram).get_bigram_insert_query()
-
+                    bigram_list.append(Bigram(bigram))
+            return bigram_list
