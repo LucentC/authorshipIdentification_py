@@ -13,6 +13,16 @@ CREATE TABLE document (
 	year_of_pub DATE
 );
 
+--------------------------------------------------------------------
+-- create table chapter
+CREATE TABLE chapter (
+	chapter_id SERIAL PRIMARY KEY NOT NULL,
+	doc_id INTEGER REFERENCES document(doc_id) NOT NULL,
+	chapter_no INTEGER NOT NULL
+);
+-- storing the chapter no is always optional
+--------------------------------------------------------------------
+
 -- create table paragraph
 CREATE TABLE paragraph (
 	para_id SERIAL PRIMARY KEY NOT NULL,
@@ -34,15 +44,6 @@ CREATE TABLE fact (
 	feature_id INTEGER REFERENCES feature(feature_id) NOT NULL,
 	feature_value DOUBLE NOT NULL,
 );
-
-
---------------------------------------------------------------------
--- create table chapter
-CREATE TABLE chapter (
-	chapter_id SERIAL PRIMARY KEY NOT NULL,
-);
--- storing the chapter no is always optional
---------------------------------------------------------------------
 
 -- create table bigram
 CREATE TABLE bigram_feature (

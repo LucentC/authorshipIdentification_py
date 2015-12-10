@@ -1,22 +1,36 @@
 import itertools
 import nltk
 import numpy
+import re
+import os
 from bigram_class import Bigram
 
 
 class Paragraph:
 
-        def __init__(self, para_no, para=[]):
+        def __init__(self, doc, para_no, para=[]):
+            self.document = doc
             self.para_no = para_no
-            self.para_path = "test"
+            self.file_path = ""
             self.paragraph = para
             self.flattened_paragraph = list(itertools.chain(*para))
             self.words_length = [len(word) for word in self.flattened_paragraph]
+            self.write_paragraph_to_file()
+
+        def write_paragraph_to_file(self):
+            path = "/tmp/pladetect/{}/".format(self.document.get_doc_title())
+
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            self.file_path = path + "paragraph_{}.txt".format(self.para_no)
+            with open(self.file_path, 'w') as paragraph_file:
+                paragraph_file.write(u' '.join(self.flattened_paragraph).encode('utf-8'))
 
         def get_para_insert_query(self):
             return "INSERT INTO paragraph(doc_id, chapter_id, path) " \
-                   "VALUES (currval('document_doc_id_seq'), currval('chapter_chapter_id_seq'), '" \
-                   + self.para_path + "');"
+                   "VALUES (currval('document_doc_id_seq'), currval('chapter_chapter_id_seq'), '{}');\n"\
+                    .format(self.file_path)
 
         def get_total_no_of_words(self):
             return len(self.flattened_paragraph)
@@ -45,6 +59,7 @@ class Paragraph:
         def get_bigrams(self):
             bigram_list = []
             for sentence in self.paragraph:
+                sentence = [word for word in sentence if re.match(r'.*\w', word)]
                 for bigram in nltk.bigrams(sentence):
                     bigram_list.append(Bigram(bigram))
             return bigram_list
