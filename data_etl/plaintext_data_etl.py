@@ -46,5 +46,4 @@ def read_paragraphs_and_split(paragraphs):
 corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "pg46.txt")
 corpus_paragraphs = corpus.paras()
 read_paragraphs_and_split(corpus_paragraphs)
-
 connect_to_database.execute_query(SQL_INSERT_QUERY)
