@@ -3,7 +3,7 @@ import nltk
 import numpy
 import re
 import os
-from bigram_class import Bigram
+from bigram import Bigram
 
 
 class Paragraph:

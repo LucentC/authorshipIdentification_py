@@ -1,9 +1,10 @@
 import nltk
+import connect_to_database
 from db_schema_classes.paragraph_class import Paragraph
-from db_schema_classes.fact_class import Fact
-from db_schema_classes.author_class import Author
-from db_schema_classes.document_class import Document
-from db_schema_classes.chapter_class import Chapter
+from db_schema_classes.fact import Fact
+from db_schema_classes.author import Author
+from db_schema_classes.document import Document
+from db_schema_classes.chapter import Chapter
 
 SQL_INSERT_QUERY = ""
 
@@ -45,4 +46,5 @@ def read_paragraphs_and_split(paragraphs):
 corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "pg46.txt")
 corpus_paragraphs = corpus.paras()
 read_paragraphs_and_split(corpus_paragraphs)
-print SQL_INSERT_QUERY
+
+connect_to_database.execute_query(SQL_INSERT_QUERY)
