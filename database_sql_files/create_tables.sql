@@ -28,7 +28,7 @@ CREATE TABLE paragraph (
 	para_id SERIAL PRIMARY KEY NOT NULL,
 	doc_id INTEGER REFERENCES document(doc_id) NOT NULL,
 	chapter_id INTEGER REFERENCES chapter(chapter_id),
-	path VARCHAR(20) NOT NULL
+	path VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE feature (
@@ -42,7 +42,7 @@ CREATE TABLE fact (
 	doc_id INTEGER REFERENCES document (doc_id) NOT NULL,
 	para_id INTEGER REFERENCES paragraph (para_id) NOT NULL,
 	feature_id INTEGER REFERENCES feature(feature_id) NOT NULL,
-	feature_value DOUBLE NOT NULL
+	feature_value REAL NOT NULL
 );
 
 -- create table bigram

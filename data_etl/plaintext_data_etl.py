@@ -1,4 +1,5 @@
 import nltk
+import codecs
 import connect_to_database
 from db_schema_classes.paragraph_class import Paragraph
 from db_schema_classes.fact import Fact
@@ -15,6 +16,10 @@ def read_paragraphs_and_split(paragraphs):
     para_count = 0
     doc = None
     ch = Chapter(-1)
+    SQL_INSERT_QUERY += Author("Charles, Dickens").get_author_insert_query()
+    doc = Document("The Christmas Carol")
+    SQL_INSERT_QUERY += doc.get_doc_insert_query()
+    SQL_INSERT_QUERY += ch.get_chapter_insert_query()
     for para in paragraphs:
         if para[0][0] == "Author" and para[0][1] == ":":
             SQL_INSERT_QUERY += Author(" ".join(para[0][2:])).get_author_insert_query()
@@ -39,12 +44,15 @@ def read_paragraphs_and_split(paragraphs):
         fact = Fact(1, 1, p)
         SQL_INSERT_QUERY += fact.get_fact_insert_query()
 
-        for bigram in p.get_bigrams():
-            SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
+        #for bigram in p.get_bigrams():
+        #    SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
 
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
-corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "pg46.txt")
-corpus_paragraphs = corpus.paras()
-read_paragraphs_and_split(corpus_paragraphs)
+#corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
+#corpus_paragraphs = corpus.paras()
+corpus = codecs.open("data/test.txt", "r", "utf-8").read()
+tokens = nltk.word_tokenize(corpus)
+paragraph = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
+read_paragraphs_and_split(paragraph)
 
-connect_to_database.execute_query(SQL_INSERT_QUERY)
+#connect_to_database.execute_query(SQL_INSERT_QUERY)

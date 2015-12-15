@@ -25,7 +25,8 @@ class Paragraph:
 
             self.file_path = path + "paragraph_{}.txt".format(self.para_no)
             with open(self.file_path, 'w') as paragraph_file:
-                paragraph_file.write(u' '.join(self.flattened_paragraph).encode('utf-8'))
+                paragraph_file.write(u' '.join(self.paragraph).encode('utf-8'))
+                #paragraph_file.write(u' '.join(self.flattened_paragraph).encode('utf8'))
 
         def get_para_insert_query(self):
             return "INSERT INTO paragraph(doc_id, chapter_id, path) " \

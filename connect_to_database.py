@@ -1,12 +1,12 @@
 import psycopg2
 
-conn = psycopg2.connect("dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'")
-
 
 def execute_query(query):
 
-    cursor = conn.cursor()
     try:
+        conn = psycopg2.connect("dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'")
+        conn.autocommit = True
+        cursor = conn.cursor()
         cursor.execute(query)
     except:
         print "Error found"
