@@ -16,8 +16,8 @@ def read_paragraphs_and_split(paragraphs):
     para_count = 0
     doc = None
     ch = Chapter(-1)
-    SQL_INSERT_QUERY += Author("Charles, Dickens").get_author_insert_query()
-    doc = Document("The Christmas Carol")
+    SQL_INSERT_QUERY += Author("Charles Dicken").get_author_insert_query()
+    doc = Document("THE CHRISTMAS CAROL")
     SQL_INSERT_QUERY += doc.get_doc_insert_query()
     SQL_INSERT_QUERY += ch.get_chapter_insert_query()
     for para in paragraphs:
@@ -55,4 +55,5 @@ tokens = nltk.word_tokenize(corpus)
 paragraph = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
 read_paragraphs_and_split(paragraph)
 
-#connect_to_database.execute_query(SQL_INSERT_QUERY)
+print SQL_INSERT_QUERY
+connect_to_database.execute_insert_query(SQL_INSERT_QUERY)

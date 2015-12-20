@@ -14,7 +14,8 @@ class Paragraph:
             self.file_path = ""
             self.paragraph = para
             self.flattened_paragraph = list(itertools.chain(*para))
-            self.words_length = [len(word) for word in self.flattened_paragraph]
+            #self.words_length = [len(word) for word in self.flattened_paragraph]
+            self.words_length = [len(word) for word in self.paragraph]
             self.write_paragraph_to_file()
 
         def write_paragraph_to_file(self):
@@ -59,8 +60,11 @@ class Paragraph:
 
         def get_bigrams(self):
             bigram_list = []
-            for sentence in self.paragraph:
-                sentence = [word for word in sentence if re.match(r'.*\w', word)]
-                for bigram in nltk.bigrams(sentence):
-                    bigram_list.append(Bigram(bigram))
+            # for sentence in self.paragraph:
+            #     sentence = [word for word in sentence if re.match(r'.*\w', word)]
+            #     for bigram in nltk.bigrams(sentence):
+            #         bigram_list.append(Bigram(bigram))
+            para = [word for word in self.paragraph if re.match(r'.*\w', word)]
+            for bigram in nltk.bigrams(para):
+                bigram_list.append(Bigram(bigram))
             return bigram_list
