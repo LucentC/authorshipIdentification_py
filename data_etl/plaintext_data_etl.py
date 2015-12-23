@@ -44,16 +44,23 @@ def read_paragraphs_and_split(paragraphs):
         fact = Fact(1, 1, p)
         SQL_INSERT_QUERY += fact.get_fact_insert_query()
 
+        print p.get_total_no_of_character()
+        print p.get_total_no_of_english_character()
+        print p.get_total_no_of_special_character()
+        print p.get_total_no_of_digital_character()
+        print p.get_total_no_of_uppercase_character()
+        print p.get_total_no_of_lowercase_character(), "\n"
+
         #for bigram in p.get_bigrams():
         #    SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
 
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
 #corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
 #corpus_paragraphs = corpus.paras()
-corpus = codecs.open("data/test.txt", "r", "utf-8").read()
+corpus = codecs.open("data/pg76.txt", "r", "utf-8").read()
 tokens = nltk.word_tokenize(corpus)
-paragraph = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
-read_paragraphs_and_split(paragraph)
+paragraph_list = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
+read_paragraphs_and_split(paragraph_list)
 
-print SQL_INSERT_QUERY
-connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+#print SQL_INSERT_QUERY
+#connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
