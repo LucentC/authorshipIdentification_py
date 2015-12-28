@@ -1,6 +1,8 @@
 import scrapy
 import BookItem
+import os
 from scrapy.crawler import CrawlerProcess
+from scrapy.selector import HtmlXPathSelector
 
 
 class GutenbergSpider(scrapy.Spider):
@@ -12,16 +14,26 @@ class GutenbergSpider(scrapy.Spider):
         # Books by Bronte, Emily
         #"https://www.gutenberg.org/ebooks/author/405",
         # Books by Shakespeare, William
-        "https://www.gutenberg.org/ebooks/author/65"
+        #"https://www.gutenberg.org/ebooks/author/65"
+        # Books by Mark Twain
+        #"https://www.gutenberg.org/files/74/74-h/74-h.htm"
+        "http://localhost/test/test.html"
     ]
 
     def parse(self, response):
-        print response.body
-        # for sel in response.xpath('//ul/li'):
-        #     title = sel.xpath('a/text()').extract()
-        #     link = sel.xpath('a/@href').extract()
-        #     desc = sel.xpath('text()').extract()
-        #     print title, link, desc
+        # for h1 in response.xpath('//h1/text()').extract():
+        #     print h1.strip()
+
+        # for h2 in response.xpath('//h2'):
+        #     text = h2.xpath('./text()').extract()[0].strip()
+        #     for p in h2.xpath('./p'):
+        #         print p
+
+        for p in response.css('p *::text').extract():
+            content = u' '.join(p.strip().replace('\n', ' ').split())
+            if content:
+                print content
+
 
 
 process = CrawlerProcess({
@@ -29,8 +41,8 @@ process = CrawlerProcess({
     #   Gutenberg blocks crawlers/spiders by default
     #   By setting the 'USER_AGENT' parameter to spoof the identity to 'googlebot'
     #   it is possible to crawl the website without any restrictions
-    'USER_AGENT': 'googlebot',
-    'DOWNLOADER_CLIENTCONTEXTFACTORY': 'contextfactory.MyClientContextFactory'
+    #'USER_AGENT': 'googlebot',
+    #'DOWNLOADER_CLIENTCONTEXTFACTORY': 'contextfactory.MyClientContextFactory'
 })
 
 process.crawl(GutenbergSpider)

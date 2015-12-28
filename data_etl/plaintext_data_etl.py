@@ -1,7 +1,7 @@
 import nltk
 import codecs
 import connect_to_database
-from db_schema_classes.paragraph_class import Paragraph
+from db_schema_classes.paragraph import Paragraph
 from db_schema_classes.fact import Fact
 from db_schema_classes.author import Author
 from db_schema_classes.document import Document
