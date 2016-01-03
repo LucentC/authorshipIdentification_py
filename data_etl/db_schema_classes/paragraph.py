@@ -3,6 +3,7 @@ import nltk
 import numpy
 import re
 import os
+import math
 from collections import Counter
 from bigram import Bigram
 
@@ -31,6 +32,8 @@ class Paragraph:
             self.words_length = [len(word) for word in self.words_list]
             self.low_case_words_list = [word.lower() for word in self.words_list]
             self.char_list = list(itertools.chain(*self.words_list))
+            self.word_occurrence = self.get_dict_of_word_and_occurrence()
+            print self.word_occurence.values().count(1)
 
             self.write_paragraph_to_file()
 
@@ -48,14 +51,52 @@ class Paragraph:
                    "VALUES (currval('document_doc_id_seq'), currval('chapter_chapter_id_seq'), '{}');\n"\
                     .format(self.file_path)
 
+        def get_dict_of_word_and_occurrence(self):
+            word = []
+            no_of_occurrence = []
+            for item in sorted(set(self.low_case_words_list)):
+                word.append(item)
+                no_of_occurrence.append(self.low_case_words_list.count(item))
+            return dict(zip(word, no_of_occurrence))
+
         def get_total_no_of_words(self):
-            return len(self.paragraph)
+            return len(self.low_case_words_list)
 
         def get_total_no_of_distinct_words(self):
-            return len(set(self.paragraph))
+            return len(set(self.low_case_words_list))
 
         def get_vocabulary_richness(self):
             return float(self.get_total_no_of_distinct_words()) / float(self.get_total_no_of_words())
+
+        def get_K_vocabulary_richness(self):
+            total = 0
+            for val in self.word_occurence.values():
+                total += val * val
+            return float(math.pow(10, 4) * (total - self.get_total_no_of_words())) / float(math.pow(self.get_total_no_of_words(), 2))
+
+        def get_R_vocabulary_richness(self):
+            return float(self.get_total_no_of_distinct_words()) / float(math.sqrt(self.get_total_no_of_words()))
+
+        def get_C_vocabulary_richness(self):
+            return float(math.log(self.get_total_no_of_distinct_words())) / float(math.log(self.get_total_no_of_words()))
+
+        def get_H_vocabulary_richness(self):
+            return float(100 * math.log(self.get_total_no_of_words())) / float(1 - self.word_occurrence.values().count(1) / self.get_total_no_of_distinct_words())
+
+        def get_S_vocabulary_richness(self):
+            return float(self.word_occurrence.values().count(2)) / float(self.get_total_no_of_distinct_words())
+
+        def get_k_vocabulary_richness(self):
+            return float(math.log(self.get_total_no_of_distinct_words())) / float(math.log(float(math.log(self.get_total_no_of_words()))))
+
+        def get_LN_vocabulary_richness(self):
+            return float(1 - math.pow(self.get_total_no_of_distinct_words(), 2)) / float(math.pow(self.get_total_no_of_distinct_words(), 2) * math.log(self.get_total_no_of_words()))
+
+        def get_entropy(self):
+            total = 0
+            for val in self.word_occurrence.values():
+                total += ((float(val) / float(self.get_total_no_of_words())) * math.log(float(val) / float(self.get_total_no_of_words())))
+            return -100 * float(total)
 
         def get_average_word_length(self):
             return numpy.mean(self.words_length)
