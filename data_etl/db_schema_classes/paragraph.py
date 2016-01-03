@@ -11,12 +11,14 @@ from bigram import Bigram
 
 class Paragraph:
 
-        def __init__(self, para=[]):
+        def __init__(self, doc_name, para_no, para=[]):
             """
                 Constructor of Paragraph class
 
             """
             """ The meta-data of the document """
+            self.doc_name = doc_name
+            self.para_no = para_no
             self.file_path = ""
 
             """ Unhandled raw paragraph """
@@ -39,7 +41,7 @@ class Paragraph:
             self.write_paragraph_to_file()
 
         def write_paragraph_to_file(self):
-            path = "/tmp/pladetect/{}/".format(self.document.get_doc_title())
+            path = "/tmp/pladetect/{}/".format(self.doc_name)
             if not os.path.exists(path):
                 os.makedirs(path)
 

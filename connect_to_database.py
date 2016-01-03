@@ -10,6 +10,7 @@ def execute_insert_query(query):
         cursor = conn.cursor()
         cursor.execute(query)
         print "Finished running insert query"
-    except psycopg2.DatabaseError:
+    except psycopg2.DatabaseError as e:
         print "Cannot connect to database"
+        print e.pgerror
     conn.close()
