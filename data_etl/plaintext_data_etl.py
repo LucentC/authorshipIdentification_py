@@ -55,5 +55,5 @@ tokens = nltk.word_tokenize(corpus)
 paragraph_list = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
 read_paragraphs_and_split(paragraph_list)
 
-#print SQL_INSERT_QUERY
+print SQL_INSERT_QUERY
 #connect_to_database.execute_insert_query(SQL_INSERT_QUERY)

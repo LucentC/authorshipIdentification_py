@@ -4,6 +4,7 @@ import numpy
 import re
 import os
 import math
+import string
 from collections import Counter
 from bigram import Bigram
 
@@ -21,20 +22,22 @@ class Paragraph:
             self.file_path = ""
 
             """ Unhandled raw paragraph """
-            self.paragraph = para
+            self.tokenized_paragraph = para
+            self.flatten_paragraph = self.regroup_tokens_to_paragraph()
+            self.sentences = nltk.sent_tokenize(self.regroup_tokens_to_paragraph())
 
             """ Tagging the part of speech of each word in the paragraph and count the frequency """
             self.tagged_tokens = [] #nltk.pos_tag(self.paragraph)
             self.pos_counter = Counter(tag for word, tag in self.tagged_tokens)
 
             """ Extracting the word in paragraph and count the length """
-            self.words_list = [word for word in self.paragraph if re.match(r'.*\w', word)]
+            self.words_list = [word for word in self.tokenized_paragraph if re.match(r'.*\w', word)]
             self.words_length = [len(word) for word in self.words_list]
             self.low_case_words_list = [word.lower() for word in self.words_list]
-            self.char_list = list(itertools.chain(*self.words_list))
+            self.char_list = list(itertools.chain(*self.flatten_paragraph))
             self.word_occurrence = self.get_dict_of_word_and_occurrence()
-            print self.word_occurence.values().count(1)
 
+            """ Write text to file """
             self.write_paragraph_to_file()
 
         def write_paragraph_to_file(self):
@@ -44,12 +47,16 @@ class Paragraph:
 
             self.file_path = path + "paragraph_{}.txt".format(self.para_no)
             with open(self.file_path, 'w') as paragraph_file:
-                paragraph_file.write(u' '.join(self.paragraph).encode('utf-8'))
+                paragraph_file.write(self.regroup_tokens_to_paragraph().encode('utf-8'))
 
         def get_para_insert_query(self):
             return "INSERT INTO paragraph(doc_id, chapter_id, path) " \
                    "VALUES (currval('document_doc_id_seq'), currval('chapter_chapter_id_seq'), '{}');\n"\
                     .format(self.file_path)
+
+        def regroup_tokens_to_paragraph(self):
+            paragraph = "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in self.tokenized_paragraph]).strip()
+            return paragraph
 
         def get_dict_of_word_and_occurrence(self):
             word = []
@@ -65,12 +72,15 @@ class Paragraph:
         def get_total_no_of_distinct_words(self):
             return len(set(self.low_case_words_list))
 
+        """
+            9 different kinds of vocabulary richness are calculated
+        """
         def get_vocabulary_richness(self):
             return float(self.get_total_no_of_distinct_words()) / float(self.get_total_no_of_words())
 
         def get_K_vocabulary_richness(self):
             total = 0
-            for val in self.word_occurence.values():
+            for val in self.word_occurrence.values():
                 total += val * val
             return float(math.pow(10, 4) * (total - self.get_total_no_of_words())) / float(math.pow(self.get_total_no_of_words(), 2))
 
@@ -105,39 +115,55 @@ class Paragraph:
             return numpy.std(self.words_length)
 
         def get_total_no_of_character(self):
-            return sum(self.words_length)
+            return len(self.char_list)
 
-        def get_total_no_of_english_character(self):
-            eng_list = [char for char in self.char_list if re.match('[a-zA-Z]', char)]
+        def get_total_no_of_alpha_character(self):
+            eng_list = [char for char in self.char_list if char in string.ascii_letters] #re.match('[a-zA-Z]', char)]
             return len(eng_list)
 
-        def get_total_no_of_special_character(self):
-            special_list = [char for char in self.char_list if re.match('\W', char)]
-            return len(special_list)
-
         def get_total_no_of_uppercase_character(self):
-            uppercase_list = [char for char in self.char_list if char.isupper()]
+            uppercase_list = [char for char in self.char_list if char in string.ascii_uppercase] #char.isupper()]
             return len(uppercase_list)
 
         def get_total_no_of_lowercase_character(self):
-            lowercase_list = [char for char in self.char_list if char.islower()]
+            lowercase_list = [char for char in self.char_list if char in string.ascii_lowercase] #char.islower()]
             return len(lowercase_list)
 
+        def get_total_no_of_special_character(self):
+            special_list = [char for char in self.char_list if char in string.punctuation] #re.match('\W', char)]
+            return len(special_list)
+
         def get_total_no_of_digital_character(self):
-            digit_list = [char for char in self.char_list if char.isdigit()]
+            digit_list = [char for char in self.char_list if char in string.digits] #char.isdigit()]
             return len(digit_list)
 
+        def get_total_no_of_whitespace_character(self):
+            whitespace_list = [char for char in self.char_list if char in string.whitespace]
+            return len(whitespace_list)
+
+        def get_alpha_chars_ratio(self):
+            return float(self.get_total_no_of_alpha_character()) / float(self.get_total_no_of_character())
+
+        def get_uppercase_chars_ratio(self):
+            return float(self.get_total_no_of_uppercase_character()) / float(self.get_total_no_of_character())
+
+        def get_lowercase_chars_ratio(self):
+            return float(self.get_total_no_of_lowercase_character()) / float(self.get_total_no_of_character())
+
+        def get_special_chars_ratio(self):
+            return float(self.get_total_no_of_special_character()) / float(self.get_total_no_of_character())
+
+        def get_digital_chars_ratio(self):
+            return float(self.get_total_no_of_digital_character()) / float(self.get_total_no_of_character())
+
+        def get_whitespace_chars_ratio(self):
+            return float(self.get_total_no_of_whitespace_character()) / float(self.get_total_no_of_character())
+
         def get_total_no_of_sentences(self):
-            """
-                Still have some problems
-            """
-            return len(self.paragraph)
+            return len(self.sentences)
 
         def get_average_no_of_words_per_sentence(self):
-            """
-                Still have some problems
-            """
-            return numpy.mean([len(sen) for sen in self.paragraph])
+            return numpy.mean([len(sen) for sen in self.sentences])
 
         def get_freq_of_nouns(self):
             return self.pos_counter['NN']
