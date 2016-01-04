@@ -29,6 +29,7 @@ class Paragraph:
             """ Tagging the part of speech of each word in the paragraph and count the frequency """
             self.tagged_tokens = nltk.pos_tag(self.tokenized_paragraph)
             self.pos_counter = Counter(tag for word, tag in self.tagged_tokens)
+            print self.pos_counter
 
             """ Extracting the word in paragraph and count the length """
             self.words_list = [word for word in self.tokenized_paragraph if re.match(r'.*\w', word)]
@@ -181,7 +182,8 @@ class Paragraph:
             return self.pos_counter['WH']
 
         def get_freq_of_verbs(self):
-            return self.pos_counter['V'] + self.pos_counter['VD'] + self.pos_counter['VG'] + self.pos_counter['VN']
+            #return self.pos_counter['V'] + self.pos_counter['VD'] + self.pos_counter['VG'] + self.pos_counter['VN']
+            return self.pos_counter['VERB']
 
         def get_bigrams(self):
             bigram_list = []

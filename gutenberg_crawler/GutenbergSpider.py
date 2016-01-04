@@ -1,6 +1,7 @@
 import scrapy
 from BookItem import BookItem
 from scrapy.crawler import CrawlerProcess
+from scrapy.http.request import Request
 from bs4 import BeautifulSoup
 import data_etl.plaintext_data_etl
 
@@ -16,16 +17,48 @@ class GutenbergSpider(scrapy.Spider):
         # Books by Shakespeare, William
         #"https://www.gutenberg.org/ebooks/author/65"
         # Books by Mark Twain
-        #"https://www.gutenberg.org/files/1028/1028-h/1028-h.htm"
-        "http://localhost/test/test.html"
+        #"https://www.gutenberg.org/files/76/76-h/76-h.htm"
+        #"http://localhost/test/test.html"
+        "https://www.gutenberg.org/catalog/"
     ]
 
     def parse(self, response):
+        for latter_url in response.xpath('//div[@class="pgdbnavbar"]/p/a/@href').extract():
+            if 'authors/a' in latter_url:
+                full_url = response.urljoin(latter_url)
+                yield Request(full_url, self.extract_index)
+
+    def extract_index(self, response):
+        # authors = []
+        # for author in response.xpath('//h2/a/text()').extract():
+        #     if u'\xb6' not in author:
+        #         print author
+        for h2 in response.xpath('//h2/following-sibling::ul/li[@class="pgdbetext"]'):
+            lang = h2.xpath('./text()').extract()
+            if lang and 'English' in lang[0]:
+                doc_name = h2.xpath('./a/text()').extract()
+                doc_path = h2.xpath('./a/@href').extract()
+                full_url = response.urljoin(doc_path[0])
+                yield Request(full_url, self.test(response, doc_name))
+
+    def test(self, response, name):
+        print name
+
+    def parse_document(self, response):
         book = BookItem()
         content = []
 
         soup = BeautifulSoup(response.body_as_unicode())
         for tag in soup.findAll('i'):
+            tag.unwrap()
+
+        for tag in soup.findAll('big'):
+            tag.unwrap()
+
+        for tag in soup.findAll('em'):
+            tag.unwrap()
+
+        for tag in soup.findAll('ins'):
             tag.unwrap()
 
         for tag in soup.findAll('pre'):
@@ -54,7 +87,7 @@ class GutenbergSpider(scrapy.Spider):
 
         for tag in soup.findAll('h2'):
             text = tag.contents[0].strip()
-            if text.startswith('BY') or text.startswith('by'):
+            if text.startswith('By') or text.startswith('by'):
                 book['author_name'] = u' '.join(text.split()[1:])
 
         for tag in soup.findAll('p'):
