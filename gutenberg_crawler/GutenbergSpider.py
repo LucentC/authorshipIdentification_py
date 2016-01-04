@@ -1,9 +1,7 @@
 import scrapy
-import json
 from BookItem import BookItem
-from scrapy import signals
 from scrapy.crawler import CrawlerProcess
-from scrapy.xlib.pydispatch import dispatcher
+from bs4 import BeautifulSoup
 import data_etl.plaintext_data_etl
 
 
@@ -18,25 +16,65 @@ class GutenbergSpider(scrapy.Spider):
         # Books by Shakespeare, William
         #"https://www.gutenberg.org/ebooks/author/65"
         # Books by Mark Twain
-        "https://www.gutenberg.org/files/1028/1028-h/1028-h.htm"
-        #"http://localhost/test/test.html"
+        #"https://www.gutenberg.org/files/1028/1028-h/1028-h.htm"
+        "http://localhost/test/test.html"
     ]
 
     def parse(self, response):
         book = BookItem()
         content = []
 
-        for h1 in response.xpath('//h1/text()').extract():
-            book['title'] = h1.strip()
+        soup = BeautifulSoup(response.body_as_unicode())
+        for tag in soup.findAll('i'):
+            tag.unwrap()
 
-        for h2 in response.xpath('//h2/text()').extract():
-            if h2.strip().startswith('BY') or h2.strip().startswith('by'):
-                book['author_name'] = u' '.join(h2.strip().split()[1:])
+        for tag in soup.findAll('pre'):
+            tag.decompose()
 
-        for p in response.css('p *::text').extract():
-            text = u' '.join(p.strip().replace('\n', ' ').split())
-            if text:
-                content.append(text)
+        for tag in soup.findAll('a'):
+            tag.decompose()
+
+        for tag in soup.findAll('style'):
+            tag.decompose()
+
+        for tag in soup.findAll('br'):
+            tag.decompose()
+
+        for tag in soup.findAll('img'):
+            tag.decompose()
+
+        for tag in soup.findAll('div'):
+            tag.decompose()
+
+        for tag in soup.findAll('span'):
+            tag.decompose()
+
+        for tag in soup.findAll('h1'):
+            book['title'] = u' '.join(tag.contents).strip()
+
+        for tag in soup.findAll('h2'):
+            text = tag.contents[0].strip()
+            if text.startswith('BY') or text.startswith('by'):
+                book['author_name'] = u' '.join(text.split()[1:])
+
+        for tag in soup.findAll('p'):
+            for p in tag.contents:
+                text = u' '.join(p.strip().replace('\n', ' ').split())
+                if text:
+                    content.append(text)
+
+        # for h1 in soup.xpath('//h1/text()').extract():
+        #     book['title'] = h1.strip()
+        #
+        # for h2 in soup.xpath('//h2/text()').extract():
+        #     if h2.strip().startswith('BY') or h2.strip().startswith('by'):
+        #         book['author_name'] = u' '.join(h2.strip().split()[1:])
+        #
+        # for p in soup.select('p'):
+        #     text = u' '.join(p.strip().replace('\n', ' ').split())
+        #     if text:
+        #         content.append(text)
+        #         print text
 
         book['content'] = u' '.join(content)
         return book
