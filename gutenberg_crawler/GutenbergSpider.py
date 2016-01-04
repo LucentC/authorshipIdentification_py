@@ -1,8 +1,9 @@
 import scrapy
-import BookItem
-import os
+from BookItem import BookItem
+from scrapy import signals
 from scrapy.crawler import CrawlerProcess
-from scrapy.selector import HtmlXPathSelector
+from scrapy.xlib.pydispatch import dispatcher
+import data_etl.plaintext_data_etl
 
 
 class GutenbergSpider(scrapy.Spider):
@@ -20,19 +21,29 @@ class GutenbergSpider(scrapy.Spider):
         "http://localhost/test/test.html"
     ]
 
-    def parse(self, response):
-        # for h1 in response.xpath('//h1/text()').extract():
-        #     print h1.strip()
+    def __init__(self):
+        self.book = BookItem()
+        dispatcher.connect(self.spider_exit(), signals.spider_closed)
 
-        # for h2 in response.xpath('//h2'):
-        #     text = h2.xpath('./text()').extract()[0].strip()
-        #     for p in h2.xpath('./p'):
-        #         print p
+    def parse(self, response):
+        content = []
+
+        for h1 in response.xpath('//h1/text()').extract():
+            self.book['title'] = h1.strip()
+
+        for h2 in response.xpath('//h2/text()').extract():
+            if h2.strip().startswith('BY'):
+                self.book['author_name'] = u' '.join(h2.strip().split()[1:])
 
         for p in response.css('p *::text').extract():
-            content = u' '.join(p.strip().replace('\n', ' ').split())
-            if content:
-                print content
+            text = u' '.join(p.strip().replace('\n', ' ').split())
+            if text:
+                content.append(text)
+
+        self.book['content'] = u' '.join(content)
+
+    def spider_exit(self):
+        data_etl.plaintext_data_etl.process_book_item(self.book)
 
 
 

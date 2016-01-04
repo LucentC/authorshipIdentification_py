@@ -11,14 +11,12 @@ from bigram import Bigram
 
 class Paragraph:
 
-        def __init__(self, doc, para_no, para=[]):
+        def __init__(self, para=[]):
             """
                 Constructor of Paragraph class
 
             """
             """ The meta-data of the document """
-            self.document = doc
-            self.para_no = para_no
             self.file_path = ""
 
             """ Unhandled raw paragraph """
@@ -27,7 +25,7 @@ class Paragraph:
             self.sentences = nltk.sent_tokenize(self.regroup_tokens_to_paragraph())
 
             """ Tagging the part of speech of each word in the paragraph and count the frequency """
-            self.tagged_tokens = [] #nltk.pos_tag(self.paragraph)
+            self.tagged_tokens = nltk.pos_tag(self.tokenized_paragraph)
             self.pos_counter = Counter(tag for word, tag in self.tagged_tokens)
 
             """ Extracting the word in paragraph and count the length """
