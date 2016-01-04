@@ -182,8 +182,7 @@ class Paragraph:
             return self.pos_counter['WH']
 
         def get_freq_of_verbs(self):
-            #return self.pos_counter['V'] + self.pos_counter['VD'] + self.pos_counter['VG'] + self.pos_counter['VN']
-            return self.pos_counter['VERB']
+            return self.pos_counter['V'] + self.pos_counter['VD'] + self.pos_counter['VG'] + self.pos_counter['VN']
 
         def get_bigrams(self):
             bigram_list = []

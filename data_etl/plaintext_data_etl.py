@@ -36,16 +36,19 @@ def read_paragraphs_and_split(doc_name, paragraphs):
         fact = Fact(1, 1, p)
         SQL_INSERT_QUERY += fact.get_fact_insert_query()
 
-        for bigram in p.get_bigrams():
-           SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
+        # for bigram in p.get_bigrams():
+        #    SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
 
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
 #corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
 #corpus_paragraphs = corpus.paras()
 # start_time = time.time()
-# corpus = codecs.open("data/pg46.txt", "r", "utf-8").read()
-#
-#
-# print SQL_INSERT_QUERY
+corpus = codecs.open("data/pg98.txt", "r", "utf-8").read()
+tokens = nltk.word_tokenize(corpus)
+SQL_INSERT_QUERY += Author("Charles Dicken").get_author_insert_query()
+SQL_INSERT_QUERY += Document("A Tale of Two Cities").get_doc_insert_query()
+paragraph_list = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 1500)]
+read_paragraphs_and_split("A Tale of Two Cities", paragraph_list)
+connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
 # print "--- {} seconds ---".format(time.time() - start_time)
 #connect_to_database.execute_insert_query(SQL_INSERT_QUERY)

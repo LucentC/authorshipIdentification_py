@@ -17,34 +17,34 @@ class GutenbergSpider(scrapy.Spider):
         # Books by Shakespeare, William
         #"https://www.gutenberg.org/ebooks/author/65"
         # Books by Mark Twain
-        #"https://www.gutenberg.org/files/76/76-h/76-h.htm"
+        "https://www.gutenberg.org/files/76/76-h/76-h.htm"
         #"http://localhost/test/test.html"
-        "https://www.gutenberg.org/catalog/"
+        #"https://www.gutenberg.org/catalog/"
     ]
 
+    # def parse(self, response):
+    #     for latter_url in response.xpath('//div[@class="pgdbnavbar"]/p/a/@href').extract():
+    #         if 'authors/a' in latter_url:
+    #             full_url = response.urljoin(latter_url)
+    #             yield Request(full_url, self.extract_index)
+    #
+    # def extract_index(self, response):
+    #     # authors = []
+    #     # for author in response.xpath('//h2/a/text()').extract():
+    #     #     if u'\xb6' not in author:
+    #     #         print author
+    #     for h2 in response.xpath('//h2/following-sibling::ul/li[@class="pgdbetext"]'):
+    #         lang = h2.xpath('./text()').extract()
+    #         if lang and 'English' in lang[0]:
+    #             doc_name = h2.xpath('./a/text()').extract()
+    #             doc_path = h2.xpath('./a/@href').extract()
+    #             full_url = response.urljoin(doc_path[0])
+    #             yield Request(full_url, self.test(response, doc_name))
+    #
+    # def test(self, response, name):
+    #     print name
+
     def parse(self, response):
-        for latter_url in response.xpath('//div[@class="pgdbnavbar"]/p/a/@href').extract():
-            if 'authors/a' in latter_url:
-                full_url = response.urljoin(latter_url)
-                yield Request(full_url, self.extract_index)
-
-    def extract_index(self, response):
-        # authors = []
-        # for author in response.xpath('//h2/a/text()').extract():
-        #     if u'\xb6' not in author:
-        #         print author
-        for h2 in response.xpath('//h2/following-sibling::ul/li[@class="pgdbetext"]'):
-            lang = h2.xpath('./text()').extract()
-            if lang and 'English' in lang[0]:
-                doc_name = h2.xpath('./a/text()').extract()
-                doc_path = h2.xpath('./a/@href').extract()
-                full_url = response.urljoin(doc_path[0])
-                yield Request(full_url, self.test(response, doc_name))
-
-    def test(self, response, name):
-        print name
-
-    def parse_document(self, response):
         book = BookItem()
         content = []
 
@@ -95,6 +95,7 @@ class GutenbergSpider(scrapy.Spider):
                 text = u' '.join(p.strip().replace('\n', ' ').split())
                 if text:
                     content.append(text)
+                    print text
 
         # for h1 in soup.xpath('//h1/text()').extract():
         #     book['title'] = h1.strip()
@@ -110,7 +111,7 @@ class GutenbergSpider(scrapy.Spider):
         #         print text
 
         book['content'] = u' '.join(content)
-        return book
+        #return book
 
 
 process = CrawlerProcess({
@@ -120,9 +121,9 @@ process = CrawlerProcess({
     #   it is possible to crawl the website without any restrictions
     'USER_AGENT': 'googlebot',
     'DOWNLOADER_CLIENTCONTEXTFACTORY': 'contextfactory.MyClientContextFactory',
-    'ITEM_PIPELINES': {
-        'bookitempipeline.BookItemPipeline': 10
-    }
+    # 'ITEM_PIPELINES': {
+    #     'bookitempipeline.BookItemPipeline': 10
+    # }
 })
 process.crawl(GutenbergSpider)
 process.start()
