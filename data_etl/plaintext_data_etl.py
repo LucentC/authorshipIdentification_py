@@ -7,7 +7,6 @@ from db_schema_classes.fact import Fact
 from db_schema_classes.author import Author
 from db_schema_classes.document import Document
 from db_schema_classes.chapter import Chapter
-from gutenberg_crawler.BookItem import BookItem
 
 
 SQL_INSERT_QUERY = ""
@@ -35,9 +34,6 @@ def read_paragraphs_and_split(doc_name, paragraphs):
 
         fact = Fact(1, 1, p)
         SQL_INSERT_QUERY += fact.get_fact_insert_query()
-
-        # for bigram in p.get_bigrams():
-        #    SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
 
 #paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
 #corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")

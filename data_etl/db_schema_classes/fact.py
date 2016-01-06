@@ -12,6 +12,15 @@ class Fact:
                " {}, {});\n".format(feature_id, feature_value)
 
     def get_fact_insert_query(self):
+        """
+            The function will retrieve nearly all stylometric features' value
+            from the paragraph supplied and transform it into SQL query with the aid
+            of the above static function __format_insert_query.
+
+            ----------------------- PLEASE NOTE -----------------------
+            NOTE THAT the bigram insert query will be retrieved directly from the
+            Bigram class.
+        """
         SQL_INSERT_QUERY = ""
         SQL_INSERT_QUERY += self.__format_insert_query(1, self.paragraph.get_total_no_of_words())
         SQL_INSERT_QUERY += self.__format_insert_query(2, self.paragraph.get_total_no_of_distinct_words())
@@ -45,8 +54,33 @@ class Fact:
         SQL_INSERT_QUERY += self.__format_insert_query(30, self.paragraph.get_average_no_of_words_per_sentence())
         SQL_INSERT_QUERY += self.__format_insert_query(31, self.paragraph.get_freq_of_nouns())
         SQL_INSERT_QUERY += self.__format_insert_query(32, self.paragraph.get_freq_of_proper_nouns())
-        SQL_INSERT_QUERY += self.__format_insert_query(33, self.paragraph.get_freq_of_adj())
-        SQL_INSERT_QUERY += self.__format_insert_query(34, self.paragraph.get_freq_of_adv())
-        SQL_INSERT_QUERY += self.__format_insert_query(35, self.paragraph.get_freq_of_wh_words())
-        SQL_INSERT_QUERY += self.__format_insert_query(36, self.paragraph.get_freq_of_verbs())
+        SQL_INSERT_QUERY += self.__format_insert_query(33, self.paragraph.get_freq_of_pronoun())
+        SQL_INSERT_QUERY += self.__format_insert_query(34, self.paragraph.get_freq_of_ordinal_adj())
+        SQL_INSERT_QUERY += self.__format_insert_query(35, self.paragraph.get_freq_of_comparative_adj())
+        SQL_INSERT_QUERY += self.__format_insert_query(36, self.paragraph.get_freq_of_superlative_adj())
+        SQL_INSERT_QUERY += self.__format_insert_query(37, self.paragraph.get_freq_of_ordinal_adv())
+        SQL_INSERT_QUERY += self.__format_insert_query(38, self.paragraph.get_freq_of_comparative_adv())
+        SQL_INSERT_QUERY += self.__format_insert_query(39, self.paragraph.get_freq_of_superlative_adv())
+        SQL_INSERT_QUERY += self.__format_insert_query(40, self.paragraph.get_freq_of_modal_auxiliary())
+        SQL_INSERT_QUERY += self.__format_insert_query(41, self.paragraph.get_freq_of_base_form_verb())
+        SQL_INSERT_QUERY += self.__format_insert_query(42, self.paragraph.get_freq_of_past_verb())
+        SQL_INSERT_QUERY += self.__format_insert_query(43, self.paragraph.get_freq_of_presesnt_participle_verb())
+        SQL_INSERT_QUERY += self.__format_insert_query(44, self.paragraph.get_freq_of_past_participle_verb())
+        SQL_INSERT_QUERY += self.__format_insert_query(45, self.paragraph.get_freq_of_particle())
+        SQL_INSERT_QUERY += self.__format_insert_query(46, self.paragraph.get_freq_of_wh_words())
+        SQL_INSERT_QUERY += self.__format_insert_query(47, self.paragraph.get_freq_of_conjunction())
+        SQL_INSERT_QUERY += self.__format_insert_query(48, self.paragraph.get_freq_of_numerical())
+        SQL_INSERT_QUERY += self.__format_insert_query(49, self.paragraph.get_freq_of_determiner())
+        SQL_INSERT_QUERY += self.__format_insert_query(50, self.paragraph.get_freq_of_existential_there())
+        SQL_INSERT_QUERY += self.__format_insert_query(51, self.paragraph.get_freq_of_existential_to())
+        SQL_INSERT_QUERY += self.__format_insert_query(52, self.paragraph.get_freq_of_preposition())
+        SQL_INSERT_QUERY += self.__format_insert_query(53, self.paragraph.get_freq_of_genitive_marker())
+        SQL_INSERT_QUERY += self.__format_insert_query(54, self.paragraph.get_freq_of_quotation())
+        SQL_INSERT_QUERY += self.__format_insert_query(55, self.paragraph.get_freq_of_comma())
+        SQL_INSERT_QUERY += self.__format_insert_query(56, self.paragraph.get_freq_of_sen_terminator())
+        SQL_INSERT_QUERY += self.__format_insert_query(57, self.paragraph.get_freq_of_symbol())
+
+        for bigram in self.paragraph.get_bigrams():
+            SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
+
         return SQL_INSERT_QUERY

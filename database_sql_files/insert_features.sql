@@ -4,7 +4,6 @@ INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'total_number_
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'total_number_of_distinct_words');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'average_word_length');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'standard_deviation_of_word_length');
--- vr = total_number_of_distinct_words / total_number_of_words
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'vocabulary_richness_measures');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'K_vocabulary_richness');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'R_vocabulary_richness');
@@ -29,14 +28,12 @@ INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'lowercase_cha
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'special_chars_ratio');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'digital_chars_ratio');
 INSERT INTO feature(feature_type, feature_name) VALUES('lexical', 'whitespace_chars_ratio');
--- Structural Feature
---INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_lines');
---INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_paragraphs');
+
+-- Structural Feature, 2 in total
 INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'total_number_of_sentences');
 INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'average_number_of_words_per_sentence');
---INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'average_number_of_words_per_paragraphs');
---INSERT INTO feature(feature_type, feature_name) VALUES('structural', 'average_number_of_sentences_per_paragraphs');
--- Syntactic Feature
+
+-- Syntactic Feature, 27 in total
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_noun');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_proper_noun');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_pronoun');
@@ -51,11 +48,10 @@ INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_o
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_past_verb');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_present_participle_verb');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_past_participle_verb');
-INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_base_form_verb');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_particle');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_wh_words');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_conjunction');
-INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_numberical_word');
+INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_numerical_word');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_determiner');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_existential_there');
 INSERT INTO feature(feature_type, feature_name) VALUES('syntactic', 'frequency_of_existential_to');
