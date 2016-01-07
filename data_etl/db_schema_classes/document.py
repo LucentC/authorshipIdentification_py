@@ -13,5 +13,5 @@ class Document:
 
     def get_doc_insert_query(self):
         return "INSERT INTO document(author_id, doc_title, year_of_pub, doc_content) " \
-               "VALUES (currval('author_author_id_seq'), '{}', '{}', {});\n"\
-                .format(self.doc_title, "1886-02-25", QuotedString(self.doc_content).getquoted())
+               "VALUES (currval('author_author_id_seq'), {}, '{}', {});\n"\
+                .format(QuotedString(self.doc_title).getquoted(), "1886-02-25", QuotedString(self.doc_content).getquoted())
