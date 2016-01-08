@@ -167,22 +167,85 @@ class Paragraph:
             return numpy.mean([len(sen) for sen in self.sentences])
 
         def get_freq_of_nouns(self):
-            return self.pos_counter['NN']
+            return self.pos_counter['NN'] + self.pos_counter['NNS']
 
         def get_freq_of_proper_nouns(self):
-            return self.pos_counter['NP']
+            return self.pos_counter['NNP'] + self.pos_counter['NNPS']
 
-        def get_freq_of_adj(self):
+        def get_freq_of_pronoun(self):
+            return self.pos_counter['PRP'] + self.pos_counter['PRP$']
+
+        def get_freq_of_ordinal_adj(self):
             return self.pos_counter['JJ']
 
-        def get_freq_of_adv(self):
+        def get_freq_of_comparative_adj(self):
+            return self.pos_counter['JJR']
+
+        def get_freq_of_superlative_adj(self):
+            return self.pos_counter['JJS']
+
+        def get_freq_of_ordinal_adv(self):
             return self.pos_counter['RB']
 
-        def get_freq_of_wh_words(self):
-            return self.pos_counter['WH']
+        def get_freq_of_comparative_adv(self):
+            return self.pos_counter['RBR']
 
-        def get_freq_of_verbs(self):
-            return self.pos_counter['V'] + self.pos_counter['VD'] + self.pos_counter['VG'] + self.pos_counter['VN']
+        def get_freq_of_superlative_adv(self):
+            return self.pos_counter['RBS']
+
+        def get_freq_of_modal_auxiliary(self):
+            return self.pos_counter['MD']
+
+        def get_freq_of_base_form_verb(self):
+            return self.pos_counter['VB'] + self.pos_counter['VBP'] + self.pos_counter['VPZ']
+
+        def get_freq_of_past_verb(self):
+            return self.pos_counter['VBD']
+
+        def get_freq_of_presesnt_participle_verb(self):
+            return self.pos_counter['VBG']
+
+        def get_freq_of_past_participle_verb(self):
+            return self.pos_counter['VBN']
+
+        def get_freq_of_particle(self):
+            return self.pos_counter['RP']
+
+        def get_freq_of_wh_words(self):
+            return self.pos_counter['WDT'] + self.pos_counter['WP'] + self.pos_counter['WP$'] + self.pos_counter['WRB']
+
+        def get_freq_of_conjunction(self):
+            return self.pos_counter['CC']
+
+        def get_freq_of_numerical(self):
+            return self.pos_counter['CD']
+
+        def get_freq_of_determiner(self):
+            return self.pos_counter['DT'] + self.pos_counter['PDT']
+
+        def get_freq_of_existential_there(self):
+            return self.pos_counter['EX']
+
+        def get_freq_of_existential_to(self):
+            return self.pos_counter['TO']
+
+        def get_freq_of_preposition(self):
+            return self.pos_counter['IN']
+
+        def get_freq_of_genitive_marker(self):
+            return self.pos_counter['POS']
+
+        def get_freq_of_quotation(self):
+            return self.pos_counter['``']
+
+        def get_freq_of_comma(self):
+            return self.pos_counter[',']
+
+        def get_freq_of_sen_terminator(self):
+            return self.pos_counter['.']
+
+        def get_freq_of_symbol(self):
+            return self.pos_counter['SYM']
 
         def get_bigrams(self):
             bigram_list = []

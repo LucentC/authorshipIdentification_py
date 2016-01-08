@@ -43,7 +43,7 @@ def read_paragraphs_and_split(doc_name, paragraphs):
 #corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
 #corpus_paragraphs = corpus.paras()
 # start_time = time.time()
-corpus = codecs.open("data/pg98.txt", "r", "utf-8").read()
+corpus = codecs.open("/home/raheem/Downloads/Gutenberg/txt/Aldous Huxley___Mortal Coils.txt", "r", "utf-8").read()
 tokens = nltk.word_tokenize(corpus)
 SQL_INSERT_QUERY += Author("Charles Dicken").get_author_insert_query()
 SQL_INSERT_QUERY += Document("A Tale of Two Cities").get_doc_insert_query()
