@@ -11,13 +11,13 @@ from bigram import Bigram
 
 class Paragraph:
 
-        def __init__(self, doc_name, para_no, para=[]):
+        def __init__(self, doc_id, para_no, para=[]):
             """
                 Constructor of Paragraph class
 
             """
             """ The meta-data of the document """
-            self.doc_name = doc_name
+            self.doc_id = doc_id
             self.para_no = para_no
             self.file_path = ""
 
@@ -29,7 +29,6 @@ class Paragraph:
             """ Tagging the part of speech of each word in the paragraph and count the frequency """
             self.tagged_tokens = nltk.pos_tag(self.tokenized_paragraph)
             self.pos_counter = Counter(tag for word, tag in self.tagged_tokens)
-            print self.pos_counter
 
             """ Extracting the word in paragraph and count the length """
             self.words_list = [word for word in self.tokenized_paragraph if re.match(r'.*\w', word)]
@@ -39,21 +38,21 @@ class Paragraph:
             self.word_occurrence = self.get_dict_of_word_and_occurrence()
 
             """ Write text to file """
-            self.write_paragraph_to_file()
+            #self.write_paragraph_to_file()
 
-        def write_paragraph_to_file(self):
-            path = "/tmp/pladetect/{}/".format(self.doc_name)
-            if not os.path.exists(path):
-                os.makedirs(path)
-
-            self.file_path = path + "paragraph_{}.txt".format(self.para_no)
-            with open(self.file_path, 'w') as paragraph_file:
-                paragraph_file.write(self.regroup_tokens_to_paragraph().encode('utf-8'))
+        # def write_paragraph_to_file(self):
+        #     path = "/tmp/pladetect/{}/".format(self.doc_name)
+        #     if not os.path.exists(path):
+        #         os.makedirs(path)
+        #
+        #     self.file_path = path + "paragraph_{}.txt".format(self.para_no)
+        #     with open(self.file_path, 'w') as paragraph_file:
+        #         paragraph_file.write(self.regroup_tokens_to_paragraph().encode('utf-8'))
 
         def get_para_insert_query(self):
             return "INSERT INTO paragraph(doc_id, chapter_id, path) " \
-                   "VALUES (currval('document_doc_id_seq'), currval('chapter_chapter_id_seq'), '{}');\n"\
-                    .format(self.file_path)
+                   "VALUES ({}, currval('chapter_chapter_id_seq'), '{}');\n"\
+                    .format(self.doc_id, "somewhere")
 
         def regroup_tokens_to_paragraph(self):
             paragraph = "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in self.tokenized_paragraph]).strip()
@@ -250,5 +249,5 @@ class Paragraph:
         def get_bigrams(self):
             bigram_list = []
             for bigram in nltk.bigrams(self.low_case_words_list):
-                bigram_list.append(Bigram(bigram))
+                bigram_list.append(Bigram(self.doc_id, bigram))
             return bigram_list

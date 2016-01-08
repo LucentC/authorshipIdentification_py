@@ -3,13 +3,23 @@ from psycopg2.extensions import QuotedString
 
 class Document:
 
-    def __init__(self, author_id, book):
+    def __init__(self, doc_id, author_id, doc_title, doc_content):
+        self.doc_id = doc_id
         self.author_id = author_id
-        self.doc_title = book['title']
-        self.doc_content = book['content']
+        self.doc_title = doc_title
+        self.doc_content = doc_content
+
+    def get_doc_id(self):
+        return self.doc_id
+
+    def get_author_id(self):
+        return self.author_id
 
     def get_doc_title(self):
         return self.doc_title
+
+    def get_doc_content(self):
+        return self.doc_content
 
     def get_doc_insert_query(self):
         if self.author_id is -1:

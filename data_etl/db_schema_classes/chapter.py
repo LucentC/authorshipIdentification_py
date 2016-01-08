@@ -1,6 +1,7 @@
 class Chapter:
 
-    def __init__(self, chap_no):
+    def __init__(self, doc_id, chap_no):
+        self.doc_id = doc_id
         self.chap_no = chap_no
 
     def get_chapter_number(self):
@@ -8,4 +9,4 @@ class Chapter:
 
     def get_chapter_insert_query(self):
         return "INSERT INTO chapter(doc_id, chapter_no) " \
-               "VALUES (currval('document_doc_id_seq'), {});\n".format(self.chap_no)
+               "VALUES ({}, {});\n".format(self.doc_id, self.chap_no)

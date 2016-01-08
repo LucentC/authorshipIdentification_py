@@ -43,6 +43,6 @@ for root, sub_dir, files in os.walk(base_dir):
             if author_queried_id is -1:
                 SQL_INSERT_QUERY += author.get_author_insert_query()
 
-            SQL_INSERT_QUERY += Document(author_queried_id, book).get_doc_insert_query()
+            SQL_INSERT_QUERY += Document(-1, author_queried_id, book['title'], book['content']).get_doc_insert_query()
             print fi
             connect_to_database.execute_insert_query(SQL_INSERT_QUERY)

@@ -1,4 +1,5 @@
 import scrapy
+import time
 from BookItem import BookItem
 from scrapy.crawler import CrawlerProcess
 from scrapy.http.request import Request
@@ -10,41 +11,34 @@ class GutenbergSpider(scrapy.Spider):
     name = "gutenberg"
     allowed_domains = ["gutenberg.org"]
     start_urls = [
-        # Books by Bronte, Charlotte
-        #"https://www.gutenberg.org/ebooks/author/408",
-        # Books by Bronte, Emily
-        #"https://www.gutenberg.org/ebooks/author/405",
-        # Books by Shakespeare, William
-        #"https://www.gutenberg.org/ebooks/author/65"
-        # Books by Mark Twain
-        "https://www.gutenberg.org/files/76/76-h/76-h.htm"
-        #"http://localhost/test/test.html"
-        #"https://www.gutenberg.org/catalog/"
+        "https://www.gutenberg.org/browse/authors/i"
     ]
 
-    # def parse(self, response):
-    #     for latter_url in response.xpath('//div[@class="pgdbnavbar"]/p/a/@href').extract():
-    #         if 'authors/a' in latter_url:
-    #             full_url = response.urljoin(latter_url)
-    #             yield Request(full_url, self.extract_index)
-    #
-    # def extract_index(self, response):
-    #     # authors = []
-    #     # for author in response.xpath('//h2/a/text()').extract():
-    #     #     if u'\xb6' not in author:
-    #     #         print author
-    #     for h2 in response.xpath('//h2/following-sibling::ul/li[@class="pgdbetext"]'):
-    #         lang = h2.xpath('./text()').extract()
-    #         if lang and 'English' in lang[0]:
-    #             doc_name = h2.xpath('./a/text()').extract()
-    #             doc_path = h2.xpath('./a/@href').extract()
-    #             full_url = response.urljoin(doc_path[0])
-    #             yield Request(full_url, self.test(response, doc_name))
-    #
-    # def test(self, response, name):
-    #     print name
-
     def parse(self, response):
+        for latter_url in response.xpath('//div[@class="pgdbnavbar"]/p/a/@href').extract():
+            if 'authors/a' in latter_url:
+                full_url = response.urljoin(latter_url)
+                time.sleep(10)
+                yield Request(full_url, self.extract_index)
+
+    def extract_index(self, response):
+        # authors = []
+        # for author in response.xpath('//h2/a/text()').extract():
+        #     if u'\xb6' not in author:
+        #         print author
+        for h2 in response.xpath('//h2/following-sibling::ul/li[@class="pgdbetext"]'):
+            lang = h2.xpath('./text()').extract()
+            if lang and 'English' in lang[0]:
+                doc_name = h2.xpath('./a/text()').extract()
+                doc_path = h2.xpath('./a/@href').extract()
+                full_url = response.urljoin(doc_path[0])
+                time.sleep(10)
+                yield Request(full_url, self.test(response, doc_name))
+
+    def test(self, response, name):
+        print name
+
+    def extract_document(self, response):
         book = BookItem()
         content = []
 
