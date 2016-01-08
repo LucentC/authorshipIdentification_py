@@ -1,6 +1,4 @@
 import nltk
-import codecs
-import time
 import connect_to_database
 from db_schema_classes.paragraph import Paragraph
 from db_schema_classes.fact import Fact
@@ -35,16 +33,10 @@ def read_paragraphs_and_split(doc_name, paragraphs):
         fact = Fact(1, 1, p)
         SQL_INSERT_QUERY += fact.get_fact_insert_query()
 
-#paragraphs = nltk.corpus.gutenberg.paras("shakespeare-caesar.txt")
-#corpus = nltk.corpus.reader.plaintext.PlaintextCorpusReader("./data", "test.txt")
-#corpus_paragraphs = corpus.paras()
-# start_time = time.time()
-corpus = codecs.open("/home/raheem/Downloads/Gutenberg/txt/Aldous Huxley___Mortal Coils.txt", "r", "utf-8").read()
-tokens = nltk.word_tokenize(corpus)
-SQL_INSERT_QUERY += Author("Charles Dicken").get_author_insert_query()
-SQL_INSERT_QUERY += Document("A Tale of Two Cities").get_doc_insert_query()
-paragraph_list = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 1500)]
-read_paragraphs_and_split("A Tale of Two Cities", paragraph_list)
-connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
-# print "--- {} seconds ---".format(time.time() - start_time)
-#connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+# corpus = codecs.open("/home/raheem/Downloads/Gutenberg/txt/Aldous Huxley___Mortal Coils.txt", "r", "utf-8").read()
+# tokens = nltk.word_tokenize(corpus)
+# SQL_INSERT_QUERY += Author("Charles Dicken").get_author_insert_query()
+# SQL_INSERT_QUERY += Document("A Tale of Two Cities").get_doc_insert_query()
+# paragraph_list = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 1500)]
+# read_paragraphs_and_split("A Tale of Two Cities", paragraph_list)
+# connect_to_database.execute_insert_query(SQL_INSERT_QUERY)

@@ -1,5 +1,6 @@
 from psycopg2.extensions import QuotedString
 
+
 class Bigram:
 
     def __init__(self, bigrams=[]):

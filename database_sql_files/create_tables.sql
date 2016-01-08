@@ -11,7 +11,7 @@ CREATE TABLE document (
 	author_id INTEGER REFERENCES author(author_id) NOT NULL,
 	doc_title VARCHAR(40) NOT NULL,
 	year_of_pub DATE,
-	doc_text text
+	doc_content text
 );
 
 --------------------------------------------------------------------
