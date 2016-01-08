@@ -1,45 +1,48 @@
 import os
-import time
-import codecs
-import psycopg2
-import connect_to_database
-import plaintext_data_etl
-from gutenberg_crawler.BookItem import BookItem
+import sys
+
+from database import connect_to_database
 from db_schema_classes.author import Author
 from db_schema_classes.document import Document
+from gutenberg_crawler.BookItem import BookItem
 
 base_dir = '/home/dickson/Documents/programming/Gutenberg/txt/'
-min_size = 100 * 1000 #100 Kb
-books = []
+min_size = 100 * 1000
 
-start_time = time.time()
+"""
+    To make python read all the files with
+    utf-8 encoding by default
+"""
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
-# for root, sub_dir, files in os.walk(base_dir):
-#     for fi in files:
-#         if os.path.getsize(root + fi) >= min_size:
-#             book = BookItem()
-#             book['author_name'] = fi.split('___')[0]
-#             book['title'] = fi.split('___')[1][:-4]
-#             with open(root + fi, 'r') as doc_file:
-#                 book['content'] = doc_file.read()
-#             books.append(book)
-#
-# for book in books:
-#     SQL_INSERT_QUERY = ""
-#     SQL_INSERT_QUERY += Author(book['author_name']).get_author_insert_query()
-#     SQL_INSERT_QUERY += Document(book['title'], "123", book['content']).get_doc_insert_query()
-#     connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+for root, sub_dir, files in os.walk(base_dir):
 
-GET_CONTENT = "select doc_content from document where doc_id = 1;"
-try:
-    conn = psycopg2.connect("dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'")
-    cur = conn.cursor()
-    cur.execute(GET_CONTENT) #add ordered by feature_id
+    for fi in files:
 
-    rows = cur.fetchall()
-    print rows[0][0]
-    plaintext_data_etl.process_book_item(rows[0][0])
-except psycopg2.DatabaseError, e:
-    print 'Error %s' % e
+        if os.path.getsize(root + fi) >= min_size:
 
-print "--- {} seconds ---".format(time.time() - start_time)
+            book = BookItem()
+            SQL_INSERT_QUERY = ""
+
+            book['author_name'] = fi.split('___')[0]
+            book['title'] = fi.split('___')[1][:-4]
+
+            with open(root + fi, 'r') as doc_file:
+                book['content'] = doc_file.read()
+
+            author = Author(book['author_name'])
+            author_queried_id = connect_to_database.test_if_author_exists(author)
+
+            """
+                The test_if_author_exists function returns -1
+                if the name of the author is not found on the database.
+
+                Visit connect_to_database.py for more details.
+            """
+            if author_queried_id is -1:
+                SQL_INSERT_QUERY += author.get_author_insert_query()
+
+            SQL_INSERT_QUERY += Document(author_queried_id, book).get_doc_insert_query()
+            print fi
+            connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
