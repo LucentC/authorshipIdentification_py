@@ -34,7 +34,7 @@ def read_paragraphs_and_split(doc_id, paragraphs):
 
     Visit connect_to_database.py for more details.
 """
-SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id = 43 AND doc_id = 939;"
+SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id < 81;"
 results = connect_to_database.execute_select_query(SQL_INSERT_QUERY)
 for result in results:
     process_book_item(Document(result['doc_id'], result['author_id'],

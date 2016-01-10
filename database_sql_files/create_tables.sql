@@ -52,5 +52,5 @@ CREATE TABLE bigram_feature (
 	feature_id INTEGER REFERENCES feature(feature_id) NOT NULL,
 	doc_id INTEGER REFERENCES document (doc_id) NOT NULL,
 	para_id INTEGER REFERENCES paragraph (para_id) NOT NULL,
-	bigram VARCHAR(40) NOT NULL
+	bigram VARCHAR(100) NOT NULL
 );
