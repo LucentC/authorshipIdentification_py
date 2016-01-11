@@ -11,14 +11,14 @@ from bigram import Bigram
 
 class Paragraph:
 
-        def __init__(self, doc_id, para_no, para=[]):
+        def __init__(self, doc_id, para=[]):
             """
                 Constructor of Paragraph class
 
             """
             """ The meta-data of the document """
             self.doc_id = doc_id
-            self.para_no = para_no
+            #self.para_no = para_no
             self.file_path = ""
 
             """ Unhandled raw paragraph """

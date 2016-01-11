@@ -1,3 +1,4 @@
+import nltk
 from psycopg2.extensions import QuotedString
 
 
@@ -20,6 +21,17 @@ class Document:
 
     def get_doc_content(self):
         return self.doc_content
+
+    def get_doc_paragraphs(self):
+        """
+            This function will return our self-defined paragraph, in the format of a list of lists.
+            nltk is used here to tokenize the document's content.
+            Thus, those tokens will be split and regrouped based on our definition.
+            For example, we just defined 1500 tokens to be a paragraph.
+        """
+        tokens = nltk.word_tokenize(self.doc_content)
+        paragraphs = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 1500)]
+        return paragraphs
 
     def get_doc_insert_query(self):
         if self.author_id is -1:
