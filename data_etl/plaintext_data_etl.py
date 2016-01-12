@@ -13,7 +13,6 @@ def read_paragraphs_and_split(doc):
     for para in doc.get_doc_paragraphs():
         p = Paragraph(doc.get_doc_id(), para)
         SQL_INSERT_QUERY += feature_queries_preprocessing.get_fact_insert_query(doc.get_doc_id(), p)
-    print SQL_INSERT_QUERY
 
 
 """
