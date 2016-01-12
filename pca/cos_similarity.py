@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from database import connect_to_database
 from sklearn.decomposition import PCA
 from scipy import spatial
@@ -27,7 +28,7 @@ def reduce_dimensionality(SELECT_QUERY):
 
     X = np.array(novel)
     # only 2 components are retained
-    pca_1 = PCA(n_components=2)
+    pca_1 = PCA(n_components=3)
     return pca_1.fit_transform(X)
 
 #     # #cur.execute("SELECT feature_value FROM fact WHERE doc_id = 9 AND para_id = 1617 AND (feature_id = 1 OR feature_id = 2 OR feature_id = 3 OR feature_id = 4 OR feature_id = 5 OR feature_id = 16 OR feature_id = 29 OR feature_id = 30);") #add ordered by feature_id
@@ -48,18 +49,29 @@ def reduce_dimensionality(SELECT_QUERY):
 #     # print spatial.distance.euclidean(l1, l2)
 #     # print spatial.distance.cosine(l1, l2)
 
-SQL_1 = "SELECT feature_value FROM fact WHERE doc_id = 3 ORDER BY para_id, feature_id;"
+SQL_1 = "SELECT feature_value FROM fact WHERE doc_id = 1 ORDER BY para_id, feature_id;"
 t1 = np.array(reduce_dimensionality(SQL_1))
 
-SQL_2 = "SELECT feature_value FROM fact WHERE doc_id = 6 ORDER BY para_id, feature_id;"
+SQL_2 = "SELECT feature_value FROM fact WHERE doc_id = 1031 ORDER BY para_id, feature_id;"
 t2 = np.array(reduce_dimensionality(SQL_2))
 
-plt.figure()
-plt.scatter(t1[:, 0], t1[:, 1],  marker='x')
-plt.scatter(t2[:, 0], t2[:, 1],  marker='.')
-plt.xlabel('PC1')
-plt.ylabel('PC2')
-plt.autoscale(enable=True, axis=u'both', tight=False)
-plt.xlim(-1000, 1000)
-plt.ylim(-1000, 1000)
+SQL_3 = "SELECT feature_value FROM fact WHERE doc_id = 116 ORDER BY para_id, feature_id;"
+t3 = np.array(reduce_dimensionality(SQL_3))
+
+fig = plt.figure()
+
+# plt.scatter(t1[:, 0], t1[:, 1],  marker='x')
+# plt.scatter(t2[:, 0], t2[:, 1],  marker='.')
+# plt.xlabel('PC1')
+# plt.ylabel('PC2')
+# plt.autoscale(enable=True, axis=u'both', tight=False)
+# plt.xlim(-1000, 1000)
+# plt.ylim(-1000, 1000)
+
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(t1[:, 0], t1[:, 1], t1[:, 2], marker='^')
+ax.scatter(t3[:, 0], t3[:, 1], t3[:, 2], marker='o')
+ax.set_xlabel('PCA1')
+ax.set_ylabel('PCA2')
+ax.set_zlabel('PCA3')
 plt.show()

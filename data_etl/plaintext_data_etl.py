@@ -1,4 +1,3 @@
-import nltk
 from database import connect_to_database
 from database import feature_queries_preprocessing
 from db_schema_classes.chapter import Chapter
@@ -13,6 +12,8 @@ def read_paragraphs_and_split(doc):
     for para in doc.get_doc_paragraphs():
         p = Paragraph(doc.get_doc_id(), para)
         SQL_INSERT_QUERY += feature_queries_preprocessing.get_fact_insert_query(doc.get_doc_id(), p)
+    connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+    print 'finished dumping a novel'
 
 
 """
@@ -21,7 +22,7 @@ def read_paragraphs_and_split(doc):
 
     Visit connect_to_database.py for more details.
 """
-SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id < 81;"
+SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id BETWEEN 11 AND 20;"
 results = connect_to_database.execute_select_query(SQL_INSERT_QUERY)
 for result in results:
     read_paragraphs_and_split(Document(result['doc_id'], result['author_id'],
