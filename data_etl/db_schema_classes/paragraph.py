@@ -80,6 +80,8 @@ class Paragraph:
                 return float(self.get_total_no_of_distinct_words()) / float(self.get_total_no_of_words())
             except ZeroDivisionError as e:
                 return -1
+            except ValueError as e:
+                return -1
 
         def get_K_vocabulary_richness(self):
             try:
@@ -89,17 +91,23 @@ class Paragraph:
                 return float(math.pow(10, 4) * (total - self.get_total_no_of_words())) / float(math.pow(self.get_total_no_of_words(), 2))
             except ZeroDivisionError as e:
                 return -1
+            except ValueError as e:
+                return -1
 
         def get_R_vocabulary_richness(self):
             try:
                 return float(self.get_total_no_of_distinct_words()) / float(math.sqrt(self.get_total_no_of_words()))
             except ZeroDivisionError as e:
                 return -1
+            except ValueError as e:
+                return -1
 
         def get_C_vocabulary_richness(self):
             try:
                 return float(math.log(self.get_total_no_of_distinct_words())) / float(math.log(self.get_total_no_of_words()))
             except ZeroDivisionError as e:
+                return -1
+            except ValueError as e:
                 return -1
 
         def get_H_vocabulary_richness(self):
@@ -113,17 +121,23 @@ class Paragraph:
                 return float(self.word_occurrence.values().count(2)) / float(self.get_total_no_of_distinct_words())
             except ZeroDivisionError as e:
                 return -1
+            except ValueError as e:
+                return -1
 
         def get_k_vocabulary_richness(self):
             try:
                 return float(math.log(self.get_total_no_of_distinct_words())) / float(math.log(float(math.log(self.get_total_no_of_words()))))
             except ZeroDivisionError as e:
                 return -1
+            except ValueError as e:
+                return -1
 
         def get_LN_vocabulary_richness(self):
             try:
                 return float(1 - math.pow(self.get_total_no_of_distinct_words(), 2)) / float(math.pow(self.get_total_no_of_distinct_words(), 2) * math.log(self.get_total_no_of_words()))
             except ZeroDivisionError as e:
+                return -1
+            except ValueError as e:
                 return -1
 
         def get_entropy(self):
@@ -133,6 +147,8 @@ class Paragraph:
                     total += ((float(val) / float(self.get_total_no_of_words())) * math.log(float(val) / float(self.get_total_no_of_words())))
                 return -100 * float(total)
             except ZeroDivisionError as e:
+                return -1
+            except ValueError as e:
                 return -1
 
         def get_average_word_length(self):
