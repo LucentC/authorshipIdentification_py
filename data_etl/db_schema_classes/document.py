@@ -30,7 +30,7 @@ class Document:
             For example, we just defined 1500 tokens to be a paragraph.
         """
         tokens = nltk.word_tokenize(self.doc_content)
-        paragraphs = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 1500)]
+        paragraphs = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
         return paragraphs
 
     def get_doc_insert_query(self):

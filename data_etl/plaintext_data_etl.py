@@ -24,7 +24,7 @@ def read_paragraphs_and_split(doc):
     Visit connect_to_database.py for more details.
 """
 start_time = time.time()
-SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id BETWEEN 51 AND 60;"
+SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id BETWEEN 1 AND 10;"
 results = connect_to_database.execute_select_query(SQL_INSERT_QUERY)
 for result in results:
     read_paragraphs_and_split(Document(result['doc_id'], result['author_id'],
