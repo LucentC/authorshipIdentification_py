@@ -85,32 +85,14 @@ def draw_3D_graph(authors, features):
     plt.show()
 
 
-def output_csv_file(authors, features):
+def output_csv_lists(authors, features):
     X = PCA_reduce_dimensionality(features).tolist()
-    print type(authors)
+
     if len(X) is not len(authors):
         raise Exception()
-    #X = [list(item) for item in zip(X, authors)]
-    X = map(lambda (a, b): a.insert(0, b), zip(X, authors))
-    print X
-    # with open('test.csv', 'wb') as f:
-    #     writer = csv.writer(f)
-    #     writer.writerows(X)
 
-author_list = []
-feature_list = []
+    for i in range(len(X)):
+        X[i].append(authors[i])
 
-t1 = get_features_from_database(1)
-feature_list.extend(t1)
-author_list.extend([0 for x in range(len(t1))])
+    return X
 
-t2 = get_features_from_database(408)
-feature_list.extend(t2)
-author_list.extend([1 for x in range(len(t2))])
-
-t3 = get_features_from_database(318)
-feature_list.extend(t3)
-author_list.extend([2 for x in range(len(t3))])
-
-#draw_3D_graph(author_list, feature_list)
-output_csv_file(author_list, feature_list)
