@@ -25,7 +25,14 @@ def get_hausdorff_distance(lA, lB):
     return max(min_distance)
 
 
-def get_features_from_database(doc_id):
+def get_features_from_database_by_author_id(author_id):
+    SELECT_QUERY = "SELECT feature_value FROM fact WHERE doc_id IN (SELECT doc_id FROM document WHERE author_id = {});"\
+                    .format(author_id)
+    rows = [item['feature_value'] for item in connect_to_database.execute_select_query(SELECT_QUERY)]
+    return [rows[x:x + 57] for x in xrange(0, len(rows), 57)]
+
+
+def get_features_from_database_by_doc_id(doc_id):
     # for x in novel:
     #     del x[-1]
     SELECT_QUERY = "SELECT feature_value FROM fact WHERE doc_id = " + str(doc_id) + " ORDER BY para_id, feature_id;"
@@ -49,16 +56,20 @@ def PCA_reduce_dimensionality(features):
     return pca.fit_transform(X)
 
 
-def LDA_reduce_dimenstionality(features):
-    X = get_normalized_data(feature_list)
+def LDA_reduce_dimensionality(authors, features):
+    X = get_normalized_data(features)
+    # if len(X) is not len(authors):
+    #     raise Exception()
+
     lda = LDA(n_components=3)
-    return lda.fit_transform(X)
+    return lda.fit(X, authors).transform(X)
 
 
 def draw_2D_graph(authors, features):
     fig = plt.figure(1, figsize=(4, 3))
 
-    X = PCA_reduce_dimensionality(features)
+    #X = PCA_reduce_dimensionality(features)
+    X = LDA_reduce_dimensionality(authors, features)
     y = np.choose(authors, [0, 1, 2]).astype(np.float)
 
     plt.scatter(X[:, 0], X[:, 1], c=y)
