@@ -23,15 +23,15 @@ def get_csv():
     author_list = []
     feature_list = []
 
-    t1 = data_analysis.get_features_from_database(1)
+    t1 = data_analysis.get_features_from_database_by_doc_id(1)
     feature_list.extend(t1)
     author_list.extend([0 for x in range(len(t1))])
 
-    t2 = data_analysis.get_features_from_database(408)
+    t2 = data_analysis.get_features_from_database_by_doc_id(408)
     feature_list.extend(t2)
     author_list.extend([1 for x in range(len(t2))])
 
-    t3 = data_analysis.get_features_from_database(318)
+    t3 = data_analysis.get_features_from_database_by_doc_id(318)
     feature_list.extend(t3)
     author_list.extend([2 for x in range(len(t3))])
 
@@ -43,6 +43,7 @@ def get_csv():
     #output.headers['Content-Disposition'] = 'attachment; filename=data.csv'
     output.headers['Content-type'] = 'text/plaintext'
     return output
+
 
 @app.route('/upload')
 def upload_file():
