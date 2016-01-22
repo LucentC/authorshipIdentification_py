@@ -22,7 +22,7 @@ def get_hausdorff_distance(lA, lB):
             if dis < min_val:
                 min_val = dis
         min_distance.append(min_val)
-    return max(min_distance)
+    return np.average(min_distance)
 
 
 def get_self_def_distance(lA, lB):
@@ -43,7 +43,7 @@ def get_self_def_distance(lA, lB):
             if dis < min_val:
                 min_val = dis
         min_distance.append(min_val / (count / len(lB)))
-    return sum(min_distance / len(lA))
+    return sum(min_distance) / len(lA)
 
 
 def get_features_from_database_by_author_id(author_id):
@@ -69,11 +69,11 @@ def get_normalized_data(features):
     return preprocessing.scale(X)
 
 
-def PCA_reduce_dimensionality(features):
+def PCA_reduce_dimensionality(features, dimension_to_reduce):
     # only 2 components are retained
     # X_norm = preprocessing.StandardScaler().fit_transform(X)
     X = get_normalized_data(features)
-    pca = PCA(n_components=3)
+    pca = PCA(n_components=dimension_to_reduce)
     return pca.fit_transform(X)
 
 
@@ -82,7 +82,7 @@ def LDA_reduce_dimensionality(authors, features):
     # if len(X) is not len(authors):
     #     raise Exception()
 
-    lda = LDA(n_components=3)
+    lda = LDA(n_components=3, solver='svd')
     return lda.fit(X, authors).transform(X)
 
 
@@ -103,7 +103,7 @@ def draw_2D_graph(authors, features):
 def draw_3D_graph(authors, features):
     fig = plt.figure(1, figsize=(4, 3))
 
-    X = PCA_reduce_dimensionality(features)
+    X = PCA_reduce_dimensionality(features, 3)
     y = np.choose(authors, [0, 1, 2]).astype(np.float)
 
     plt.clf()
