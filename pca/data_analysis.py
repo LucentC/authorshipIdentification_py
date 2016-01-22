@@ -25,6 +25,27 @@ def get_hausdorff_distance(lA, lB):
     return max(min_distance)
 
 
+def get_self_def_distance(lA, lB):
+    """
+        This is a self defined distance function
+        created by Raheem.
+    """
+    min_distance = []
+    for list_from_lA in lA:
+        min_val = None
+        count = 0
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            count += dis
+            if min_val is None:
+                min_val = dis
+                break
+            if dis < min_val:
+                min_val = dis
+        min_distance.append(min_val / (count / len(lB)))
+    return sum(min_distance / len(lA))
+
+
 def get_features_from_database_by_author_id(author_id):
     SELECT_QUERY = "SELECT feature_value FROM fact WHERE doc_id IN (SELECT doc_id FROM document WHERE author_id = {});"\
                     .format(author_id)
