@@ -7,6 +7,7 @@ from database import connect_to_database
 from sklearn import preprocessing
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.neighbors import KNeighborsClassifier
 from scipy import spatial
 
 
@@ -22,7 +23,7 @@ def get_hausdorff_distance(lA, lB):
             if dis < min_val:
                 min_val = dis
         min_distance.append(min_val)
-    return np.average(min_distance)
+    return max(min_distance)
 
 
 def get_self_def_distance(lA, lB):
@@ -31,6 +32,7 @@ def get_self_def_distance(lA, lB):
         created by Raheem.
     """
     min_distance = []
+
     for list_from_lA in lA:
         min_val = None
         count = 0
@@ -42,8 +44,16 @@ def get_self_def_distance(lA, lB):
                 break
             if dis < min_val:
                 min_val = dis
+
+        if count == 0:
+            continue
         min_distance.append(min_val / (count / len(lB)))
     return sum(min_distance) / len(lA)
+
+
+def get_knn_classifier(X, y):
+    neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
+    return neigh.fit(X, y)
 
 
 def get_features_from_database_by_author_id(author_id):
@@ -69,11 +79,11 @@ def get_normalized_data(features):
     return preprocessing.scale(X)
 
 
-def PCA_reduce_dimensionality(features, dimension_to_reduce):
+def PCA_reduce_dimensionality(features):
     # only 2 components are retained
     # X_norm = preprocessing.StandardScaler().fit_transform(X)
     X = get_normalized_data(features)
-    pca = PCA(n_components=dimension_to_reduce)
+    pca = PCA(n_components=3)
     return pca.fit_transform(X)
 
 
@@ -82,7 +92,7 @@ def LDA_reduce_dimensionality(authors, features):
     # if len(X) is not len(authors):
     #     raise Exception()
 
-    lda = LDA(n_components=3, solver='svd')
+    lda = LDA(n_components=3)
     return lda.fit(X, authors).transform(X)
 
 
@@ -103,7 +113,7 @@ def draw_2D_graph(authors, features):
 def draw_3D_graph(authors, features):
     fig = plt.figure(1, figsize=(4, 3))
 
-    X = PCA_reduce_dimensionality(features, 3)
+    X = PCA_reduce_dimensionality(features)
     y = np.choose(authors, [0, 1, 2]).astype(np.float)
 
     plt.clf()
