@@ -7,6 +7,7 @@ from database import connect_to_database
 from sklearn import preprocessing
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.neighbors import KNeighborsClassifier
 from scipy import spatial
 
 
@@ -31,6 +32,7 @@ def get_self_def_distance(lA, lB):
         created by Raheem.
     """
     min_distance = []
+
     for list_from_lA in lA:
         min_val = None
         count = 0
@@ -42,8 +44,16 @@ def get_self_def_distance(lA, lB):
                 break
             if dis < min_val:
                 min_val = dis
+
+        if count == 0:
+            continue
         min_distance.append(min_val / (count / len(lB)))
-    return sum(min_distance / len(lA))
+    return sum(min_distance) / len(lA)
+
+
+def get_knn_classifier(X, y):
+    neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
+    return neigh.fit(X, y)
 
 
 def get_features_from_database_by_author_id(author_id):
