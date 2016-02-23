@@ -26,7 +26,7 @@ def get_hausdorff_distance(lA, lB):
     return max(min_distance)
 
 
-def get_m_hausdorff_distance(lA, lB):
+def get_min_of_max_hausdorff_distance(lA, lB):
     max_distance = []
     for list_from_lA in lA:
         max_val = None
@@ -41,7 +41,48 @@ def get_m_hausdorff_distance(lA, lB):
     return min(max_distance)
 
 
-def get_self_det_distance_v2(qp, lB):
+def get_avg_of_max_hausdorff_distance(lA, lB):
+    max_distance = []
+    for list_from_lA in lA:
+        max_val = None
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            if max_val is None:
+                max_val = dis
+                break
+            if dis > max_val:
+                max_val = dis
+        max_distance.append(max_val)
+    return np.average(max_distance)
+
+
+def get_max_of_max_hausdorff_distance(lA, lB):
+    max_distance = []
+    for list_from_lA in lA:
+        max_val = None
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            if max_val is None:
+                max_val = dis
+                break
+            if dis > max_val:
+                max_val = dis
+        max_distance.append(max_val)
+    return max(max_distance)
+
+
+def get_min_of_avg_hausdorff_distance(lA, lB):
+    avg_distance = []
+    for list_from_lA in lA:
+        total_val = None
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            total_val += dis
+        avg_distance.append(total_val / len(lB))
+    return min(avg_distance)
+
+
+def get_self_def_distance_v2(qp, lB):
     min_distance = []
     dis_list = []
 
@@ -87,7 +128,8 @@ def get_self_def_distance_v1(lA, lB):
 
 def get_knn_classifier(X, y):
     #pca = PCA_reduce_dimensionality(X)
-    neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
+    #neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
+    neigh = KNeighborsClassifier(algorithm='ball_tree', n_neighbors=len(set(y)), metric='pyfunc', func=get_min_of_avg_hausdorff_distance)
     return neigh.fit(X, y)
 
 
