@@ -26,7 +26,41 @@ def get_hausdorff_distance(lA, lB):
     return max(min_distance)
 
 
-def get_self_def_distance(lA, lB):
+def get_m_hausdorff_distance(lA, lB):
+    max_distance = []
+    for list_from_lA in lA:
+        max_val = None
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            if max_val is None:
+                max_val = dis
+                break
+            if dis > max_val:
+                max_val = dis
+        max_distance.append(max_val)
+    return min(max_distance)
+
+
+def get_self_det_distance_v2(qp, lB):
+    min_distance = []
+    dis_list = []
+
+    for list_from_lA in qp:
+        min_val = None
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            dis_list.append(dis)
+            if min_val is None:
+                min_val = dis
+                continue
+            if dis < min_val:
+                min_val = dis
+
+        min_distance.append(min_val / float(np.std(dis_list)))
+    return sum(min_distance) / len(lB)
+
+
+def get_self_def_distance_v1(lA, lB):
     """
         This is a self defined distance function
         created by Raheem.
@@ -52,6 +86,7 @@ def get_self_def_distance(lA, lB):
 
 
 def get_knn_classifier(X, y):
+    #pca = PCA_reduce_dimensionality(X)
     neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
     return neigh.fit(X, y)
 
@@ -69,6 +104,12 @@ def get_features_from_database_by_doc_id(doc_id):
     SELECT_QUERY = "SELECT feature_value FROM fact WHERE doc_id = " + str(doc_id) + " ORDER BY para_id, feature_id;"
     rows = [item['feature_value'] for item in connect_to_database.execute_select_query(SELECT_QUERY)]
     return [rows[x:x + 57] for x in xrange(0, len(rows), 57)]
+
+
+def get_all_doc_id_in_paragraph():
+    SELECT_QUERY = "SELECT DISTINCT doc_id FROM paragraph ORDER BY doc_id;"
+    rows = connect_to_database.execute_select_query(SELECT_QUERY)
+    return rows
 
 
 def get_normalized_data(features):
@@ -92,7 +133,7 @@ def LDA_reduce_dimensionality(authors, features):
     # if len(X) is not len(authors):
     #     raise Exception()
 
-    lda = LDA(n_components=3)
+    lda = LDA(n_components=2)
     return lda.fit(X, authors).transform(X)
 
 

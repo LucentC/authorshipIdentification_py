@@ -1,7 +1,8 @@
 import csv
 from StringIO import StringIO
 from flask import Flask
-from flask import render_template, make_response
+from flask import render_template, make_response, request
+from werkzeug.utils import secure_filename
 from pca import data_analysis
 
 app = Flask(__name__)
@@ -47,10 +48,15 @@ def get_csv():
 
 @app.route('/upload')
 def upload_file():
-    """
-        Peter, please place your code in this function
-    """
-    return "I love coding"
+    return render_template('upload.html')
+
+
+@app.route('/uploadhandler', methods = ['GET', 'POST'])
+def upload_handler():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(secure_filename(f.filename))
+        return 'file uploaded successfully'
 
 
 if __name__ == '__main__':
