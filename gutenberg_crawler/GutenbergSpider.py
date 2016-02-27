@@ -11,7 +11,7 @@ class GutenbergSpider(scrapy.Spider):
     name = "gutenberg"
     allowed_domains = ["gutenberg.org"]
     start_urls = [
-        "https://www.gutenberg.org/browse/authors/i"
+        "http://prj61.cs.cityu.edu.hk/"
     ]
 
     def parse(self, response):
