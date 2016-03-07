@@ -7,4 +7,5 @@ class BookItem(Item):
     lang = Field()
     loc_class = Field()
     rdate = Field()
-    zip_link = Field()
+    files = Field()
+    file_urls = Field()
