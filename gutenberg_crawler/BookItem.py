@@ -9,3 +9,4 @@ class BookItem(Item):
     rdate = Field()
     files = Field()
     file_urls = Field()
+    host_path = Field()

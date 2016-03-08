@@ -25,7 +25,7 @@ for root, sub_dir, files in os.walk(base_dir):
             book = BookItem()
             SQL_INSERT_QUERY = ""
 
-            book['author_name'] = fi.split('___')[0]
+            book['author'] = fi.split('___')[0]
             book['title'] = fi.split('___')[1][:-4]
 
             with open(root + fi, 'r') as doc_file:

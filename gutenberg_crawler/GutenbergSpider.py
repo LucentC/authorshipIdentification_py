@@ -63,9 +63,9 @@ process = CrawlerProcess({
         's3': None,
     },
     'ITEM_PIPELINES': {
-        'scrapy.pipelines.files.FilesPipeline': 1
+        'bookitempipeline.BookItemPipeline': 1,
     },
-    'FILES_STORE': '/tmp/gutenberg'
+    'FILES_STORE': '/tmp/gutenberg',
 })
 process.crawl(GutenbergSpider)
 process.start()
