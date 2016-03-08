@@ -129,7 +129,7 @@ def get_self_def_distance_v1(lA, lB):
 def get_knn_classifier(X, y):
     #pca = PCA_reduce_dimensionality(X)
     #neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
-    neigh = KNeighborsClassifier(algorithm='ball_tree', n_neighbors=len(set(y)), metric='pyfunc', func=get_min_of_avg_hausdorff_distance)
+    neigh = KNeighborsClassifier(algorithm='ball_tree', n_neighbors=len(set(y)), metric='pyfunc', func=get_min_of_max_hausdorff_distance)
     return neigh.fit(X, y)
 
 
