@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3211478478">
+    <data-source source="LOCAL" name="PostgreSQL - stylometry_v2@localhost" uuid="b9c42cf4-e24b-46e8-82a4-b5dfc3ae9b4b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/stylometry_v2</jdbc-url>
+    </data-source>
+  </component>
+</project>
