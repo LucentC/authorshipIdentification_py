@@ -9,7 +9,7 @@ class Author:
         self.author_last_name = self.author_name.split(' ')[-1]
 
     def get_author_insert_query(self):
-        return "INSERT INTO author(author_name) VALUES ('{}');\n".format(self.author_name.encode('utf-8'))
+        return "INSERT INTO author(author_name) VALUES ('{}');\n".format(self.author_name)
 
     def get_if_author_existing_query(self):
         return "SELECT author_id FROM author WHERE author_name LIKE {} OR author_name LIKE {};"\

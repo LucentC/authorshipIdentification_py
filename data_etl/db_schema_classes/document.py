@@ -4,11 +4,14 @@ from psycopg2.extensions import QuotedString
 
 class Document:
 
-    def __init__(self, doc_id, author_id, doc_title, doc_content):
+    def __init__(self, doc_id, author_id, doc_title, release_date, loc_class, doc_content, gu_url):
         self.doc_id = doc_id
         self.author_id = author_id
         self.doc_title = doc_title
+        self.release_date = release_date
+        self.loc_class = loc_class
         self.doc_content = doc_content
+        self.gu_url = gu_url
 
     def get_doc_id(self):
         return self.doc_id
@@ -35,12 +38,15 @@ class Document:
 
     def get_doc_insert_query(self):
         if self.author_id is -1:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, doc_content) " \
-                   "VALUES (currval('author_author_id_seq'), {}, '{}', {});\n"\
-                    .format(QuotedString(self.doc_title).getquoted(), "1886-02-25",
-                            QuotedString(self.doc_content).getquoted())
+            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content) " \
+                   "VALUES (currval('author_author_id_seq'), {}, {}, {}, {});\n"\
+                    .format(QuotedString(self.doc_title).getquoted(), QuotedString(self.release_date).getquoted(),
+                            QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
+                            QuotedString(self.gu_url).getquoted())
         else:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, doc_content) " \
-                   "VALUES ({}, {}, '{}', {});\n"\
-                    .format(self.author_id, QuotedString(self.doc_title).getquoted(), "1886-02-25",
-                            QuotedString(self.doc_content).getquoted())
+            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content) " \
+                   "VALUES ({}, {}, {}, {}, {});\n"\
+                    .format(self.author_id, QuotedString(self.doc_title).getquoted(),
+                            QuotedString(self.release_date).getquoted(),
+                            QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
+                            QuotedString(self.gu_url).getquoted())

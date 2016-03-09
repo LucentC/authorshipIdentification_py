@@ -11,7 +11,9 @@
 -- 	author_id INTEGER REFERENCES author(author_id) NOT NULL,
 -- 	doc_title VARCHAR(120) NOT NULL,
 -- 	year_of_pub DATE,
+--  loc_class VARCHAR(300) NOT NULL,
 -- 	doc_content text
+--  gutenberg_url VARCHAR(100) NOT NULL,
 -- );
 
 --------------------------------------------------------------------

@@ -16,18 +16,24 @@ class GutenbergSpider(scrapy.Spider):
             if 'authors' in latter_url:
                 full_url = response.urljoin(latter_url)
                 yield Request(full_url, callback=self.extract_link_to_doc)
-                break
+                #break
 
     def extract_link_to_doc(self, response):
         for latter_url in response.xpath('//li/a/@href').extract():
             if 'etext' in latter_url:
                 full_url = response.urljoin(latter_url)
                 yield Request(full_url, callback=self.extract_document)
-                break
+                #break
 
     def extract_document(self, response):
 
         book = BookItem()
+        book.setdefault('author', 'none')
+        book.setdefault('title', 'none')
+        book.setdefault('lang', 'none')
+        book.setdefault('loc_class', 'none')
+        book.setdefault('rdate', 'none')
+        book.setdefault('rdate', 'none')
 
         for table_cell in response.xpath('//tr'):
             header = table_cell.xpath('th/text()').extract()
@@ -37,18 +43,19 @@ class GutenbergSpider(scrapy.Spider):
                 continue
 
             if header[0] == 'Author':
-                book['author'] = table_cell.xpath('td/text()').extract()
+                book['author'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
             elif header[0] == 'Title':
-                book['title'] = table_cell.xpath('td/text()').extract()
+                book['title'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
             elif header[0] == 'Language':
-                book['lang'] = table_cell.xpath('td/text()').extract()
+                book['lang'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
             elif header[0] == 'LoC Class':
-                book['loc_class'] = table_cell.xpath('td/text()').extract()
+                book['loc_class'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
             elif header[0] == 'Release Date':
-                book['rdate'] = table_cell.xpath('td/text()').extract()
+                book['rdate'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
             else:
                 continue
 
+        book['gutenberg_url'] = response.url
         return book
 
 
