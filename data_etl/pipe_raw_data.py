@@ -76,7 +76,7 @@ def process_book_item(book):
 
     SQL_INSERT_QUERY += Document(-1, author_queried_id, book['title'], book['rdate'],
                                  book['loc_class'], content, book['gutenberg_url']).get_doc_insert_query()
-    #print SQL_INSERT_QUERY
+    print SQL_INSERT_QUERY
 
 
 def read_file_get_content(file_path):
