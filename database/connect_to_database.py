@@ -1,6 +1,5 @@
 import psycopg2
 from psycopg2.extras import DictCursor
-from data_etl.db_schema_classes.author import Author
 
 connection_string = "dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'"
 
@@ -16,6 +15,7 @@ def execute_insert_query(query):
         cursor = conn.cursor()
         cursor.execute(query)
         conn.close()
+        return True
     except psycopg2.DatabaseError as e:
         print "Cannot connect to database"
         print e.pgerror
