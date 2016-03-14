@@ -38,14 +38,14 @@ class Document:
 
     def get_doc_insert_query(self):
         if self.author_id is -1:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content) " \
-                   "VALUES (currval('author_author_id_seq'), {}, {}, {}, {});\n"\
+            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content, gutenberg_url) " \
+                   "VALUES (currval('author_author_id_seq'), {}, {}, {}, {}, {});\n"\
                     .format(QuotedString(self.doc_title).getquoted(), QuotedString(self.release_date).getquoted(),
                             QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
                             QuotedString(self.gu_url).getquoted())
         else:
             return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content, gutenberg_url) " \
-                   "VALUES ({}, {}, {}, {}, {});\n"\
+                   "VALUES ({}, {}, {}, {}, {}, {});\n"\
                     .format(self.author_id, QuotedString(self.doc_title).getquoted(),
                             QuotedString(self.release_date).getquoted(),
                             QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
