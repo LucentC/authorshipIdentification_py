@@ -44,7 +44,7 @@ class Document:
                             QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
                             QuotedString(self.gu_url).getquoted())
         else:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content) " \
+            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content, gutenberg_url) " \
                    "VALUES ({}, {}, {}, {}, {});\n"\
                     .format(self.author_id, QuotedString(self.doc_title).getquoted(),
                             QuotedString(self.release_date).getquoted(),
