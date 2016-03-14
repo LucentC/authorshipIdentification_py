@@ -28,9 +28,20 @@ function create_author_doc_tables
     su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/create_author_doc_tables.sql"
 }
 
-function create_outher_tables
+function create_other_tables
 {
     su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/create_other_tables.sql"
+}
+
+function drop_other_tables
+{
+    su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/drop_other_tables.sql"
+}
+
+function drop_all_tables
+{
+    drop_other_tables
+    su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/drop_author_doc_tables.sql"
 }
 
 function print_usage
@@ -40,6 +51,8 @@ function print_usage
     echo -e "\tipost - install postgresql and create user"
     echo -e "\tcdbad - create author and document tables"
     echo -e "\tcdbo - create other tables"
+    echo -e "\tdot - drop other tables"
+    echo -e "\tdat - drop all tables"
 }
 
 if [ $# != 1 ];then
@@ -56,6 +69,8 @@ case "$1" in
     "ipy")      install_py_packages ;;
     "ipost")    create_database ;;
     "cdbad")    create_author_doc_tables ;;
-    "cdbo")     create_outher_tables ;;
+    "cdbo")     create_other_tables ;;
+    "dot")      drop_other_tables ;;
+    "dat")      drop_all_tables ;;
     *)          print_usage ;;
 esac
