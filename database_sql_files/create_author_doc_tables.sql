@@ -9,7 +9,7 @@ CREATE TABLE author (
 CREATE TABLE document (
     doc_id SERIAL PRIMARY KEY NOT NULL,
     author_id INTEGER REFERENCES author(author_id) NOT NULL,
-    doc_title VARCHAR(120) NOT NULL,
+    doc_title VARCHAR(300) NOT NULL,
     year_of_pub DATE,
     loc_class VARCHAR(300) NOT NULL,
     doc_content text,

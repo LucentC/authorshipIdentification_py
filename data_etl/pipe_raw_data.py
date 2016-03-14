@@ -108,7 +108,7 @@ def read_file_get_content(file_path):
                 if contin:
                     content += line
 
-        return content
+        return content.encode('utf-8')
 
     except IOError:
         raise IOError
