@@ -13,5 +13,5 @@ CREATE TABLE document (
     year_of_pub DATE,
     loc_class VARCHAR(300) NOT NULL,
     doc_content text,
-    gutenberg_url VARCHAR(100) NOT NULL,
+    gutenberg_url VARCHAR(100) NOT NULL
 );
