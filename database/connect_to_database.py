@@ -15,7 +15,6 @@ def execute_insert_query(query):
         cursor = conn.cursor()
         cursor.execute(query)
         conn.close()
-        return True
     except psycopg2.DatabaseError as e:
         print "Cannot connect to database"
         print e.pgerror
