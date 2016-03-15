@@ -77,7 +77,8 @@ def process_book_item(book):
     SQL_INSERT_QUERY += Document(-1, author_queried_id, book['title'], book['rdate'],
                                  book['loc_class'], content, book['gutenberg_url']).get_doc_insert_query()
 
-    connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+    print SQL_INSERT_QUERY
+    #connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
 
 
 def read_file_get_content(file_path):
@@ -108,7 +109,7 @@ def read_file_get_content(file_path):
                 if contin:
                     content += line
 
-        return unicode(content, 'utf-8', errors='strict')
+        return unicode(content, 'utf-8', errors='ignore')
 
     except IOError:
         raise IOError
