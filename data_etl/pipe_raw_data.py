@@ -110,7 +110,7 @@ def read_file_get_content(file_path):
                 if contin:
                     content += line
 
-        return unicode(content, 'utf-8', errors='ignore')
+        return content
 
     except IOError:
         raise IOError

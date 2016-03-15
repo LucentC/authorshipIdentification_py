@@ -7,10 +7,10 @@ class Document:
     def __init__(self, doc_id, author_id, doc_title, release_date, loc_class, doc_content, gu_url):
         self.doc_id = doc_id
         self.author_id = author_id
-        self.doc_title = doc_title
+        self.doc_title = unicode(doc_title, 'utf-8', errors='ignore').encode('utf-8')
         self.release_date = release_date
-        self.loc_class = loc_class
-        self.doc_content = doc_content
+        self.loc_class = unicode(loc_class, 'utf-8', errors='ignore').encode('utf-8')
+        self.doc_content = unicode(doc_content, 'utf-8', errors='ignore').encode('utf-8')
         self.gu_url = gu_url
 
     def get_doc_id(self):

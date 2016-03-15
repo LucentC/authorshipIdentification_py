@@ -40,7 +40,7 @@ class GutenbergSpider(scrapy.Spider):
                 book['file_urls'] = [response.urljoin(table_cell.xpath('td[2]/a/@href').extract()[0])]
                 continue
 
-            if header[0] == 'Author':
+            if header[0] == 'Author' or header[0] == 'Contributor':
                 book['author'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
             elif header[0] == 'Title':
                 book['title'] = table_cell.xpath('td/text()').extract()[0].encode('utf-8')
