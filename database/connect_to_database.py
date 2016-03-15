@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extras import DictCursor
 
-connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' password = 'stylometry'"
+connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' port = '5433' password = 'stylometry'"
 
 
 def execute_insert_query(query):
@@ -65,6 +65,9 @@ def test_if_author_exists(author):
         to generate a new insertion query for a new author whose name
         does not exist in the database.
     """
+    if author == -1:
+        return author
+
     try:
         conn = psycopg2.connect(connection_string)
         cursor = conn.cursor(cursor_factory=DictCursor)

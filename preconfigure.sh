@@ -33,6 +33,12 @@ function create_other_tables
     su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/create_other_tables.sql"
 }
 
+function create_all_tables
+{
+    create_author_doc_tables
+    create_other_tables
+}
+
 function drop_other_tables
 {
     su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/drop_other_tables.sql"
@@ -51,6 +57,7 @@ function print_usage
     echo -e "\tipost - install postgresql and create user"
     echo -e "\tcdbad - create author and document tables"
     echo -e "\tcdbo - create other tables"
+    echo -e "\tcdba - create all tables"
     echo -e "\tdot - drop other tables"
     echo -e "\tdat - drop all tables"
 }
@@ -70,6 +77,7 @@ case "$1" in
     "ipost")    create_database ;;
     "cdbad")    create_author_doc_tables ;;
     "cdbo")     create_other_tables ;;
+    "cdba")     create_all_tables ;;
     "dot")      drop_other_tables ;;
     "dat")      drop_all_tables ;;
     *)          print_usage ;;

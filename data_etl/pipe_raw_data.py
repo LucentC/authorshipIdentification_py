@@ -1,3 +1,4 @@
+import re
 import sys
 import zipfile
 from database import connect_to_database
@@ -92,17 +93,18 @@ def read_file_get_content(file_path):
     sys.setdefaultencoding('utf-8')
 
     try:
+
         with open(path_to_store_txt + file_path, 'r') as doc_file:
 
             contin = False
             content = ''
 
             for line in doc_file.readlines():
-                if '*** START OF THE PROJECT GUTENBERG' in line:
+                if re.match('.*START OF.*PROJECT GUTENBERG.*', line, re.IGNORECASE):
                     contin = True
                     continue
 
-                if '*** END OF THE PROJECT GUTENBERG' in line:
+                if re.match('.*END OF.*PROJECT GUTENBERG.*', line, re.IGNORECASE):
                     break
 
                 if contin:
