@@ -1,6 +1,5 @@
 import csv
-from data_analysis import data_warehouse
-from data_analysis import calculate_principle_component
+import calculate_principle_component
 
 
 def get_output_lists_for_csv_after_3d_pca(authors, features):

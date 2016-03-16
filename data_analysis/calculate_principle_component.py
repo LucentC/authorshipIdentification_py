@@ -1,4 +1,4 @@
-from data_analysis import data_normalization
+import data_normalization
 from sklearn.decomposition import PCA
 
 
