@@ -1,7 +1,8 @@
 import numpy as np
 from scipy import spatial
 
-def get_hausdorff_distance(lA, lB):
+
+def get_standard_hausdorff_distance(lA, lB):
     min_distance = []
     for list_from_lA in lA:
         min_val = None

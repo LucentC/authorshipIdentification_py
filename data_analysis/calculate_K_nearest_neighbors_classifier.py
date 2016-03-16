@@ -1,11 +1,17 @@
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.cross_validation import cross_val_score
+from data_analysis import modified_hausdorff_distance as MHD
 
 
-def get_knn_classifier(X, y):
-    #pca = PCA_reduce_dimensionality(X)
+def get_knn_classifier_with_eucli(data, label):
     neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
+    return neigh.fit(data, label)
+
+
+def get_knn_classifier_cross_validation(data, label):
     #neigh = KNeighborsClassifier(algorithm='ball_tree', n_neighbors=len(set(y)), metric='pyfunc', func=get_min_of_max_hausdorff_distance)
-    return neigh.fit(X, y)
+    neigh = KNeighborsClassifier(algorithm='auto', n_neighbors=len(set(label)), metric=MHD.get_standard_hausdorff_distance)
+    return cross_val_score(neigh, data, label, cv=10, scoring='accuracy').mean()
 
 
 def get_query_points_probabilistic(feature_list, author_list, qp):
@@ -19,7 +25,7 @@ def get_query_points_probabilistic(feature_list, author_list, qp):
         To be more accurate, it is a list to indicate which author writes
         'that' paragraph.
     """
-    neigh = get_knn_classifier(feature_list, author_list)
+    neigh = get_knn_classifier_with_eucli(feature_list, author_list)
     return neigh.predict_proba(qp)
 
 

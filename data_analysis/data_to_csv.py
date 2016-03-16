@@ -1,12 +1,27 @@
 import csv
 from data_analysis import data_warehouse
+from data_analysis import calculate_principle_component
 
-with open('output.csv', 'wb') as csvfile:
-    header_row = ['author id', 'document id', 'paragraph id'] + ['feature ' + str(i) for i in range(1, 57)]
-    csv_wr = csv.writer(csvfile)
-    csv_wr.writerow(header_row)
 
-    # 2 refers to document ID, now this function only support getting data with doc_id
-    # please change the doc_id in the following function
-    for row in data_warehouse.get_cross_tab_features_from_database_by_doc_id(2):
-        csv_wr.writerow(row)
+def get_output_lists_for_csv_after_3d_pca(authors, features):
+    X = calculate_principle_component.PCA_reduce_to_3_dimensionality(features).tolist()
+
+    if len(X) is not len(authors):
+        raise Exception()
+
+    for i in range(len(X)):
+        X[i].append(authors[i])
+
+    return X
+
+
+def write_csvfile_output(filename, header_row, data_lists):
+
+    pre_path = '/tmp/csv_files/'
+
+    with open(pre_path + filename, 'wb') as csvfile:
+        csv_wr = csv.writer(csvfile)
+        csv_wr.writerow(header_row)
+
+        for row in data_lists:
+            csv_wr.writerow(row)
