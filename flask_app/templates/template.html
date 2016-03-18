@@ -9,7 +9,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>{{ title }}</title>
+
+    <!-- Dropzone CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/basic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -23,6 +27,8 @@
 
     <!-- Morris Charts CSS -->
     <link href="{{ url_for('static', filename='css/plugins/morris.css') }}" rel="stylesheet">
+
+    {% block self_style %}{% endblock %}
 
     <!-- jQuery -->
     <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -170,7 +176,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
                     <a href="charts"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
@@ -179,7 +185,7 @@
                     <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
                 </li>
                 <li>
-                    <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                    <a href="upload"><i class="fa fa-fw fa-edit"></i> Upload</a>
                 </li>
                 <li>
                     <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
@@ -210,10 +216,80 @@
         <!-- /.navbar-collapse -->
     </nav>
 
-    {% block body %} {% endblock %}
+    <!-- Start of the page header. All the introductory text or meta-data of the page will be displayed in here -->
+    <div id="page-wrapper">
 
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        {{ title }}
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i> <a href="/">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            <i class="fa fa-bar-chart-o"></i> {{ title }}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <!-- Flot Charts -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <!--<h2 class="page-header">{{ title }}</h2>-->
+                    <p class="lead">{{ content }}</p>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            {% block body %} {% endblock %}
+
+        </div>
+
+    </div>
+    <!-- /#wrapper -->
 </div>
-<!-- /#wrapper -->
+
+<!-- Flot Charts JavaScript -->
+
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+
+<!-- Highcharts JavaScript -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="{{ url_for('static', filename='js/plugins/morris/raphael.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins/morris/morris.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins/morris/morris-data.js') }}"></script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<!-- Dropzone JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone-amd-module.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css"></script>
+
+<!-- js starts here -->
+<script src="{{ url_for('static', filename='js/plot_3D_graph.js') }}"></script>
+<!-- js ends here -->
 
 </body>
 

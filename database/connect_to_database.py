@@ -47,6 +47,7 @@ def execute_select_query(query):
         cursor = conn.cursor(cursor_factory=DictCursor)
         cursor.execute(query)
         rows = cursor.fetchall()
+        conn.close()
         return rows
     except psycopg2.DatabaseError as e:
         print e.pgerror

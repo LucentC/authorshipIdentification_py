@@ -38,3 +38,18 @@ def get_cross_tab_features_from_database_by_doc_id(doc_id):
                        "real, f57 real) INNER JOIN document d ON d.doc_id = {};".format(doc_id, doc_id, doc_id, doc_id)
 
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+
+
+def get_total_num_of_authors():
+    SQL_SELECT_QUERY = "SELECT COUNT(author_id) as number FROM author;"
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['number']
+
+
+def get_total_num_of_docs():
+    SQL_SELECT_QUERY = "SELECT COUNT(doc_id) as number FROM document;"
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['number']
+
+
+def get_total_num_of_docs_with_stylo_values():
+    SQL_SELECT_QUERY = "SELECT COUNT(DISTINCT doc_id) as number FROM fact;"
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['number']
