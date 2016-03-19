@@ -1,0 +1,3 @@
+from data_analysis import data_warehouse
+
+print data_warehouse.get_author_and_written_docs_count()

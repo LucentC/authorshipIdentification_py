@@ -2,14 +2,89 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block self_style %}
+    <!-- Dropzone CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/basic.css">
+    <style>
+        #dropzone {
+            margin-bottom: 3rem;
+        }
+
+        .dropzone {
+            border: 2px dashed #0087F7;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .dropzone .dz-message {
+            font-weight: 400;
+        }
+
+        .dropzone .dz-message .note {
+            font-size: 0.8em;
+            font-weight: 200;
+            display: block;
+            margin-top: 1.4rem;
+        }
+
+        .needsclick {
+            font-size: 1.5em;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
 
-    <form action="/file-upload" class="dropzone">
-        <div class="fallback">
-            <input name="file" type="file" multiple/>
+    <div id="actions" class="row">
+
+        <div class="col-lg-7">
+            <!-- The fileinput-button span is used to style the file input field as button -->
+        <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Add files...</span>
+        </span>
+            <button type="submit" class="btn btn-primary start">
+                <i class="glyphicon glyphicon-upload"></i>
+                <span>Start upload</span>
+            </button>
+            <button type="reset" class="btn btn-warning cancel">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                <span>Cancel upload</span>
+            </button>
         </div>
-    </form>
 
-    <input type="file" name="file"/>
+        <div class="col-lg-4">
+            <!-- The global file processing state -->
+        <span class="fileupload-process">
+          <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0"
+               aria-valuemax="100" aria-valuenow="0">
+              <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+          </div>
+        </span>
+        </div>
 
+    </div>
+
+    <div id="dropzone" class="row">
+        <form action="/file-upload"
+              class="dropzone needsclick dz-clickable"
+              id="demo-upload">
+            <div class="dz-message needsclick">
+                Drop files here or click to upload.
+                <br>
+                <span class="note needsclick">
+                    Now it only supports files with <mark>txt</mark> extension.
+                </span>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block external_js %}
+    <!-- Dropzone JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone-amd-module.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css"></script>
+    <script src="{{ url_for('static', filename='js/dropzone.js') }}"></script>
 {% endblock %}

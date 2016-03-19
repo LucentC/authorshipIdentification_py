@@ -53,3 +53,9 @@ def get_total_num_of_docs():
 def get_total_num_of_docs_with_stylo_values():
     SQL_SELECT_QUERY = "SELECT COUNT(DISTINCT doc_id) as number FROM fact;"
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['number']
+
+
+def get_author_and_written_docs_count():
+    SQL_SELECT_QUERY = "SELECT d.author_id, a.author_name, COUNT(d.doc_id) FROM document d INNER JOIN author a ON " \
+                       "d.author_id = a.author_id GROUP BY d.author_id, a.author_name ORDER BY d.author_id;"
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
