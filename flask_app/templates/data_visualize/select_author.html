@@ -1,0 +1,19 @@
+{% extends 'template.html' %}
+{% set active_page = 'details' %}
+
+{% block body %}
+    <div class="row">
+        <form method="post" action="details" role="form">
+            <div class="form-group">
+                <label for="sel1">Select author (select one):</label>
+                <select class="form-control" name="author_id">
+                    {% for row in authors_list %}
+                        <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <input type="submit" class="btn btn-primary btn-lg" value="Submit">
+            </div>
+        </form>
+    </div>
+{% endblock %}

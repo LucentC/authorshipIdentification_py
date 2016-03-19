@@ -1,4 +1,5 @@
 from database import connect_to_database
+from psycopg2.extensions import QuotedString
 
 
 def get_features_from_database_by_author_id(author_id):
@@ -56,6 +57,41 @@ def get_total_num_of_docs_with_stylo_values():
 
 
 def get_author_and_written_docs_count():
-    SQL_SELECT_QUERY = "SELECT d.author_id, a.author_name, COUNT(d.doc_id) FROM document d INNER JOIN author a ON " \
-                       "d.author_id = a.author_id GROUP BY d.author_id, a.author_name ORDER BY d.author_id;"
+    SQL_SELECT_QUERY = "SELECT d.author_id as aid, a.author_name as aname, COUNT(d.doc_id) as doc_num FROM document " \
+                       "d INNER JOIN author a ON d.author_id = a.author_id GROUP BY d.author_id, a.author_name " \
+                       "ORDER BY d.author_id;"
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+
+
+def get_author_name_by_id(author_id):
+    if type(author_id) is not int:
+        return -1
+    SQL_SELECT_QUERY = "SELECT author_name FROM author WHERE author_id = {};".format(author_id)
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['author_name']
+
+
+def get_author_id_and_name():
+    SQL_SELECT_QUERY = "SELECT author_id, author_name FROM author;"
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+
+
+def get_num_of_doc_written_by_an_author(author_id):
+    if type(author_id) is not int:
+        return -1
+    SQL_SELECT_QUERY = "SELECT COUNT(doc_id) as num FROM document WHERE author_id = {};".format(author_id)
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['num']
+
+
+def get_all_docs_by_author_id(author_id):
+    if type(author_id) is not int:
+        return -1
+    SQL_SELECT_QUERY = "SELECT doc_id, doc_title, year_of_pub FROM document WHERE author_id = {} ORDER " \
+                       "BY doc_id;".format(author_id)
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+
+
+def get_doc_content_by_id(doc_id):
+    if type(doc_id) is not int:
+        return -1
+    SQL_SELECT_QUERY = "SELECT doc_content FROM document WHERE doc_id = {};".format(doc_id)
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['doc_content']

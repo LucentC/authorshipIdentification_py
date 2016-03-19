@@ -1,0 +1,83 @@
+{% extends 'template.html' %}
+{% set active_page = 'details' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-bar-chart fa-fw"></i> Documents that are written by <mark>{{ title }}</mark></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th>Document ID</th>
+                                <th>Document Title</th>
+                                <th>Year of Publication</th>
+                                <th>Read me</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in doc_list %}
+                                <tr>
+                                    <td>{{ row['doc_id'] }}</td>
+                                    <td>{{ row['doc_title'] }}</td>
+                                    <td>{{ row['year_of_pub'] }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#doc_{{ row['doc_id'] }}"
+                                                onclick="get_content_by_id({{ row['doc_id'] }})">Click me
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="doc_{{ row['doc_id'] }}" role="dialog">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close"
+                                                                data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">{{ row['doc_title'] }}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <pre id="pre_{{ row['doc_id'] }}"></pre>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-right">
+                        <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block external_js %}
+    <script>
+        function get_content_by_id(doc_id){
+            $.ajax({
+                type: "POST",
+                url: "/doccontent",
+                data: "doc_id=" + doc_id,
+                success: function(result){
+                    $("#pre_" + doc_id).text(result);
+                }
+            });
+        }
+    </script>
+{% endblock %}
