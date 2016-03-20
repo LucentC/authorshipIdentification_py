@@ -3,7 +3,7 @@ import csv
 import sys
 from StringIO import StringIO
 from flask import Flask
-from flask import render_template, make_response, request, Markup
+from flask import render_template, make_response, request, Markup, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import abort
 from data_analysis import data_warehouse
@@ -61,6 +61,21 @@ def get_author_details():
                            )
 
 
+@app.route('/doccontent', methods=['POST'])
+def get_doc_content():
+    if request.method != 'POST':
+        abort(403)
+
+    try:
+        doc_id = int(request.form['doc_id'])
+    except ValueError:
+        abort(403)
+
+    output = make_response(data_warehouse.get_doc_content_by_id(doc_id))
+    output.headers['Content-type'] = 'text/plaintext'
+    return output
+
+
 @app.route('/upload')
 def upload_file():
     return render_template('data_visualize/upload.html',
@@ -77,25 +92,24 @@ def upload_file():
 def get_chars():
     return render_template('data_visualize/charts.html',
                            title='Charts',
-                           content='TBC'
+                           content='TBC',
+                           authors_list=data_warehouse.get_author_id_and_name()
                            )
 
 
-@app.route('/doccontent', methods=['POST'])
-def get_doc_content():
+@app.route('/getdoclist', methods=['POST'])
+def return_doc_list():
     if request.method != 'POST':
         abort(403)
 
     try:
-        doc_id = int(request.form['doc_id'])
+        author_id = int(request.form['author_id'])
     except ValueError:
         abort(403)
 
-    output = make_response(data_warehouse.get_doc_content_by_id(doc_id))
-    output.headers['Content-type'] = 'text/plaintext'
-    return output
-
-
+    # x, y, z refers to doc_id, doc_title and year_of_pub respectively
+    doc_list = [(x, y) for x, y, z in data_warehouse.get_all_docs_by_author_id(author_id)]
+    return jsonify(doc_list)
 
 
 @app.route('/getcsv')

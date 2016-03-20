@@ -17,6 +17,32 @@
 {% block body %}
 
     <div class="row">
+        <div class="col-lg-9">
+            <form class="margin-bottom-40" role="form">
+                <div class="form-group" id="author_form">
+                    <label>Select author (select one):</label>
+                    <select class="form-control" name="author_select" id="author_select">
+                        <option value="">-- Choose an author from the list --</option>
+                        {% for row in authors_list %}
+                            <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" id="document_form" style="display: none;">
+                    <label>Select a document written by this author:</label>
+                    <select class="form-control" name="doc_select" id="doc_select"></select>
+                </div>
+                <div class="checkbox" style="display: none;" id="with_pca">
+                    <label>
+                        <input type="checkbox" value="pca"> With PCA
+                    </label>
+                </div>
+                <input type="submit" class="btn-u btn-u-blue" style="display: none;" id="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
         <select id="viewSelect">
             <option value="ss">3d</option>
             <option value="s1">x-y</option>
@@ -28,9 +54,46 @@
     </div>
 
     <div class="row">
-        <div id="container" style="height: 600px"></div>
+        <div class="col-lg-9">
+            <div id="container" style="height: 600px"></div>
+        </div>
     </div>
 
 {% endblock %}
 
-{% block external_js %}<script src="{{ url_for('static', filename='js/plot_3D_graph.js') }}"></script>{% endblock %}
+{% block external_js %}
+    <script src="{{ url_for('static', filename='js/plot_3D_graph.js') }}"></script>
+    <script>
+        function add_options(id, key, val){
+            $("#" + id)
+                    .append($("<option></option>")
+                            .val(key)
+                            .html(val));
+        }
+
+
+        $("#author_select").on("change", function(){
+            $("#document_form").hide();
+            $("#with_pca").hide();
+            $("#submit").hide();
+
+            $.ajax({
+                type: "POST",
+                url: "/getdoclist",
+                data: "author_id=" + this.value,
+                dataType: "json",
+                success: function(result){
+                    add_options("doc_select", "", "-- Choose a document written by this author --");
+
+                    $.each(result, function(key, value){
+                        add_options("doc_select", key, value);
+                    });
+
+                    $("#document_form").show();
+                    $("#with_pca").show();
+                    $("#submit").show();
+                }
+            });
+        });
+    </script>
+{% endblock %}
