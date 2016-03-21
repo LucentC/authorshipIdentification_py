@@ -1,4 +1,3 @@
-from __future__ import print_function
 import csv
 import sys
 from StringIO import StringIO

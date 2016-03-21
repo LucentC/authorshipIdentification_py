@@ -22,7 +22,7 @@
                 <div class="form-group" id="author_form">
                     <label>Select author (select one):</label>
                     <select class="form-control" name="author_select" id="author_select">
-                        <option value="">-- Choose an author from the list --</option>
+                        <option value="" selected>-- Choose an author from the list --</option>
                         {% for row in authors_list %}
                             <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
                         {% endfor %}
@@ -37,8 +37,28 @@
                         <input type="checkbox" value="pca"> With PCA
                     </label>
                 </div>
-                <input type="submit" class="btn-u btn-u-blue" style="display: none;" id="submit" value="Submit">
+                <button type="button" class="btn btn-primary btn-md" style="display: none;" id="submit" onclick="add_row_to_table()">Add to table</button>
             </form>
+        </div>
+
+        <div class="row" id="conf_table">
+            <div class="col-lg-9">
+                <form class="margin-bottom-40" role="form">
+                    <div class="form-group">
+                        <table class="table table-striped" id="confirm_table">
+                            <thead>
+                                <tr>
+                                    <th>Author Name</th>
+                                    <th>Document Title</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -64,6 +84,34 @@
 {% block external_js %}
     <script src="{{ url_for('static', filename='js/plot_3D_graph.js') }}"></script>
     <script>
+        function add_row_to_table(){
+            var author = $("#author_select option:selected");
+            var doc = $("#doc_select option:selected");
+            $("#confirm_table > tbody")
+                    .append($("<tr></tr>")
+                            .append($("<td></td>")
+                                    .val(author.val())
+                                    .html(author.html()))
+                            .append($("<td></td>")
+                                    .val(doc.val())
+                                    .html(doc.html())));
+
+            $("#author_select").prop('selectedIndex', 0);
+            hide_author_doc_elements();
+        }
+
+        function hide_author_doc_elements(){
+            $("#document_form").hide();
+            $("#with_pca").hide();
+            $("#submit").hide();
+        }
+
+        function show_author_doc_elements(){
+            $("#document_form").show();
+            $("#with_pca").show();
+            $("#submit").show();
+        }
+
         function add_options(id, key, val){
             $("#" + id)
                     .append($("<option></option>")
@@ -73,9 +121,7 @@
 
 
         $("#author_select").on("change", function(){
-            $("#document_form").hide();
-            $("#with_pca").hide();
-            $("#submit").hide();
+            hide_author_doc_elements();
 
             $.ajax({
                 type: "POST",
@@ -89,9 +135,7 @@
                         add_options("doc_select", key, value);
                     });
 
-                    $("#document_form").show();
-                    $("#with_pca").show();
-                    $("#submit").show();
+                    show_author_doc_elements();
                 }
             });
         });
