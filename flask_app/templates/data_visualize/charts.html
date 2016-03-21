@@ -16,7 +16,43 @@
 
 {% block body %}
 
-    <div class="row">
+    <div class="row" id="warning_banner" style="display: none">
+        <div class="alert alert-warning col-lg-9">
+            <strong>Warning! </strong>
+            <i>At least 2 documents must be chosen for comparison.</i>
+        </div>
+    </div>
+
+    <div class="row" id="display_doc_form" style="display: none;">
+        <div class="col-lg-9">
+            <form class="margin-bottom-40" role="form">
+                <div class="form-group">
+                    <table class="table table-striped" id="confirm_table">
+                        <thead>
+                        <tr>
+                            <th>Author Name</th>
+                            <th>Document Title</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group" id="display_form_confirm" style="display: none;">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="pca"> With PCA
+                        </label>
+                    </div>
+                    <button type="button" class="btn btn-success btn-md" id="compare" onclick="get_csv_by_doc_list()">Compare
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" id="author_doc_form">
         <div class="col-lg-9">
             <form class="margin-bottom-40" role="form">
                 <div class="form-group" id="author_form">
@@ -32,33 +68,10 @@
                     <label>Select a document written by this author:</label>
                     <select class="form-control" name="doc_select" id="doc_select"></select>
                 </div>
-                <div class="checkbox" style="display: none;" id="with_pca">
-                    <label>
-                        <input type="checkbox" value="pca"> With PCA
-                    </label>
-                </div>
-                <button type="button" class="btn btn-primary btn-md" style="display: none;" id="submit" onclick="add_row_to_table()">Add to table</button>
+                <button type="button" class="btn btn-primary btn-md" style="display: none;" id="submit"
+                        onclick="add_rows_to_table()">Add to table
+                </button>
             </form>
-        </div>
-
-        <div class="row" id="conf_table">
-            <div class="col-lg-9">
-                <form class="margin-bottom-40" role="form">
-                    <div class="form-group">
-                        <table class="table table-striped" id="confirm_table">
-                            <thead>
-                                <tr>
-                                    <th>Author Name</th>
-                                    <th>Document Title</th>
-                                    <th>Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 
@@ -82,62 +95,6 @@
 {% endblock %}
 
 {% block external_js %}
-    <script src="{{ url_for('static', filename='js/plot_3D_graph.js') }}"></script>
-    <script>
-        function add_row_to_table(){
-            var author = $("#author_select option:selected");
-            var doc = $("#doc_select option:selected");
-            $("#confirm_table > tbody")
-                    .append($("<tr></tr>")
-                            .append($("<td></td>")
-                                    .val(author.val())
-                                    .html(author.html()))
-                            .append($("<td></td>")
-                                    .val(doc.val())
-                                    .html(doc.html())));
-
-            $("#author_select").prop('selectedIndex', 0);
-            hide_author_doc_elements();
-        }
-
-        function hide_author_doc_elements(){
-            $("#document_form").hide();
-            $("#with_pca").hide();
-            $("#submit").hide();
-        }
-
-        function show_author_doc_elements(){
-            $("#document_form").show();
-            $("#with_pca").show();
-            $("#submit").show();
-        }
-
-        function add_options(id, key, val){
-            $("#" + id)
-                    .append($("<option></option>")
-                            .val(key)
-                            .html(val));
-        }
-
-
-        $("#author_select").on("change", function(){
-            hide_author_doc_elements();
-
-            $.ajax({
-                type: "POST",
-                url: "/getdoclist",
-                data: "author_id=" + this.value,
-                dataType: "json",
-                success: function(result){
-                    add_options("doc_select", "", "-- Choose a document written by this author --");
-
-                    $.each(result, function(key, value){
-                        add_options("doc_select", key, value);
-                    });
-
-                    show_author_doc_elements();
-                }
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/chart_external_js_func/plot_3D_graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chart_external_js_func/chart_external.js') }}"></script>
 {% endblock %}

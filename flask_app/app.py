@@ -1,5 +1,4 @@
 import csv
-import sys
 from StringIO import StringIO
 from flask import Flask
 from flask import render_template, make_response, request, Markup, jsonify
@@ -111,29 +110,24 @@ def return_doc_list():
     return jsonify(doc_list)
 
 
-@app.route('/getcsv')
+@app.route('/getcsv', methods=['POST'])
 def get_csv():
     author_list = []
     feature_list = []
 
-    t1 = data_warehouse.get_features_from_database_by_doc_id(1)
-    feature_list.extend(t1)
-    author_list.extend([0 for x in range(len(t1))])
+    doc_id_list = request.form.getlist('doc_list')
 
-    t2 = data_warehouse.get_features_from_database_by_doc_id(408)
-    feature_list.extend(t2)
-    author_list.extend([1 for x in range(len(t2))])
-
-    t3 = data_warehouse.get_features_from_database_by_doc_id(318)
-    feature_list.extend(t3)
-    author_list.extend([2 for x in range(len(t3))])
+    for idx in range(0, len(doc_id_list)):
+        print idx
+        features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
+        feature_list.extend(features)
+        author_list.extend([idx for x in range(len(features))])
 
     string_io = StringIO()
     cw = csv.writer(string_io)
     cw.writerows(data_to_csv.get_output_lists_for_csv_after_3d_pca(author_list, feature_list))
 
     output = make_response(string_io.getvalue())
-    #output.headers['Content-Disposition'] = 'attachment; filename=data.csv'
     output.headers['Content-type'] = 'text/plaintext'
     return output
 
