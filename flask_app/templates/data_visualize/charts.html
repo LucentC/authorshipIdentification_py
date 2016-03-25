@@ -1,3 +1,4 @@
+{% from 'macros/show_modal.html' import show_modal %}
 {% extends 'template.html' %}
 {% set active_page = 'charts' %}
 
@@ -32,6 +33,7 @@
                         <tr>
                             <th>Author Name</th>
                             <th>Document Title</th>
+                            <th>Read me</th>
                             <th>Remove</th>
                         </tr>
                         </thead>
@@ -45,7 +47,8 @@
                             <input type="checkbox" value="pca"> With PCA
                         </label>
                     </div>
-                    <button type="button" class="btn btn-success btn-md" id="compare" onclick="get_csv_by_doc_list()">Compare
+                    <button type="button" class="btn btn-success btn-md" id="compare" onclick="get_csv_by_doc_list()">
+                        Compare
                     </button>
                 </div>
             </form>
@@ -95,6 +98,17 @@
 {% endblock %}
 
 {% block external_js %}
+    <!-- Highcharts JavaScript -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+        function get_modal_html_block(doc_id, doc_title){
+            return '{{ show_modal('doc_id', 'doc_title') }}';
+        }
+    </script>
+
     <script src="{{ url_for('static', filename='js/chart_external_js_func/plot_3D_graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chart_external_js_func/chart_external.js') }}"></script>
 {% endblock %}

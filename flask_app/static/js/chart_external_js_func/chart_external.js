@@ -26,6 +26,15 @@ function add_a_row(author, doc) {
             .append($("<td></td>")
                 .html(doc.html()))
             .append($("<td></td>")
+                .append($("<button></button>")
+                    .attr("type", "button")
+                    .attr("class", "btn btn-success")
+                    .attr("data-toggle", "modal")
+                    .attr("data-target", "#doc_" + doc.val())
+                    .attr("onclick", "get_content_by_id(" + doc.val() + ")")
+                    .append($("<span></span>")
+                        .attr("class", "glyphicon glyphicon-folder-open"))))
+            .append($("<td></td>")
                 .append($("<input checked/>")
                     .attr("type", "checkbox")
                     .attr("class", "doc_list")
@@ -46,29 +55,29 @@ function remove_row_from_table(doc_id) {
     check_confirm_table()
 }
 
-function check_confirm_table(){
+function check_confirm_table() {
     var tds = $("#confirm_table").children("tbody").children("tr").length;
 
-    if (tds == 0){
+    if (tds == 0) {
         $("#warning_banner").hide();
         $("#display_doc_form").hide();
         $("#author_doc_form").show();
         return true;
     }
 
-    if (tds == 1){
+    if (tds == 1) {
         $("#warning_banner").show();
         $("#author_doc_form").show();
         $("#display_form_confirm").hide();
         return true;
     }
 
-    if (tds == 3){
+    if (tds == 3) {
         $("#warning_banner i").text("The system at most supports the comparison of 3 documents");
         $("#warning_banner").show();
         $("#author_doc_form").hide();
     }
-    else{
+    else {
         $("#warning_banner").hide();
         $("#author_doc_form").show();
     }
@@ -94,7 +103,7 @@ function add_options(id, key, val) {
             .html(val));
 }
 
-function get_csv_by_doc_list(){
+function get_csv_by_doc_list() {
 
     $("#author_doc_form").hide();
 
@@ -104,7 +113,7 @@ function get_csv_by_doc_list(){
         data: $(".doc_list:checked").serialize(),
         cache: false,
         dataType: "text",
-        success: function(result){
+        success: function (result) {
             var val = result.split("\n");
             var line = ""
             var data_arr = []

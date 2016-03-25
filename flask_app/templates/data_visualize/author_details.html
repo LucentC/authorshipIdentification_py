@@ -1,3 +1,4 @@
+{% from 'macros/show_modal.html' import show_modal %}
 {% extends 'template.html' %}
 {% set active_page = 'details' %}
 
@@ -31,26 +32,7 @@
                                                 onclick="get_content_by_id({{ row['doc_id'] }})">Click me
                                         </button>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="doc_{{ row['doc_id'] }}" role="dialog">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close"
-                                                                data-dismiss="modal">&times;</button>
-                                                        <h4 class="modal-title">{{ row['doc_title'] }}</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <pre id="pre_{{ row['doc_id'] }}"></pre>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {{ show_modal(row['doc_id'], row['doc_title']) }}
 
                                     </td>
                                 </tr>
@@ -68,16 +50,5 @@
 {% endblock %}
 
 {% block external_js %}
-    <script>
-        function get_content_by_id(doc_id){
-            $.ajax({
-                type: "POST",
-                url: "/doccontent",
-                data: "doc_id=" + doc_id,
-                success: function(result){
-                    $("#pre_" + doc_id).text(result);
-                }
-            });
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/get_doc_content.js') }}"></script>
 {% endblock %}
