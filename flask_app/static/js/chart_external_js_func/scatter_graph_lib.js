@@ -1,10 +1,4 @@
-function draw3dGraph(dataPoints) {
-
-    var view = $("#viewSelect").val();
-    var is3D = true;
-    if (view=="ss")
-            is3D = true;
-    else is3D = false;
+function draw3dGraph(dataPoints, is3D, view) {
 
     Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
         return {
@@ -21,10 +15,10 @@ function draw3dGraph(dataPoints) {
         };
     });
 
-  var dPoint = [];
+    var dPoint = [];
 
 
-    for (var i=0; i<dataPoints.length; i++) {
+    for (var i = 0; i < dataPoints.length; i++) {
         var ncolor = '#000';
         if (dataPoints[i][3] == 1)
             ncolor = '#000';
@@ -33,14 +27,34 @@ function draw3dGraph(dataPoints) {
         else
             ncolor = '#CB3';
 
-         if (view=="s1")
-             dPoint[dPoint.length] = {x: dataPoints[i][0], y: Number(dataPoints[i][1]), z: dataPoints[i][2], color: ncolor};
-         else if (view=="s2")
-             dPoint[dPoint.length] = {x: dataPoints[i][1], y: Number(dataPoints[i][2]), z: dataPoints[i][0], color: ncolor};
-         else if (view=="s3")
-             dPoint[dPoint.length] = {x: dataPoints[i][2], y: Number(dataPoints[i][0]), z:dataPoints[i][1] , color: ncolor};
-         else
-            dPoint[dPoint.length] = {x: dataPoints[i][0], y: Number(dataPoints[i][1]), z: dataPoints[i][2], color: ncolor};
+        if (view == "s1")
+            dPoint[dPoint.length] = {
+                x: dataPoints[i][0],
+                y: Number(dataPoints[i][1]),
+                z: dataPoints[i][2],
+                color: ncolor
+            };
+        else if (view == "s2")
+            dPoint[dPoint.length] = {
+                x: dataPoints[i][1],
+                y: Number(dataPoints[i][2]),
+                z: dataPoints[i][0],
+                color: ncolor
+            };
+        else if (view == "s3")
+            dPoint[dPoint.length] = {
+                x: dataPoints[i][2],
+                y: Number(dataPoints[i][0]),
+                z: dataPoints[i][1],
+                color: ncolor
+            };
+        else
+            dPoint[dPoint.length] = {
+                x: dataPoints[i][0],
+                y: Number(dataPoints[i][1]),
+                z: dataPoints[i][2],
+                color: ncolor
+            };
 
     }
 
@@ -53,18 +67,18 @@ function draw3dGraph(dataPoints) {
                 enabled: is3D,
                 alpha: 10,
                 beta: 30,
-                depth: 250,
+                depth: 500,
                 viewDistance: 5,
 
                 frame: {
-                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
-                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
-                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                    bottom: {size: 1, color: 'rgba(0,0,0,0.02)'},
+                    back: {size: 1, color: 'rgba(0,0,0,0.04)'},
+                    side: {size: 1, color: 'rgba(0,0,0,0.06)'}
                 }
             }
         },
         title: {
-            text: 'Draggable box'
+            text: 'Stylometric Value Visualization'
         },
         subtitle: {
             text: 'Click and drag the plot area to rotate in space'
@@ -131,22 +145,4 @@ function draw3dGraph(dataPoints) {
     });
 
 }
-//
-//$("#driver").click(function () {
-//    $.ajax({
-//        type: "GET",
-//        url: "/getcsv",
-//        cache: false,
-//        dataType: "text",
-//        success: function (result) {
-//            var val = result.split("\n");
-//            var line = ""
-//            var data_arr = []
-//            for (var i = 0; i < val.length - 1; i++) {
-//                line = val[i].split(",");
-//                data_arr.push(new Array(parseFloat(line[0]), parseFloat(line[1]), parseFloat(line[2]), parseFloat(line[3])));
-//            }
-//            draw3dGraph(data_arr)
-//        }
-//    });
-//});
+

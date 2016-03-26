@@ -17,6 +17,7 @@ function add_rows_to_table() {
     hide_author_doc_elements();
 }
 
+
 function add_a_row(author, doc) {
     $("#confirm_table > tbody")
         .append($("<tr></tr>")
@@ -50,10 +51,12 @@ function add_a_row(author, doc) {
                 )));
 }
 
+
 function remove_row_from_table(doc_id) {
     $("#" + doc_id).remove();
     check_confirm_table()
 }
+
 
 function check_confirm_table() {
     var tds = $("#confirm_table").children("tbody").children("tr").length;
@@ -86,44 +89,24 @@ function check_confirm_table() {
     return true;
 }
 
+
 function hide_author_doc_elements() {
     $("#document_form").hide();
     $("#submit").hide();
 }
+
 
 function show_author_doc_elements() {
     $("#document_form").show();
     $("#submit").show();
 }
 
+
 function add_options(id, key, val) {
     $("#" + id)
         .append($("<option></option>")
             .val(key)
             .html(val));
-}
-
-function get_csv_by_doc_list() {
-
-    $("#author_doc_form").hide();
-
-    $.ajax({
-        type: "POST",
-        url: "/getcsv",
-        data: $(".doc_list:checked").serialize(),
-        cache: false,
-        dataType: "text",
-        success: function (result) {
-            var val = result.split("\n");
-            var line = ""
-            var data_arr = []
-            for (var i = 0; i < val.length - 1; i++) {
-                line = val[i].split(",");
-                data_arr.push(new Array(parseFloat(line[0]), parseFloat(line[1]), parseFloat(line[2]), parseFloat(line[3])));
-            }
-            draw3dGraph(data_arr)
-        }
-    });
 }
 
 

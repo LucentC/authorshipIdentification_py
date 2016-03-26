@@ -69,9 +69,7 @@ def get_doc_content():
     except ValueError:
         abort(403)
 
-    print type(data_warehouse.get_doc_content_by_id(doc_id))
-    output = make_response(data_warehouse.get_doc_content_by_id(doc_id))
-    return 'Hello'
+    return jsonify(dict(data_warehouse.get_doc_content_by_id(doc_id)))
 
 
 @app.route('/upload')
@@ -97,10 +95,6 @@ def get_chars():
 
 @app.route('/getdoclist', methods=['POST'])
 def return_doc_list():
-    """
-        Get list of document by author id
-        used in chart_external.js
-    """
     if request.method != 'POST':
         abort(403)
 
@@ -122,7 +116,6 @@ def get_csv():
     doc_id_list = request.form.getlist('doc_list')
 
     for idx in range(0, len(doc_id_list)):
-        print idx
         features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
         feature_list.extend(features)
         author_list.extend([idx for x in range(len(features))])
