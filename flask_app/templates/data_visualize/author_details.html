@@ -28,12 +28,9 @@
                                     <td>{{ row['year_of_pub'] }}</td>
                                     <td>
                                         <button type="button" class="btn btn-success" data-toggle="modal"
-                                                data-target="#doc_{{ row['doc_id'] }}"
+                                                data-target="#doc_modal"
                                                 onclick="get_content_by_id({{ row['doc_id'] }})">Click me
                                         </button>
-
-                                        {{ show_modal(row['doc_id'], row['doc_title']) }}
-
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -47,6 +44,8 @@
             </div>
         </div>
     </div>
+
+    {{ show_modal() }}
 {% endblock %}
 
 {% block external_js %}

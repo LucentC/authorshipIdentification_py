@@ -4,7 +4,7 @@ function get_content_by_id(doc_id) {
         url: "/doccontent",
         data: "doc_id=" + doc_id,
         success: function (result) {
-            $("#pre_" + doc_id).text(result);
+            $("#pre_tag").text(result);
         }
     });
 }

@@ -30,7 +30,7 @@ function add_a_row(author, doc) {
                     .attr("type", "button")
                     .attr("class", "btn btn-success")
                     .attr("data-toggle", "modal")
-                    .attr("data-target", "#doc_" + doc.val())
+                    .attr("data-target", "#doc_modal")
                     .attr("onclick", "get_content_by_id(" + doc.val() + ")")
                     .append($("<span></span>")
                         .attr("class", "glyphicon glyphicon-folder-open"))))
