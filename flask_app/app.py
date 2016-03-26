@@ -69,9 +69,9 @@ def get_doc_content():
     except ValueError:
         abort(403)
 
+    print type(data_warehouse.get_doc_content_by_id(doc_id))
     output = make_response(data_warehouse.get_doc_content_by_id(doc_id))
-    output.headers['Content-type'] = 'text/plaintext'
-    return output
+    return 'Hello'
 
 
 @app.route('/upload')
@@ -97,6 +97,10 @@ def get_chars():
 
 @app.route('/getdoclist', methods=['POST'])
 def return_doc_list():
+    """
+        Get list of document by author id
+        used in chart_external.js
+    """
     if request.method != 'POST':
         abort(403)
 

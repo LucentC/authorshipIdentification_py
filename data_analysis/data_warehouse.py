@@ -93,5 +93,5 @@ def get_all_docs_by_author_id(author_id):
 def get_doc_content_by_id(doc_id):
     if type(doc_id) is not int:
         return -1
-    SQL_SELECT_QUERY = "SELECT doc_content FROM document WHERE doc_id = {};".format(doc_id)
-    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['doc_content']
+    SQL_SELECT_QUERY = "SELECT doc_title, doc_content FROM document WHERE doc_id = {};".format(doc_id)
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]
