@@ -1,4 +1,4 @@
-import time
+import sys
 from database import connect_to_database
 from database import feature_queries_preprocessing
 from db_schema_classes.chapter import Chapter
@@ -17,17 +17,16 @@ def read_paragraphs_and_split(doc):
     print 'finished dumping a novel'
 
 
-"""
-    A list of lists is returned and stored in the variable 'results'.
-    Use the database column-name 'doc_content' to reference the content.
+def read_file_and_get_doc_list(path):
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
-    Visit connect_to_database.py for more details.
-"""
-start_time = time.time()
-SQL_INSERT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document WHERE author_id BETWEEN 1 AND 10;"
-results = connect_to_database.execute_select_query(SQL_INSERT_QUERY)
-for result in results:
-    read_paragraphs_and_split(Document(result['doc_id'], result['author_id'],
-                                       result['doc_title'].decode('utf-8', 'ignore'),
-                                       result['doc_content'].decode('utf-8', 'ignore')))
-print "--- {} seconds ---".format(time.time() - start_time)
+    with open(path, 'r') as doc_file:
+        content = doc_file.read()
+
+    doc_list = []
+    doc = Document(-1, -1, 'qp', 'qp', 'qp', content, 'qp')
+    for para in doc.get_doc_paragraphs():
+         doc_list.append(Paragraph(-1, para).get_stylo_list())
+
+    return doc_list

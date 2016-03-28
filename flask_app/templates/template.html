@@ -75,6 +75,8 @@
 
         <div class="container-fluid">
 
+            <div id="fill">
+
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
@@ -97,12 +99,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <!--<h2 class="page-header">{{ title }}</h2>-->
-                    <p class="lead">{{ content }}</p>
+                    <p id="header_text" class="lead">{{ content }}</p>
                 </div>
             </div>
             <!-- /.row -->
 
             {% block body %} {% endblock %}
+
+            </div>
 
         </div>
 

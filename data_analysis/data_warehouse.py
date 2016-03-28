@@ -70,7 +70,7 @@ def get_author_name_by_id(author_id):
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['author_name']
 
 
-def get_author_id_and_name():
+def get_all_author_id_and_name():
     SQL_SELECT_QUERY = "SELECT author_id, author_name FROM author;"
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
 
@@ -95,3 +95,10 @@ def get_doc_content_by_id(doc_id):
         return -1
     SQL_SELECT_QUERY = "SELECT doc_title, doc_content FROM document WHERE doc_id = {};".format(doc_id)
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]
+
+
+def get_author_details_and_doc_list_in_fact():
+    SQL_SELECT_QUERY = "SELECT a.author_id, a.author_name, d.doc_id FROM author a " \
+                       "FULL OUTER JOIN document d ON a.author_id = d.author_id WHERE d.doc_id IN " \
+                       "(SELECT DISTINCT(doc_id) FROM fact ORDER BY doc_id) ORDER BY a.author_id, d.doc_id;"
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)

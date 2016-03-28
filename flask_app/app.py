@@ -1,4 +1,6 @@
+import os
 import csv
+import time
 from StringIO import StringIO
 from flask import Flask
 from flask import render_template, make_response, request, Markup, jsonify
@@ -6,6 +8,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import abort
 from data_analysis import data_warehouse
 from data_analysis import data_to_csv
+from data_etl import plaintext_data_etl
 
 app = Flask(__name__)
 
@@ -36,7 +39,7 @@ def get_author_details():
                                    title='Select an author',
                                    content=u'Select an author in the following list and the system will display the '
                                            u'details of that author you selected',
-                                   authors_list=data_warehouse.get_author_id_and_name()
+                                   authors_list=data_warehouse.get_all_author_id_and_name()
                                    )
 
     if request.method == 'POST':
@@ -84,12 +87,40 @@ def upload_file():
                            )
 
 
+@app.route('/knnstatics', methods=['POST'])
+def get_knn_statics():
+    if request.method != 'POST':
+        abort(403)
+
+    prefix_path = '/tmp/stylometric_app/knn_upload/'
+
+    f = request.files['file']
+    path = os.path.join(prefix_path, secure_filename(f.filename))
+    f.save(path)
+
+    if not os.path.exists(path):
+        abort(403)
+
+    qp = plaintext_data_etl.read_file_and_get_doc_list(path)
+
+    author_hash = [dict(item) for item in data_warehouse.get_all_author_id_and_name()]
+    for item in author_hash:
+        print item
+    author_list = [dict(item) for item in data_warehouse.get_author_details_and_doc_list_in_fact()]
+    return 'Hello'
+
+
 @app.route('/charts')
 def get_chars():
     return render_template('data_visualize/charts.html',
                            title='Charts',
-                           content='TBC',
-                           authors_list=data_warehouse.get_author_id_and_name()
+                           content=Markup(u'In this page, you can compare the writing styles of <strong>at most 3 '
+                                          u'documents</strong> in terms of stylometric features. Firstly, you need to '
+                                          u'select an author from the drop-down list. Afterwards, another drop-down '
+                                          u'list is shown for you to select the document. Finally, click the button '
+                                          u'<mark>Add to Table</mark> to add the document into the cache. You will '
+                                          u'need to repeat the steps until there are at least 2 documents.'),
+                           authors_list=data_warehouse.get_all_author_id_and_name()
                            )
 
 
@@ -127,14 +158,6 @@ def get_csv():
     output = make_response(string_io.getvalue())
     output.headers['Content-type'] = 'text/plaintext'
     return output
-
-
-@app.route('/uploadhandler', methods=['GET', 'POST'])
-def upload_handler():
-    if request.method == 'POST':
-        f = request.files['file']
-        f.save(secure_filename(f.filename))
-        return 'file uploaded successfully'
 
 
 @app.errorhandler(403)
