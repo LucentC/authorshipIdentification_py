@@ -1,7 +1,7 @@
 import time
 from database import connect_to_database
 from data_etl import plaintext_data_etl
-from db_schema_classes.document import Document
+from data_etl.db_schema_classes.document import Document
 
 
 """

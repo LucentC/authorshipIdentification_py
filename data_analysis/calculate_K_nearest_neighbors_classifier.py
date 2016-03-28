@@ -4,7 +4,7 @@ import modified_hausdorff_distance as MHD
 
 
 def get_knn_classifier_with_eucli(data, label):
-    neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(y)), metric='euclidean')
+    neigh = KNeighborsClassifier(algorithm='brute', n_neighbors=len(set(label)), metric='euclidean')
     return neigh.fit(data, label)
 
 
@@ -25,7 +25,7 @@ def get_query_points_probabilistic(feature_list, author_list, qp):
         To be more accurate, it is a list to indicate which author writes
         'that' paragraph.
     """
-    neigh = get_knn_classifier_cross_validation(feature_list, author_list)
+    neigh = get_knn_classifier_with_eucli(feature_list, author_list)
     return neigh.predict_proba(qp)
 
 

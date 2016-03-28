@@ -103,10 +103,10 @@ def get_knn_statics():
 
     qp = plaintext_data_etl.read_file_and_get_doc_list(path)
 
-    author_hash = [dict(item) for item in data_warehouse.get_all_author_id_and_name()]
-    for item in author_hash:
+    author_hash = dict([(row['author_id'], row['author_name']) for row in data_warehouse.get_all_author_id_and_name()])
+    docs_in_fact = [dict(item) for item in data_warehouse.get_author_details_and_doc_list_in_fact()]
+    for item in docs_in_fact:
         print item
-    author_list = [dict(item) for item in data_warehouse.get_author_details_and_doc_list_in_fact()]
     return 'Hello'
 
 
