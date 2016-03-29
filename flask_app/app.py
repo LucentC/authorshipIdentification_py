@@ -106,15 +106,24 @@ def get_knn_statics():
 
     author_hash = dict([(row['author_id'], row['author_name']) for row in data_warehouse.get_all_author_id_and_name()])
     feature_list, author_list = data_warehouse.get_all_features_from_database_fact()
-    cknn.get_query_set_probabilistic(feature_list, author_list, qp)
-    return 'Hello'
+
+    if len(feature_list) != len(author_list):
+        abort(403)
+
+    results = []
+    knn_proba = cknn.get_query_set_probabilistic(feature_list, author_list, qp)
+
+    for idx in range(len(author_list)):
+        results.append((author_hash.get(author_list[idx]), knn_proba[idx]))
+
+    return jsonify(dict(results))
 
 
 @app.route('/charts')
 def get_chars():
     return render_template('data_visualize/charts.html',
                            title='Charts',
-                           content=Markup(u'In this page, you can compare the writing styles of <strong>at most 3 '
+                           content=Markup(u'Icknnn this page, you can compare the writing styles of <strong>at most 3 '
                                           u'documents</strong> in terms of stylometric features. Firstly, you need to '
                                           u'select an author from the drop-down list. Afterwards, another drop-down '
                                           u'list is shown for you to select the document. Finally, click the button '
