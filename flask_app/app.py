@@ -9,6 +9,7 @@ from werkzeug.exceptions import abort
 from data_analysis import data_warehouse
 from data_analysis import data_to_csv
 from data_etl import plaintext_data_etl
+from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
 
 app = Flask(__name__)
 
@@ -104,9 +105,8 @@ def get_knn_statics():
     qp = plaintext_data_etl.read_file_and_get_doc_list(path)
 
     author_hash = dict([(row['author_id'], row['author_name']) for row in data_warehouse.get_all_author_id_and_name()])
-    docs_in_fact = [dict(item) for item in data_warehouse.get_author_details_and_doc_list_in_fact()]
-    for item in docs_in_fact:
-        print item
+    feature_list, author_list = data_warehouse.get_all_features_from_database_fact()
+    cknn.get_query_set_probabilistic(feature_list, author_list, qp)
     return 'Hello'
 
 

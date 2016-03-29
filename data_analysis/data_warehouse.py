@@ -15,6 +15,32 @@ def get_features_from_database_by_doc_id(doc_id):
     return [rows[x:x + 57] for x in xrange(0, len(rows), 57)]
 
 
+def get_all_features_from_database_fact():
+    SQL_SELECT_QUERY = "SELECT d.author_id, f.doc_id, f.para_id, f.feature_value FROM fact f INNER JOIN document d ON " \
+                       "f.doc_id = d.doc_id ORDER BY d.author_id, f.doc_id, f.para_id, f.feature_id;"
+
+    previous_paraId = -1
+    feature_list = []
+    author_list = []
+    temp = []
+
+    for row in connect_to_database.execute_select_query(SQL_SELECT_QUERY):
+
+        if previous_paraId != row['para_id']:
+
+            # if it is not the first loop
+            if previous_paraId != -1:
+                feature_list.append(temp)
+                author_list.append(row['author_id'])
+                temp = []
+
+            previous_paraId = row['para_id']
+
+        temp.append(row['feature_value'])
+
+    return feature_list, author_list
+
+
 def get_all_doc_id_in_paragraph():
     SELECT_QUERY = "SELECT DISTINCT doc_id FROM paragraph ORDER BY doc_id;"
     rows = connect_to_database.execute_select_query(SELECT_QUERY)
