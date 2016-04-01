@@ -154,9 +154,17 @@
                     $("#spinning").spin("large");
                 })
 
-                this.on("success", function (file, response) {
+                this.on("success", function (file, result) {
                     $("#spinning").spin(false);
-                    alert(response);
+
+                    $.each(result, function (key, val) {
+                       $("#result_table > tbody")
+                           .append($("<tr></tr>")
+                               .append($("<td></td>").html(key))
+                               .append($("<td></td>").html(val * 100 + "%")));
+                    });
+
+                    $("#result").show();
                 });
                 return noop;
             },

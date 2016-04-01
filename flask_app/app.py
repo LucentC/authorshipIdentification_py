@@ -113,8 +113,13 @@ def get_knn_statics():
     results = []
     knn_proba = cknn.get_query_set_probabilistic(feature_list, author_list, qp)
 
-    for idx in range(len(author_list)):
-        results.append((author_hash.get(author_list[idx]), knn_proba[idx]))
+    authors = list(set(author_list))
+
+    if len(knn_proba) != len(authors):
+        abort(403)
+
+    for idx in range(len(set(authors))):
+        results.append((author_hash.get(authors[idx]), knn_proba[idx]))
 
     return jsonify(dict(results))
 
@@ -123,7 +128,7 @@ def get_knn_statics():
 def get_chars():
     return render_template('data_visualize/charts.html',
                            title='Charts',
-                           content=Markup(u'Icknnn this page, you can compare the writing styles of <strong>at most 3 '
+                           content=Markup(u'In this page, you can compare the writing styles of <strong>at most 3 '
                                           u'documents</strong> in terms of stylometric features. Firstly, you need to '
                                           u'select an author from the drop-down list. Afterwards, another drop-down '
                                           u'list is shown for you to select the document. Finally, click the button '
@@ -169,11 +174,18 @@ def get_csv():
     return output
 
 
+@app.route('/selffunc')
+def running_self_defined_distance():
+    return render_template('data_visualize/selfdistance.html',
+                           title='Run Self-defined Distance',
+                           content='TBC')
+
+
 @app.errorhandler(403)
 def return_403_forbidden(e):
     return render_template('errorhandler/403.html',
                            title='403 Forbidden',
-                           contene='Bring it on!')
+                           content='Bring it on!')
 
 
 if __name__ == '__main__':

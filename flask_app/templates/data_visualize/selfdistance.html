@@ -1,0 +1,35 @@
+{% extends 'template.html' %}
+{% set active_page = 'selffunc' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block self_style %}
+    <style>
+        #code, pre {
+            color: #444;
+            font-family: "Consolas", "Lucida Console", "Monaco", monospace;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-9">
+            <form>
+                    <textarea id="code" cols="40" rows="10">import turtle
+
+                    t = turtle.Turtle()
+                    t.forward(100)
+
+                    print "Hello World"
+                    </textarea><br/>
+                <button type="button" onclick="runit()">Run</button>
+            </form>
+            <pre id="output"></pre>
+            <!-- If you want turtle graphics include a canvas -->
+            <div id="mycanvas"></div>
+        </div>
+    </div>
+
+{% endblock %}
