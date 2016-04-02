@@ -177,7 +177,7 @@ def get_csv():
 @app.route('/selffunc')
 def running_self_defined_distance():
     return render_template('data_visualize/selfdistance.html',
-                           title='Run Self-defined Distance',
+                           title='Self-defined Distance',
                            content='TBC')
 
 
