@@ -1,4 +1,5 @@
 {% from 'macros/show_modal.html' import show_modal %}
+{% from 'macros/select_authors_and_docs.html' import select_authors_and_docs %}
 {% extends 'template.html' %}
 {% set active_page = 'charts' %}
 
@@ -17,67 +18,7 @@
 
 {% block body %}
 
-    <div class="row" id="warning_banner" style="display: none">
-        <div class="alert alert-warning col-lg-9">
-            <strong>Warning! </strong>
-            <i>At least 2 documents must be chosen for comparison.</i>
-        </div>
-    </div>
-
-    <div class="row" id="display_doc_form" style="display: none;">
-        <div class="col-lg-9">
-            <form class="margin-bottom-40" role="form">
-                <div class="form-group">
-                    <table class="table table-striped" id="confirm_table">
-                        <thead>
-                        <tr>
-                            <th>Author Name</th>
-                            <th>Document Title</th>
-                            <th>Read me</th>
-                            <th>Remove</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!-- Table content is to be inserted by JQuery -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="form-group" id="display_form_confirm" style="display: none;">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="pca"> With PCA
-                        </label>
-                    </div>
-                    <button type="button" class="btn btn-success btn-md" id="compare" onclick="get_csv_by_doc_list()">
-                        Compare
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="row" id="author_doc_form">
-        <div class="col-lg-9">
-            <form class="margin-bottom-40" role="form">
-                <div class="form-group" id="author_form">
-                    <label>Select author (select one):</label>
-                    <select class="form-control" name="author_select" id="author_select">
-                        <option value="" selected>-- Choose an author from the list --</option>
-                        {% for row in authors_list %}
-                            <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group" id="document_form" style="display: none;">
-                    <label>Select a document written by this author:</label>
-                    <select class="form-control" name="doc_select" id="doc_select"></select>
-                </div>
-                <button type="button" class="btn btn-primary btn-md" style="display: none;" id="submit"
-                        onclick="add_rows_to_table()">Add to table
-                </button>
-            </form>
-        </div>
-    </div>
+    {{ select_authors_and_docs(authors_list) }}
 
     <div id="dimenison_select" class="row form-group" style="display: none;">
         <div class="col-lg-1">

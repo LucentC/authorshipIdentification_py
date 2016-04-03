@@ -1,3 +1,4 @@
+{% from 'macros/select_authors_and_docs.html' import select_authors_and_docs %}
 {% extends 'template.html' %}
 {% set active_page = 'selffunc' %}
 
@@ -13,6 +14,8 @@
 {% endblock %}
 
 {% block body %}
+
+    {{ select_authors_and_docs(authors_list) }}
 
     <div class="row" id="error_message" style="display: none">
         <div class="alert alert-danger col-lg-9">
@@ -43,5 +46,6 @@
     <script src="{{ url_for('static', filename='js/selfdistance_external_js_func/create_editor.js') }}"></script>
     <script src="http://www.skulpt.org/static/skulpt.min.js" type="text/javascript"></script>
     <script src="http://www.skulpt.org/static/skulpt-stdlib.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/chart_external_js_func/chart_external.js') }}"></script>
     <script src="{{ url_for('static', filename='js/selfdistance_external_js_func/execute_python.js') }}"></script>
 {% endblock %}

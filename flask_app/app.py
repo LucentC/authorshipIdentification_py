@@ -178,7 +178,9 @@ def get_csv():
 def running_self_defined_distance():
     return render_template('data_visualize/selfdistance.html',
                            title='Self-defined Distance',
-                           content='TBC')
+                           content='TBC',
+                           authors_list=data_warehouse.get_all_author_id_and_name()
+                           )
 
 
 @app.errorhandler(403)
