@@ -13,6 +13,24 @@
             max-width: 800px;
             margin: 0 auto;
         }
+
+        #sortable1, #sortable2, #x-axis, #y-axis, #z-axis {
+            border: 1px solid #eee;
+            width: 142px;
+            min-height: 20px;
+            list-style-type: none;
+            margin: 0;
+            padding: 5px 0 0 0;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #sortable1 li, #sortable2 li {
+            margin: 0 5px 5px 5px;
+            padding: 5px;
+            font-size: 1.2em;
+            width: 120px;
+        }
     </style>
 {% endblock %}
 
@@ -37,6 +55,41 @@
         </div>
     </div>
 
+    <div id="dimension_drag_and_drop" class="row">
+        <div class="col-lg-2 list">
+            <h3>x-axis</h3>
+            <ul id="x-axis" class="connectedSortable">
+                <li id="f1" class="ui-state-default">Feature 1</li>
+            </ul>
+        </div>
+
+        <div class="col-lg-2 list">
+            <h3>y-axis</h3>
+            <ul id="y-axis" class="connectedSortable">
+                <li id="f2" class="ui-state-default">Feature 2</li>
+            </ul>
+        </div>
+
+        <div class="col-lg-2 list">
+            <h3>z-axis</h3>
+            <ul id="z-axis" class="connectedSortable">
+                <li id="f3" class="ui-state-default">Feature 3</li>
+            </ul>
+        </div>
+
+        <div class="list">
+            <h3>Feature List</h3>
+            <ul id="sortable1" class="connectedSortable">
+                <li id="f4" class="ui-state-default">Feature 4</li>
+                <li id="f5" class="ui-state-default">Feature 5</li>
+                <li id="f6" class="ui-state-default">Feature 6</li>
+                <li id="f7" class="ui-state-default">Feature 7</li>
+                <li id="f8" class="ui-state-default">Feature 8</li>
+            </ul>
+    </div>
+
+    </div>
+
     {{ show_modal() }}
 
 {% endblock %}
@@ -46,8 +99,11 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="{{ url_for('static', filename='js/chart_external_js_func/scatter_graph_lib.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chart_external_js_func/chart_external.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chart_external_js_func/chart_external_all_features.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chart_external_js_func/draw_graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/get_doc_content.js') }}"></script>
 {% endblock %}
