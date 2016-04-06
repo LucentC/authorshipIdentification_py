@@ -159,7 +159,6 @@ def get_csv():
     feature_list = []
 
     doc_id_list = request.form.getlist('doc_list')
-    print doc_id_list
 
     for idx in range(0, len(doc_id_list)):
         features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
