@@ -159,6 +159,28 @@ def get_csv():
     feature_list = []
 
     doc_id_list = request.form.getlist('doc_list')
+    print doc_id_list
+
+    for idx in range(0, len(doc_id_list)):
+        features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
+        feature_list.extend(features)
+        author_list.extend([idx for x in range(len(features))])
+
+    string_io = StringIO()
+    cw = csv.writer(string_io)
+    cw.writerows(data_to_csv.get_output_lists_for_csv_after_3d_pca(author_list, feature_list))
+
+    output = make_response(string_io.getvalue())
+    output.headers['Content-type'] = 'text/plaintext'
+    return output
+
+
+@app.route('/getcsvall', methods=['POST'])
+def get_csv_of_all_features():
+    author_list = []
+    feature_list = []
+
+    doc_id_list = request.form.getlist('doc_list')
 
     for idx in range(0, len(doc_id_list)):
         features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])

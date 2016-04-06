@@ -18,37 +18,50 @@ function add_rows_to_table() {
 }
 
 
+//function add_a_row(author, doc) {
+//    $("#confirm_table > tbody")
+//        .append($("<tr></tr>")
+//            .attr("id", "doc_" + doc.val())
+//            .append($("<td></td>")
+//                .html(author.html()))
+//            .append($("<td></td>")
+//                .html(doc.html()))
+//            .append($("<td></td>")
+//                .append($("<button></button>")
+//                    .attr("type", "button")
+//                    .attr("class", "btn btn-success")
+//                    .attr("data-toggle", "modal")
+//                    .attr("data-target", "#doc_modal")
+//                    .attr("onclick", "get_content_by_id(" + doc.val() + ")")
+//                    .append($("<span></span>")
+//                        .attr("class", "glyphicon glyphicon-folder-open"))))
+//            .append($("<td></td>")
+//                .append($("<input checked/>")
+//                    .attr("type", "checkbox")
+//                    .attr("class", "doc_list")
+//                    .attr("name", "doc_list")
+//                    .attr("value", doc.val())
+//                    .attr("style", "display: none;"))
+//                .append($("<button></button>")
+//                    .attr("type", "button")
+//                    .attr("class", "btn btn-warning")
+//                    .attr("onclick", "remove_row_from_table(\"doc_" + doc.val() + "\")")
+//                    .append($("<span></span>")
+//                        .attr("class", "glyphicon glyphicon-trash"))
+//                )));
+//}
+
 function add_a_row(author, doc) {
-    $("#confirm_table > tbody")
-        .append($("<tr></tr>")
-            .attr("id", "doc_" + doc.val())
-            .append($("<td></td>")
-                .html(author.html()))
-            .append($("<td></td>")
-                .html(doc.html()))
-            .append($("<td></td>")
-                .append($("<button></button>")
-                    .attr("type", "button")
-                    .attr("class", "btn btn-success")
-                    .attr("data-toggle", "modal")
-                    .attr("data-target", "#doc_modal")
-                    .attr("onclick", "get_content_by_id(" + doc.val() + ")")
-                    .append($("<span></span>")
-                        .attr("class", "glyphicon glyphicon-folder-open"))))
-            .append($("<td></td>")
-                .append($("<input checked/>")
-                    .attr("type", "checkbox")
-                    .attr("class", "doc_list")
-                    .attr("name", "doc_list")
-                    .attr("value", doc.val())
-                    .attr("style", "display: none;"))
-                .append($("<button></button>")
-                    .attr("type", "button")
-                    .attr("class", "btn btn-warning")
-                    .attr("onclick", "remove_row_from_table(\"doc_" + doc.val() + "\")")
-                    .append($("<span></span>")
-                        .attr("class", "glyphicon glyphicon-trash"))
-                )));
+    if ("content" in document.createElement("template")) {
+        var t = document.querySelector("#author_docs");
+        td = t.content.querySelectorAll("td");
+        td[0].textContent = author.html();
+        td[1].textContent = doc.html();
+
+        var tb = document.getElementsByTagName("tbody");
+        var clone = document.importNode(t.content, true);
+        tb[0].appendChild(clone);
+    }
 }
 
 

@@ -18,7 +18,7 @@ function get_csv_by_doc_list() {
                 line = val[i].split(",");
                 data_arr.push(new Array(parseFloat(line[0]), parseFloat(line[1]), parseFloat(line[2]), parseFloat(line[3])));
             }
-
+            console.log(data_arr);
             draw3dGraph(data_arr, true, "ss");
 
             $("#dimenison_select").show();

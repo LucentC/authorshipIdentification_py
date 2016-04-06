@@ -1,8 +1,9 @@
-function get_content_by_id(doc_id) {
+function get_content_by_id(e) {
+
     $.ajax({
         type: "POST",
         url: "/doccontent",
-        data: "doc_id=" + doc_id,
+        data: "doc_id=" + $(e.target).data("id"),
         success: function (result) {
 
             $.each(result, function(key, value){

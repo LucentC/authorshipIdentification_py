@@ -60,4 +60,20 @@
             </form>
         </div>
     </div>
+
+    <template id="author_docs">
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <button type="button" class="btn btn-success" data-id="" data-toggle="modal" data-target="#doc_modal"
+                        onclick="get_content_by_id(event)"><span class="glyphicon glyphicon-folder-open"></span></button>
+            </td>
+            <td>
+                <input checked="" type="checkbox" class="doc_list" name="doc_list" value="408" style="display: none;">
+                <button type="button" class="btn btn-warning"
+                        onclick="remove_row_from_table()"><span class="glyphicon glyphicon-trash"></span></button>
+            </td>
+        </tr>
+    </template>
 {%- endmacro %}
