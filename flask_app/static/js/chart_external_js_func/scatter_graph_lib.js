@@ -1,62 +1,91 @@
-function draw3dGraph(dataPoints, is3D, view) {
+function craft_series_json(data_arr, view) {
+    /*
+     data_arr is a 2d array with the following format
+     x-axis, y-axis, z-axis, doc_id
+     */
 
-    Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
-        return {
-            radialGradient: {
-                cx: 0.4,
-                cy: 0.3,
-                r: 0.5
+    var config = [],        // Highchart series config
+        doc_id = -1,        // Initialize doc_id
+        dataPoints = [];
 
-            },
-            stops: [
-                [0, color],
-                [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
-            ]
-        };
-    });
+    for (var i = 0; i < data_arr.length; i++) {
 
+        if (doc_id != data_arr[i][3] || i == (data_arr.length - 1)) { // craft object if doc_id != previous one or end of loop
+
+            if (doc_id != -1) {
+                config[config.length] = {
+                    name: doc_id,
+                    data: change_direction(dataPoints, view)
+                }
+            }
+
+            doc_id = data_arr[i][3];
+            dataPoints = [];
+        }
+
+        dataPoints.push(new Array(data_arr[i][0], data_arr[i][1], data_arr[i][2]));
+    }
+
+    return config;
+}
+
+function change_direction(dataPoints, view) {
     var dPoint = [];
 
-
     for (var i = 0; i < dataPoints.length; i++) {
-        var ncolor = '#000';
-        if (dataPoints[i][3] == 1)
-            ncolor = '#000';
-        else if (dataPoints[i][3] == 2)
-            ncolor = '#595';
-        else
-            ncolor = '#CB3';
-
         if (view == "s1")
+
             dPoint[dPoint.length] = {
                 x: dataPoints[i][0],
                 y: Number(dataPoints[i][1]),
                 z: dataPoints[i][2],
-                color: ncolor
             };
+
         else if (view == "s2")
+
             dPoint[dPoint.length] = {
                 x: dataPoints[i][1],
                 y: Number(dataPoints[i][2]),
                 z: dataPoints[i][0],
-                color: ncolor
             };
+
         else if (view == "s3")
+
             dPoint[dPoint.length] = {
                 x: dataPoints[i][2],
                 y: Number(dataPoints[i][0]),
                 z: dataPoints[i][1],
-                color: ncolor
             };
+
         else
+
             dPoint[dPoint.length] = {
                 x: dataPoints[i][0],
                 y: Number(dataPoints[i][1]),
                 z: dataPoints[i][2],
-                color: ncolor
             };
 
     }
+
+    return dPoint;
+}
+
+Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
+    return {
+        radialGradient: {
+            cx: 0.4,
+            cy: 0.3,
+            r: 0.5
+
+        },
+        stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
+        ]
+    };
+});
+
+function draw3dGraph(series_config, is3D) {
 
     var chart = new Highcharts.Chart({
         chart: {
@@ -108,10 +137,7 @@ function draw3dGraph(dataPoints, is3D, view) {
         legend: {
             enabled: false
         },
-        series: [{
-            name: 'Reading',
-            data: dPoint
-        }]
+        series: series_config
     });
 
 

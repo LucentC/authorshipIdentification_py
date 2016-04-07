@@ -163,7 +163,7 @@ def get_csv():
     for idx in range(0, len(doc_id_list)):
         features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
         feature_list.extend(features)
-        author_list.extend([idx for x in range(len(features))])
+        author_list.extend([doc_id_list[idx] for x in range(len(features))])
 
     string_io = StringIO()
     cw = csv.writer(string_io)

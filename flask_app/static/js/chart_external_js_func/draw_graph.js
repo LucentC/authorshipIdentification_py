@@ -18,8 +18,9 @@ function get_csv_by_doc_list() {
                 line = val[i].split(",");
                 data_arr.push(new Array(parseFloat(line[0]), parseFloat(line[1]), parseFloat(line[2]), parseFloat(line[3])));
             }
-            console.log(data_arr);
-            draw3dGraph(data_arr, true, "ss");
+
+            draw3dGraph(craft_series_json(data_arr, "ss"), true);
+            draw3dGraph(craft_series_json(data_arr, "ss"), true);
 
             $("#dimenison_select").show();
         }
@@ -39,7 +40,7 @@ $("#select_dimensions").on('change', function(){
     }
 
     if (this.value == "ss")
-        draw3dGraph(data_arr, true, "ss");
+        draw3dGraph(craft_series_json(data_arr, "ss"), true);
     else
-        draw3dGraph(data_arr, false, this.value);
+        draw3dGraph(craft_series_json(data_arr, this.value), false);
 });
