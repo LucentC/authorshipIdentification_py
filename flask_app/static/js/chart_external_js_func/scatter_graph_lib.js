@@ -14,7 +14,7 @@ function craft_series_json(data_arr, view) {
 
             if (doc_id != -1) {
                 config[config.length] = {
-                    name: doc_id,
+                    name: $("#" + doc_id).children("td").eq(1).html(),
                     data: change_direction(dataPoints, view)
                 }
             }
@@ -135,7 +135,11 @@ function draw3dGraph(series_config, is3D) {
             showFirstLabel: false
         },
         legend: {
-            enabled: false
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'bottom',
+            floating: true,
+            borderWidth: 1
         },
         series: series_config
     });
