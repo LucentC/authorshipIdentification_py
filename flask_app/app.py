@@ -3,7 +3,7 @@ import csv
 import time
 from StringIO import StringIO
 from flask import Flask
-from flask import render_template, make_response, request, Markup, jsonify
+from flask import render_template, make_response, request, Markup, jsonify, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import abort
 from data_analysis import data_warehouse
@@ -12,6 +12,7 @@ from data_etl import plaintext_data_etl
 from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret'
 
 
 @app.route('/')
@@ -84,8 +85,14 @@ def upload_file():
                                           u'application will search the entire database to find an author with the '
                                           u'closest writing style. Drag and Drop a txt file to the box in order to '
                                           u'upload the txt file to the server. The display of probabilistic values '
-                                          u'is provided in the form of CSV file.')
+                                          u'is provided in the form of CSV file.'),
+                           authors_list=data_warehouse.get_all_author_id_and_name()
                            )
+
+@app.route('/saveauthors', methods=['POST'])
+def save_authors():
+    session['authors'] = request.form.getlist('authors')
+    return 'ok'
 
 
 @app.route('/knnstatics', methods=['POST'])
@@ -93,7 +100,15 @@ def get_knn_statics():
     if request.method != 'POST':
         abort(403)
 
+    results = []
     prefix_path = '/tmp/stylometric_app/knn_upload/'
+
+    if session['authors']:
+        authors = session['authors']
+        print type(authors)
+        print authors
+
+    return 'ok'
 
     f = request.files['file']
     path = os.path.join(prefix_path, secure_filename(f.filename))
@@ -103,20 +118,17 @@ def get_knn_statics():
         abort(403)
 
     qp = plaintext_data_etl.read_file_and_get_doc_list(path)
-
     author_hash = dict([(row['author_id'], row['author_name']) for row in data_warehouse.get_all_author_id_and_name()])
+
+    try:
+        authors = session['authors']
+    except KeyError:
+        pass
+
     feature_list, author_list = data_warehouse.get_all_features_from_database_fact()
-
-    if len(feature_list) != len(author_list):
-        abort(403)
-
-    results = []
     knn_proba = cknn.get_query_set_probabilistic(feature_list, author_list, qp)
 
     authors = list(set(author_list))
-
-    if len(knn_proba) != len(authors):
-        abort(403)
 
     for idx in range(len(set(authors))):
         results.append((author_hash.get(authors[idx]), knn_proba[idx]))

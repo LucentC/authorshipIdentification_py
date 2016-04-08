@@ -146,22 +146,37 @@
                     $("#warning_banner").show();
                 });
 
+                this.on("drop", function (file, response){
+                    authors = [];
+
+                    if ($("#author_sel:checkbox").is(":checked")) {
+                        alert($("#authors").serialize());
+                        $.ajax({
+                            type: "POST",
+                            url: "/saveauthors",
+                            data: $("#authors").serialize(),
+                            cache: false,
+                            dataType: "text"
+                        });
+                    }
+                });
+
                 this.on("processing", function (file, response) {
                     $("#actions").hide();
                     $("#warning_banner").hide();
                     $("#dropzone").hide();
                     $("#header_text").text("Thanks for your patience while the server is processin your request.");
                     $("#spinning").spin("large");
-                })
+                });
 
                 this.on("success", function (file, result) {
                     $("#spinning").spin(false);
 
                     $.each(result, function (key, val) {
-                       $("#result_table > tbody")
-                           .append($("<tr></tr>")
-                               .append($("<td></td>").html(key))
-                               .append($("<td></td>").html(val * 100 + "%")));
+                        $("#result_table > tbody")
+                            .append($("<tr></tr>")
+                                .append($("<td></td>").html(key))
+                                .append($("<td></td>").html(val * 100 + "%")));
                     });
 
                     $("#result").show();

@@ -57,6 +57,25 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-3 checkbox form-group">
+            <form action="">
+                <label>
+                    <input id="author_sel" type="checkbox" value="">Activate the authors selection list
+                </label>
+            </form>
+        </div>
+        <div id="author_select_list" class="col-lg-5 form-group" style="display: none;">
+            <form id="authors"  action="">
+                <select name="authors" class="form-control" multiple>
+                    {% for row in authors_list %}
+                        <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
+
     <div class="row" id="warning_banner" style="display: none;">
         <div class="col-lg-9 alert alert-danger">
             <strong>Error! </strong>
@@ -84,10 +103,10 @@
         <div class="col-lg-9">
             <table class="table table-hover" id="result_table">
                 <thead>
-                    <tr>
-                        <th>Author Name</th>
-                        <th>Probability</th>
-                    </tr>
+                <tr>
+                    <th>Author Name</th>
+                    <th>Probability</th>
+                </tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -104,4 +123,6 @@
     <script src="{{ url_for('static', filename='js/upload_external_js_func/spin.js') }}"></script>
     <!-- Dropzone JS -->
     <script src="{{ url_for('static', filename='js/upload_external_js_func/dropzone.js') }}"></script>
+    <!-- External JS -->
+    <script src="{{ url_for('static', filename='js/upload_external_js_func/author_selection.js') }}"></script>
 {% endblock %}

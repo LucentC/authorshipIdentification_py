@@ -15,10 +15,7 @@ def get_features_from_database_by_doc_id(doc_id):
     return [rows[x:x + 57] for x in xrange(0, len(rows), 57)]
 
 
-def get_all_features_from_database_fact():
-    SQL_SELECT_QUERY = "SELECT d.author_id, f.doc_id, f.para_id, f.feature_value FROM fact f INNER JOIN document d ON " \
-                       "f.doc_id = d.doc_id ORDER BY d.author_id, f.doc_id, f.para_id, f.feature_id;"
-
+def __get_features_and_authors(SQL_SELECT_QUERY):
     previous_paraId = -1
     feature_list = []
     author_list = []
@@ -39,6 +36,18 @@ def get_all_features_from_database_fact():
         temp.append(row['feature_value'])
 
     return feature_list, author_list
+
+
+def get_all_features_from_database_fact():
+    SQL_SELECT_QUERY = "SELECT d.author_id, f.doc_id, f.para_id, f.feature_value FROM fact f INNER JOIN document d ON " \
+                       "f.doc_id = d.doc_id ORDER BY d.author_id, f.doc_id, f.para_id, f.feature_id;"
+    return __get_features_and_authors(SQL_SELECT_QUERY)
+
+
+def get_features_from_database_fact_by_author_id(authors):
+    SQL_SELECT_QUERY = "SELECT d.author_id, f.doc_id, f.para_id, f.feature_value FROM fact f INNER JOIN document d ON " \
+                       "f.doc_id = d.doc_id ORDER BY d.author_id, f.doc_id, f.para_id, f.feature_id;"
+    return __get_features_and_authors(SQL_SELECT_QUERY)
 
 
 def get_all_doc_id_in_paragraph():
