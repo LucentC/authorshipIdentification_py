@@ -150,7 +150,6 @@
                     authors = [];
 
                     if ($("#author_sel:checkbox").is(":checked")) {
-                        alert($("#authors").serialize());
                         $.ajax({
                             type: "POST",
                             url: "/saveauthors",

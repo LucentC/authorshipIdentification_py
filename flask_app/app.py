@@ -103,13 +103,6 @@ def get_knn_statics():
     results = []
     prefix_path = '/tmp/stylometric_app/knn_upload/'
 
-    if session['authors']:
-        authors = session['authors']
-        print type(authors)
-        print authors
-
-    return 'ok'
-
     f = request.files['file']
     path = os.path.join(prefix_path, secure_filename(f.filename))
     f.save(path)
@@ -122,10 +115,10 @@ def get_knn_statics():
 
     try:
         authors = session['authors']
+        feature_list, author_list = data_warehouse.get_features_from_database_fact_by_list_of_author_id(authors)
     except KeyError:
-        pass
+        feature_list, author_list = data_warehouse.get_all_features_from_database_fact()
 
-    feature_list, author_list = data_warehouse.get_all_features_from_database_fact()
     knn_proba = cknn.get_query_set_probabilistic(feature_list, author_list, qp)
 
     authors = list(set(author_list))

@@ -14,6 +14,7 @@ def get_standard_hausdorff_distance(lA, lB):
             if dis < min_val:
                 min_val = dis
         min_distance.append(min_val)
+    print max(min_distance)
     return max(min_distance)
 
 

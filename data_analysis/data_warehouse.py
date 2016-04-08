@@ -44,9 +44,10 @@ def get_all_features_from_database_fact():
     return __get_features_and_authors(SQL_SELECT_QUERY)
 
 
-def get_features_from_database_fact_by_author_id(authors):
+def get_features_from_database_fact_by_list_of_author_id(authors):
     SQL_SELECT_QUERY = "SELECT d.author_id, f.doc_id, f.para_id, f.feature_value FROM fact f INNER JOIN document d ON " \
-                       "f.doc_id = d.doc_id ORDER BY d.author_id, f.doc_id, f.para_id, f.feature_id;"
+                       "f.doc_id = d.doc_id WHERE d.author_id IN ({}) ORDER BY d.author_id, f.doc_id, f.para_id, " \
+                       "f.feature_id;".format(",".join(authors))
     return __get_features_and_authors(SQL_SELECT_QUERY)
 
 
