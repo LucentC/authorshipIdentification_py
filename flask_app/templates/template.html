@@ -51,19 +51,42 @@
             {% set nav_bar = [
                 ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'Dashboard'),
                 ('details', 'details', 'fa fa-fw fa-table', 'Details'),
-                ('upload', 'upload', 'fa fa-fw fa-edit', 'Upload'),
-                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Charts'),
+                ('algo', 'algo', 'fa fa-fw fa-arrows-v', 'Algorithm'),
                 ('selffunc', 'selffunc', 'fa fa-fw fa-desktop', 'Self Distance'),
                 ('/', 'test', 'fa fa-fw fa-wrench', 'Bootstrap Grid')
             ] -%}
 
-            {% set active_page = active_page|default('dashboard') %}
+            {% set algorithm = [
+                ('upload', 'upload', 'fa fa-fw fa-edit', 'KNN Probabilistic'),
+                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Charts')
+            ]-%}
 
+            {% set active_page = active_page|default('dashboard') %}
 
             <ul class="nav navbar-nav side-nav">
                 {% for href, id, class, caption in nav_bar %}
                     <li{% if id == active_page %} class="active"{% endif %}>
-                        <a href="{{ href|e }}"><i class="{{ class|e }}"></i> {{ caption|e }}</a>
+
+                        {% if id == 'algo' %}
+
+                            <a class="dropdown-toggle" data-toggle="collapse" href="#">caption
+                            <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul class="collapse">
+
+                                {% for sub_href, sub_id, sub_class, sub_caption in algorithm %}
+                                    <li>
+                                        <a href="{{ sub_href|e }}">
+                                            <i class="{{ sub_class|e }}"></i> {{ sub_caption|e }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+
+                            </ul>
+
+                        {% else %}
+                            <a href="{{ href|e }}"><i class="{{ class|e }}"></i> {{ caption|e }}</a>
+                        {% endif %}
+
                     </li>
                 {% endfor %}
             </ul>
