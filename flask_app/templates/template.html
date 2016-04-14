@@ -51,14 +51,14 @@
             {% set nav_bar = [
                 ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'Dashboard'),
                 ('details', 'details', 'fa fa-fw fa-table', 'Details'),
-                ('algo', 'algo', 'fa fa-fw fa-arrows-v', 'Algorithm'),
-                ('selffunc', 'selffunc', 'fa fa-fw fa-desktop', 'Self Distance'),
-                ('/', 'test', 'fa fa-fw fa-wrench', 'Bootstrap Grid')
+                ('#', 'algo', 'fa fa-fw fa-cloud', 'Algorithm'),
+                ('selffunc', 'selffunc', 'fa fa-fw fa-code', 'Self Distance'),
+                ('https://github.com/CityUHKDB/pladetect_py', 'code', 'fa fa-fw fa-wrench', 'Code')
             ] -%}
 
             {% set algorithm = [
-                ('upload', 'upload', 'fa fa-fw fa-edit', 'KNN Probabilistic'),
-                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Charts')
+                ('upload', 'upload', 'fa fa-fw fa-edit', 'KNN Authorship'),
+                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Stylometric Charts')
             ]-%}
 
             {% set active_page = active_page|default('dashboard') %}
@@ -69,9 +69,12 @@
 
                         {% if id == 'algo' %}
 
-                            <a class="dropdown-toggle" data-toggle="collapse" href="#">caption
-                            <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul class="collapse">
+                            <a class data-toggle="collapse" data-target="#dropdown" href="{{ href|e }}" aria-expanded="true">
+                                <i class="{{ class|e }}"></i>
+                                {{ caption|e }}
+                                <i class="fa fa-fw fa-caret-square-o-down"></i>
+                            </a>
+                            <ul id="dropdown" class="collapse" aria-expanded="true">
 
                                 {% for sub_href, sub_id, sub_class, sub_caption in algorithm %}
                                     <li>

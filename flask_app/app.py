@@ -80,7 +80,7 @@ def get_doc_content():
 @app.route('/upload')
 def upload_file():
     return render_template('data_visualize/upload.html',
-                           title='Upload',
+                           title='KNN Authorship Determination',
                            content=Markup(u'In this page, you may upload a txt file to the server. The '
                                           u'application will search the entire database to find an author with the '
                                           u'closest writing style. Drag and Drop a txt file to the box in order to '
@@ -132,7 +132,7 @@ def get_knn_statics():
 @app.route('/charts')
 def get_chars():
     return render_template('data_visualize/charts.html',
-                           title='Charts',
+                           title='Stylometric Charts',
                            content=Markup(u'In this page, you can compare the writing styles of <strong>at most 3 '
                                           u'documents</strong> in terms of stylometric features. Firstly, you need to '
                                           u'select an author from the drop-down list. Afterwards, another drop-down '
