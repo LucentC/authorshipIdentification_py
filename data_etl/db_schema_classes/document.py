@@ -32,7 +32,7 @@ class Document:
             Thus, those tokens will be split and regrouped based on our definition.
             For example, we just defined 1500 tokens to be a paragraph.
         """
-        tokens = nltk.word_tokenize(self.doc_content)
+        tokens = nltk.word_tokenize(self.doc_content.decode('utf-8'))
         paragraphs = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 500)]
         return paragraphs
 
