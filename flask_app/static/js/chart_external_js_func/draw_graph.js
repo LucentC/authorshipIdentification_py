@@ -35,7 +35,7 @@ function get_distance() {
         cache: false,
         dataType: "json",
         success: function (result) {
-            //console.log(result);
+            $("#distance_table").show();
             $.each(result, function(key, value){
                 $("#distance_table > tbody:last").append("<tr><td>" + key + "</td><td>" + value + "</td></tr>");
             })
