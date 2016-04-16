@@ -65,6 +65,29 @@ def get_author_details():
                            doc_list=data_warehouse.get_all_docs_by_author_id(author_id)
                            )
 
+@app.route('/getstylocsv')
+def get_stylo_csv_file():
+    try:
+        doc_id = int(request.args.get('doc_id'))
+    except ValueError:
+        abort(403)
+
+    header_row = ['author id', 'document id', 'paragraph id'] + ['feature ' + str(i) for i in range(1, 57)]
+    data_list = data_warehouse.get_cross_tab_features_from_database_by_doc_id(doc_id)
+
+    string_io = StringIO()
+    cw = csv.writer(string_io)
+    cw.writerow(header_row)
+
+    for row in data_list:
+        cw.writerow(row)
+
+    output = make_response(string_io.getvalue())
+    output.headers['Content-type'] = 'application/csv'
+    output.headers['Content-Disposition'] = 'attachment;filename=result.csv'
+    return output
+
+
 
 @app.route('/doccontent', methods=['POST'])
 def get_doc_content():
