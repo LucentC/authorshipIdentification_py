@@ -7,7 +7,7 @@ author_list = []
 
 start_time = time.time()
 # feature_list, author_list = data_warehouse.get_all_features_from_database_fact()
-qp = data_warehouse.get_features_from_database_by_doc_id(663)
+qp = data_warehouse.get_stylometric_features_by_doc_id(663)
 # result = cknn.get_query_set_probabilistic(feature_list, author_list, qp)
 # result = cknn.get_query_set_probabilistic(feature_list, author_list, qp)
 author_hash = dict([(row['author_id'], row['author_name']) for row in data_warehouse.get_all_author_id_and_name()])

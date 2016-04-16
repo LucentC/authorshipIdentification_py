@@ -14,7 +14,6 @@ def get_standard_hausdorff_distance(lA, lB):
             if dis < min_val:
                 min_val = dis
         min_distance.append(min_val)
-    print max(min_distance)
     return max(min_distance)
 
 
@@ -66,7 +65,7 @@ def get_max_of_max_hausdorff_distance(lA, lB):
 def get_min_of_avg_hausdorff_distance(lA, lB):
     avg_distance = []
     for list_from_lA in lA:
-        total_val = None
+        total_val = 0
         for list_from_lB in lB:
             dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
             total_val += dis

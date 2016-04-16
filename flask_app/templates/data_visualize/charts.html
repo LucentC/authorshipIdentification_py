@@ -53,6 +53,19 @@
         <div class="col-lg-9">
             <div id="container" style="height: 600px"></div>
         </div>
+
+        <div class="col-lg-5">
+            <table class="table table-striped" id="distance_table">
+                <thead>
+                <tr>
+                    <th>Documents</th>
+                    <th>Distance</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div id="dimension_drag_and_drop" class="row" style="display: none;">
@@ -86,9 +99,18 @@
                 <li id="f7" class="ui-state-default">Feature 7</li>
                 <li id="f8" class="ui-state-default">Feature 8</li>
             </ul>
-    </div>
+        </div>
 
     </div>
+
+    <template id="distance_details">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </template>
 
     {{ show_modal() }}
 

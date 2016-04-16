@@ -27,6 +27,22 @@ function get_csv_by_doc_list() {
     });
 }
 
+function get_distance() {
+    $.ajax({
+        type: "POST",
+        url: "/gethausdis",
+        data: $(".doc_list:checked").serialize(),
+        cache: false,
+        dataType: "json",
+        success: function (result) {
+            //console.log(result);
+            $.each(result, function(key, value){
+                $("#distance_table > tbody:last").append("<tr><td>" + key + "</td><td>" + value + "</td></tr>");
+            })
+        }
+    });
+}
+
 $("#select_dimensions").on('change', function(){
 
     if (!this.value) {
