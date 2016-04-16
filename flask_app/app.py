@@ -85,7 +85,8 @@ def upload_file():
                            title='KNN Authorship Determination',
                            content=Markup(u'In this page, you may upload a txt file to the server. The '
                                           u'application will search the entire database to find an author with the '
-                                          u'closest writing style. Drag and Drop a txt file to the box in order to '
+                                          u'closest writing style by using the Probabilistic K-Nearest Neighbor '
+                                          u'Algorithm. Drag and Drop a txt file to the box in order to '
                                           u'upload the txt file to the server. The display of probabilistic values '
                                           u'is provided in the form of CSV file.'),
                            authors_list=data_warehouse.get_all_author_id_and_name()
