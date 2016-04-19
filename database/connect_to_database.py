@@ -1,9 +1,8 @@
 import psycopg2
 from psycopg2.extras import DictCursor
 
-#connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' port = '5433' password = 'stylometry'"
-#connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' password = 'stylometry'"
-connection_string = "dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'"
+connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' password = 'stylometry'"
+#connection_string = "dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'"
 
 
 def execute_insert_query(query):
