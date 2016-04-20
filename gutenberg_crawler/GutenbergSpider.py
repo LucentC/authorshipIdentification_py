@@ -16,7 +16,6 @@ class GutenbergSpider(scrapy.Spider):
             if 'authors' in latter_url:
                 full_url = response.urljoin(latter_url)
                 yield Request(full_url, callback=self.extract_link_to_doc)
-            break
 
     def extract_link_to_doc(self, response):
         for latter_url in response.xpath('//li/a/@href').extract():
