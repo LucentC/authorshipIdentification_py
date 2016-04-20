@@ -5,15 +5,15 @@ from sklearn.cross_validation import KFold
 author_list = []
 feature_list = []
 
-t1 = data_warehouse.get_features_from_database_by_author_id(1) # 1
+t1 = data_warehouse.get_stylometric_features_by_author_id(1) # 1
 feature_list.extend(t1)
 author_list.extend([0 for x in range(len(t1))])
 
-t2 = data_warehouse.get_features_from_database_by_author_id(2) # 2
+t2 = data_warehouse.get_stylometric_features_by_author_id(2) # 2
 feature_list.extend(t2)
 author_list.extend([1 for x in range(len(t2))])
 
-t3 = data_warehouse.get_features_from_database_by_author_id(3) # 3
+t3 = data_warehouse.get_stylometric_features_by_author_id(3) # 3
 feature_list.extend(t3)
 author_list.extend([2 for x in range(len(t3))])
 

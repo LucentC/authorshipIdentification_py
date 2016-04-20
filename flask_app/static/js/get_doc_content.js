@@ -16,3 +16,7 @@ function get_content_by_id(doc_id) {
         }
     });
 }
+
+function get_stylometric_csv(doc_id) {
+    window.location = '/getstylocsv?doc_id=' + doc_id
+}

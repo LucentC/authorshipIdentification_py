@@ -1,6 +1,7 @@
 import os
 import csv
 import time
+import itertools
 from StringIO import StringIO
 from flask import Flask
 from flask import render_template, make_response, request, Markup, jsonify, session
@@ -10,6 +11,7 @@ from data_analysis import data_warehouse
 from data_analysis import data_to_csv
 from data_etl import plaintext_data_etl
 from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
+from data_analysis import modified_hausdorff_distance as MHD
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
@@ -63,6 +65,29 @@ def get_author_details():
                            doc_list=data_warehouse.get_all_docs_by_author_id(author_id)
                            )
 
+@app.route('/getstylocsv')
+def get_stylo_csv_file():
+    try:
+        doc_id = int(request.args.get('doc_id'))
+    except ValueError:
+        abort(403)
+
+    header_row = ['author id', 'document id', 'paragraph id'] + ['feature ' + str(i) for i in range(1, 57)]
+    data_list = data_warehouse.get_cross_tab_features_from_database_by_doc_id(doc_id)
+
+    string_io = StringIO()
+    cw = csv.writer(string_io)
+    cw.writerow(header_row)
+
+    for row in data_list:
+        cw.writerow(row)
+
+    output = make_response(string_io.getvalue())
+    output.headers['Content-type'] = 'application/csv'
+    output.headers['Content-Disposition'] = 'attachment;filename=result.csv'
+    return output
+
+
 
 @app.route('/doccontent', methods=['POST'])
 def get_doc_content():
@@ -83,7 +108,8 @@ def upload_file():
                            title='KNN Authorship Determination',
                            content=Markup(u'In this page, you may upload a txt file to the server. The '
                                           u'application will search the entire database to find an author with the '
-                                          u'closest writing style. Drag and Drop a txt file to the box in order to '
+                                          u'closest writing style by using the Probabilistic K-Nearest Neighbor '
+                                          u'Algorithm. Drag and Drop a txt file to the box in order to '
                                           u'upload the txt file to the server. The display of probabilistic values '
                                           u'is provided in the form of CSV file.'),
                            authors_list=data_warehouse.get_all_author_id_and_name()
@@ -143,6 +169,27 @@ def get_chars():
                            )
 
 
+@app.route('/gethausdis', methods=['POST'])
+def get_haus_distance():
+
+    def pairwise(iterable):
+        "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+        a, b = itertools.tee(iterable)
+        next(b, None)
+        return itertools.izip(a, b)
+
+    doc_id_list = request.form.getlist('doc_list')
+
+    distance = {}
+    for x, y in pairwise(doc_id_list + [doc_id_list[0]]):
+        distance[data_warehouse.get_doc_title_by_id(x) + ", " + data_warehouse.get_doc_title_by_id(y)] = MHD.\
+            get_min_of_avg_hausdorff_distance(
+                data_warehouse.get_stylometric_features_by_doc_id(x),
+                data_warehouse.get_stylometric_features_by_doc_id(y))
+
+    return jsonify(distance)
+
+
 @app.route('/getdoclist', methods=['POST'])
 def return_doc_list():
     if request.method != 'POST':
@@ -166,7 +213,7 @@ def get_csv():
     doc_id_list = request.form.getlist('doc_list')
 
     for idx in range(0, len(doc_id_list)):
-        features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
+        features = data_warehouse.get_stylometric_features_by_doc_id(doc_id_list[idx])
         feature_list.extend(features)
         author_list.extend([doc_id_list[idx] for x in range(len(features))])
 
@@ -187,7 +234,7 @@ def get_csv_of_all_features():
     doc_id_list = request.form.getlist('doc_list')
 
     for idx in range(0, len(doc_id_list)):
-        features = data_warehouse.get_features_from_database_by_doc_id(doc_id_list[idx])
+        features = data_warehouse.get_stylometric_features_by_doc_id(doc_id_list[idx])
         feature_list.extend(features)
         author_list.extend([idx for x in range(len(features))])
 

@@ -2,14 +2,14 @@ from database import connect_to_database
 from psycopg2.extensions import QuotedString
 
 
-def get_features_from_database_by_author_id(author_id):
+def get_stylometric_features_by_author_id(author_id):
     SELECT_QUERY = "SELECT feature_value FROM fact WHERE doc_id IN (SELECT doc_id FROM document WHERE author_id = {});" \
         .format(author_id)
     rows = [item['feature_value'] for item in connect_to_database.execute_select_query(SELECT_QUERY)]
     return [rows[x:x + 57] for x in xrange(0, len(rows), 57)]
 
 
-def get_features_from_database_by_doc_id(doc_id):
+def get_stylometric_features_by_doc_id(doc_id):
     SELECT_QUERY = "SELECT feature_value FROM fact WHERE doc_id = {} ORDER BY para_id, feature_id;".format(doc_id)
     rows = [item['feature_value'] for item in connect_to_database.execute_select_query(SELECT_QUERY)]
     return [rows[x:x + 57] for x in xrange(0, len(rows), 57)]
@@ -124,6 +124,10 @@ def get_all_docs_by_author_id(author_id):
     SQL_SELECT_QUERY = "SELECT doc_id, doc_title, year_of_pub FROM document WHERE author_id = {} ORDER " \
                        "BY doc_id;".format(author_id)
     return connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+
+def get_doc_title_by_id(doc_id):
+    SQL_SELECT_QUERY = "SELECT doc_title FROM document WHERE doc_id = {};".format(doc_id)
+    return connect_to_database.execute_select_query(SQL_SELECT_QUERY)[0]['doc_title']
 
 
 def get_doc_content_by_id(doc_id):

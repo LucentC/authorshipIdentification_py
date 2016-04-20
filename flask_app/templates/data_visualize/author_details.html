@@ -18,6 +18,7 @@
                                 <th>Document Title</th>
                                 <th>Year of Publication</th>
                                 <th>Read me</th>
+                                <th>Get Stylometric Values</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -30,6 +31,11 @@
                                         <button type="button" class="btn btn-success" data-toggle="modal"
                                                 data-target="#doc_modal"
                                                 onclick="get_content_by_id({{ row['doc_id'] }})">Click me
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger"
+                                                onclick="get_stylometric_csv({{ row['doc_id'] }})">Get File
                                         </button>
                                     </td>
                                 </tr>

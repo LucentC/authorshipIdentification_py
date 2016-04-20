@@ -50,8 +50,21 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-8">
             <div id="container" style="height: 600px"></div>
+        </div>
+
+        <div class="col-lg-3">
+            <table class="table table-striped" id="distance_table" style="display: none;">
+                <thead>
+                <tr>
+                    <th>Documents</th>
+                    <th>Hausdorff Distance</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -86,9 +99,18 @@
                 <li id="f7" class="ui-state-default">Feature 7</li>
                 <li id="f8" class="ui-state-default">Feature 8</li>
             </ul>
-    </div>
+        </div>
 
     </div>
+
+    <template id="distance_details">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </template>
 
     {{ show_modal() }}
 

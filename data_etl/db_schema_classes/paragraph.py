@@ -37,7 +37,7 @@ class Paragraph:
             self.word_occurrence = self.get_dict_of_word_and_occurrence()
 
         def get_para_insert_query(self):
-            return "INSERT INTO self(doc_id, chapter_id, path) " \
+            return "INSERT INTO paragraph(doc_id, chapter_id, path) " \
                    "VALUES ({}, currval('chapter_chapter_id_seq'), '{}');\n"\
                     .format(self.doc_id, "somewhere")
 
