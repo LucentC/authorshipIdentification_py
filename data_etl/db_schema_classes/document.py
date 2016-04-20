@@ -4,12 +4,13 @@ from psycopg2.extensions import QuotedString
 
 class Document:
 
-    def __init__(self, doc_id, author_id, doc_title, release_date, loc_class, doc_content, gu_url):
+    def __init__(self, doc_id, author_id, doc_title, lang, loc_class, release_date, doc_content, gu_url):
         self.doc_id = doc_id
         self.author_id = author_id
         self.doc_title = unicode(doc_title, 'utf-8', errors='ignore').encode('utf-8')
-        self.release_date = release_date
+        self.lang = lang
         self.loc_class = unicode(loc_class, 'utf-8', errors='ignore').encode('utf-8')
+        self.release_date = release_date
         self.doc_content = unicode(doc_content, 'utf-8', errors='ignore').encode('utf-8')
         self.gu_url = gu_url
 
@@ -38,15 +39,15 @@ class Document:
 
     def get_doc_insert_query(self):
         if self.author_id is -1:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content, gutenberg_url) " \
-                   "VALUES (currval('author_author_id_seq'), {}, {}, {}, {}, {});\n"\
+            return "INSERT INTO document(author_id, doc_title, year_of_pub, lang, loc_class, doc_content, " \
+                   "gutenberg_url) VALUES (currval('author_author_id_seq'), {}, {}, {}, {}, {}, {});\n"\
                     .format(QuotedString(self.doc_title).getquoted(), QuotedString(self.release_date).getquoted(),
-                            QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
-                            QuotedString(self.gu_url).getquoted())
+                            QuotedString(self.lang), QuotedString(self.loc_class).getquoted(),
+                            QuotedString(self.doc_content).getquoted(),QuotedString(self.gu_url).getquoted())
         else:
             return "INSERT INTO document(author_id, doc_title, year_of_pub, loc_class, doc_content, gutenberg_url) " \
-                   "VALUES ({}, {}, {}, {}, {}, {});\n"\
+                   "VALUES ({}, {}, {}, {}, {}, {}, {});\n"\
                     .format(self.author_id, QuotedString(self.doc_title).getquoted(),
-                            QuotedString(self.release_date).getquoted(),
+                            QuotedString(self.release_date).getquoted(), QuotedString(self.lang),
                             QuotedString(self.loc_class).getquoted(), QuotedString(self.doc_content).getquoted(),
                             QuotedString(self.gu_url).getquoted())
