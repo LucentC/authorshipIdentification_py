@@ -75,10 +75,11 @@ def process_book_item(book):
         print "File not found"
         return False
 
-    SQL_INSERT_QUERY += Document(-1, author_queried_id, book['title'], book['lang'], book['rdate'],
-                                 book['loc_class'], content, book['gutenberg_url']).get_doc_insert_query()
+    SQL_INSERT_QUERY += Document(-1, author_queried_id, book['title'], book['lang'], book['loc_class'], book['rdate'],
+                                 content, book['gutenberg_url']).get_doc_insert_query()
 
-    connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+    print SQL_INSERT_QUERY
+    #connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
 
 
 def read_file_get_content(file_path):
