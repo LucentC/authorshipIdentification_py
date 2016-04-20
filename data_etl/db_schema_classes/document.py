@@ -11,7 +11,7 @@ class Document:
         self.lang = lang
         self.loc_class = unicode(loc_class, 'utf-8', errors='ignore').encode('utf-8')
         self.release_date = release_date
-        self.doc_content = 'none' #unicode(doc_content, 'utf-8', errors='ignore').encode('utf-8')
+        self.doc_content = unicode(doc_content, 'utf-8', errors='ignore').encode('utf-8')
         self.gu_url = gu_url
 
     def get_doc_id(self):
