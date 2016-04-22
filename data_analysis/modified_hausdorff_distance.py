@@ -71,3 +71,15 @@ def get_min_of_avg_hausdorff_distance(lA, lB):
             total_val += dis
         avg_distance.append(total_val / len(lB))
     return min(avg_distance)
+
+
+def get_percent_hausdorff_distance(lA, lB, percentage):
+    temp_list = []
+    for list_from_lA in lA:
+        temp = []
+        for list_from_lB in lB:
+            dis = spatial.distance.euclidean(list_from_lA, list_from_lB)
+            temp.append(dis)
+        value = sum(temp.sort()[:len(temp) * (percentage / 100)])/float(len(temp))
+        temp_list.append(value)
+    return max(temp_list)
