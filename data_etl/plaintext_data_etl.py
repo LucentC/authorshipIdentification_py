@@ -14,7 +14,6 @@ def read_paragraphs_and_split(doc):
         p = Paragraph(doc.get_doc_id(), para)
         SQL_INSERT_QUERY += feature_queries_preprocessing.get_fact_insert_query(doc.get_doc_id(), p)
     connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
-    print 'finished dumping a novel'
 
 
 def read_file_and_get_doc_list(path):
