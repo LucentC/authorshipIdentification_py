@@ -50,6 +50,11 @@ function drop_all_tables
     su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/drop_author_doc_tables.sql"
 }
 
+function insert_features
+{
+    su - $PARMNEWDBUSER -c "psql -f \"$(pwd)\"/$PARMPATHTOSQL/insert_features.sql"
+}
+
 function print_usage
 {
     echo -e "Usage: $0 [ipy|ipost|cdbad|cdbo]"
@@ -78,6 +83,7 @@ case "$1" in
     "cdbad")    create_author_doc_tables ;;
     "cdbo")     create_other_tables ;;
     "cdba")     create_all_tables ;;
+    "inf")      insert_features ;;
     "dot")      drop_other_tables ;;
     "dat")      drop_all_tables ;;
     *)          print_usage ;;
