@@ -47,8 +47,11 @@ def get_author_details():
                                    )
 
     if request.method == 'POST':
-        author_id = request.form['author_id']
-        doc_num = data_warehouse.get_num_of_doc_written_by_an_author(author_id)
+        try:
+            author_id = int(request.form['author_id'])
+            doc_num = data_warehouse.get_num_of_doc_written_by_an_author(author_id)
+        except ValueError:
+            abort(403)
 
     try:
         author_id = int(author_id)
@@ -152,6 +155,7 @@ def get_knn_statics():
     for idx in range(len(set(authors))):
         results.append((author_hash.get(authors[idx]), knn_proba[idx]))
 
+    session.clear()
     return jsonify(dict(results))
 
 
