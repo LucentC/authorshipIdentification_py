@@ -1,5 +1,6 @@
 from data_analysis import data_warehouse
 from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
+from data_analysis import calculate_nearest_neighbors_with_pruning as cnnp
 
 author_list = []
 feature_list = []
@@ -18,4 +19,5 @@ author_list.extend([3 for x in range(len(t3))])
 
 qp = data_warehouse.get_stylometric_features_by_doc_id(663)
 
-print cknn.get_query_set_probabilistic(feature_list, author_list, qp)
+#print cknn.get_query_set_probabilistic(feature_list, author_list, qp)
+print cnnp.get_author_list_with_pruning_method(feature_list, author_list, qp, 1.0)
