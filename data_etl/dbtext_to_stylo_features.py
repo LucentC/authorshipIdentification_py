@@ -9,7 +9,6 @@ from data_etl.db_schema_classes.document import Document
     Visit connect_to_database.py for more details.
 """
 docs_in_fact = [row['doc_id'] for row in data_warehouse.get_doc_ids_from_database_fact()]
-print docs_in_fact
 
 for author_id in range(1, 1000):
     """
