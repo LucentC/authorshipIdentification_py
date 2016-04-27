@@ -51,7 +51,20 @@ def get_features_from_database_fact_by_list_of_author_id(authors):
     return __get_features_and_authors(SQL_SELECT_QUERY)
 
 
-def get_all_doc_id_in_paragraph():
+def get_doc_ids_from_database_fact():
+    SQL_SELECT_QUERY = "SELECT DISTINCT doc_id FROM fact ORDER BY doc_id;"
+    rows = connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+    return rows
+
+
+def get_docs_from_database_document_by_author_id(author_id):
+    SQL_SELECT_QUERY = "SELECT doc_id, author_id, doc_title, lang, doc_content FROM document " \
+                       "WHERE author_id = {};".format(author_id)
+    rows = connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+    return rows
+
+
+def get_all_doc_id_from_database_paragraph():
     SELECT_QUERY = "SELECT DISTINCT doc_id FROM paragraph ORDER BY doc_id;"
     rows = connect_to_database.execute_select_query(SELECT_QUERY)
     return rows

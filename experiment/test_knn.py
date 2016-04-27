@@ -20,4 +20,6 @@ author_list.extend([3 for x in range(len(t3))])
 qp = data_warehouse.get_stylometric_features_by_doc_id(663)
 
 #print cknn.get_query_set_probabilistic(feature_list, author_list, qp)
-print cnnp.get_author_list_with_pruning_method(feature_list, author_list, qp, 1.0)
+for dist in cnnp.get_author_list_with_pruning_method(feature_list, author_list, qp, 1.0):
+    print dist
+
