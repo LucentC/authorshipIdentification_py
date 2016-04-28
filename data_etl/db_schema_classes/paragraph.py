@@ -102,6 +102,8 @@ class Paragraph:
                 return float(100 * math.log(self.get_total_no_of_words())) / float(1 - self.word_occurrence.values().count(1) / self.get_total_no_of_distinct_words())
             except ZeroDivisionError as e:
                 return -1
+            except ValueError as e:
+                return -1
 
         def get_S_vocabulary_richness(self):
             try:
