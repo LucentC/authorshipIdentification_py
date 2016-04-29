@@ -74,7 +74,7 @@ def get_fact_insert_query(doc_id, paragraph):
     SQL_INSERT_QUERY += __format_insert_query(56, doc_id, paragraph.get_freq_of_sen_terminator())
     SQL_INSERT_QUERY += __format_insert_query(57, doc_id, paragraph.get_freq_of_symbol())
 
-    for bigram in paragraph.get_bigrams():
-        SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
+    # for bigram in paragraph.get_bigrams():
+    #     SQL_INSERT_QUERY += bigram.get_bigram_insert_query()
 
     return SQL_INSERT_QUERY

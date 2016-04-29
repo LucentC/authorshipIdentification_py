@@ -10,10 +10,17 @@ def read_paragraphs_and_split(doc):
     SQL_INSERT_QUERY = ''
     ch = Chapter(doc.get_doc_id(), -1)
     SQL_INSERT_QUERY += ch.get_chapter_insert_query()
-    for para in doc.get_doc_paragraphs():
+
+    paragraphs = doc.get_doc_paragraphs()
+    for para in paragraphs:
         p = Paragraph(doc.get_doc_id(), para)
         SQL_INSERT_QUERY += feature_queries_preprocessing.get_fact_insert_query(doc.get_doc_id(), p)
     connect_to_database.execute_insert_query(SQL_INSERT_QUERY)
+
+    for para in paragraphs:
+        for bigram in para.get_bigrams():
+            print bigram.get_bigram_insert_query()
+            connect_to_database.execute_insert_query(bigram.get_bigram_insert_query())
 
 
 def read_file_and_get_doc_list(path):
