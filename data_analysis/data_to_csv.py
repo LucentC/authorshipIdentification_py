@@ -20,7 +20,7 @@ def write_csvfile_output(filename, header_row, data_lists):
 
     pre_path = '/tmp/csv_files/'
 
-    with open(pre_path + filename, 'wb') as csvfile:
+    with open(filename, 'wb') as csvfile:
         csv_wr = csv.writer(csvfile)
         csv_wr.writerow(header_row)
 
