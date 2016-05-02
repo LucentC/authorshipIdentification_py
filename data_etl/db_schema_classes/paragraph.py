@@ -141,7 +141,7 @@ class Paragraph:
                 return -1
 
         def get_average_word_length(self):
-            return numpy.mean(self.words_length)
+            return numpy.nanmean(self.words_length)
 
         def get_stddev_of_word_length(self):
             return numpy.std(self.words_length)
