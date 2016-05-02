@@ -63,6 +63,7 @@ function print_usage
     echo -e "\tcdbad - create author and document tables"
     echo -e "\tcdbo - create other tables"
     echo -e "\tcdba - create all tables"
+    echo -e "inf - insert feature details"
     echo -e "\tdot - drop other tables"
     echo -e "\tdat - drop all tables"
 }
