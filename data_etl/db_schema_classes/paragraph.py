@@ -149,7 +149,20 @@ class Paragraph:
                 return -1
 
         def get_stddev_of_word_length(self):
-            return numpy.std(self.words_length)
+            mean = self.get_average_word_length()
+            if mean == -1:
+                return -1
+
+            try:
+                count = 0
+                for num in self.words_length:
+                    count = (num - mean) * (num - mean)
+
+                return math.sqrt(float(count) / float(len(self.words_length)))
+            except ZeroDivisionError as e:
+                return -1
+            except ValueError as e:
+                return -1
 
         def get_total_no_of_character(self):
             return len(self.char_list)
