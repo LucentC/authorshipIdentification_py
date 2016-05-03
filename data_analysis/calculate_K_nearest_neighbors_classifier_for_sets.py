@@ -12,10 +12,10 @@ def _get_set_tuple_distance(training_instance, test_instance):
     return (training_instance, MHD.get_standard_hausdorff_distance(training_instance[0], test_instance))
 
 
-def get_set_neighbor(training_set, test_instance, k):
+def get_set_neighbor(training_set, test_instance, k, radius):
     distance = [_get_set_tuple_distance(training_instance, test_instance) for training_instance in training_set]
     sorted_distance = sorted(distance, key=itemgetter(1))
-    sorted_training_instances = [tup[0] for tup in sorted_distance]
+    sorted_training_instances = [tup[0] for tup in sorted_distance if tup[0] >= radius]
     return sorted_training_instances[:k]
 
 

@@ -29,9 +29,12 @@ count = 0
 print "Points in feature_list: ", len(feature_list)
 print "Points in query point(a document): ", len(qp)
 #print cknn.get_query_set_probabilistic(feature_list, author_list, qp)
-for arr in cnnp.get_author_list_with_pruning_method(feature_list, author_list, qp, 1.0)[1]:
-    count += arr[0]
+result = cnnp.get_author_list_with_pruning_method(feature_list, author_list, qp, 0.001)
+print len(result[0])
+print result
+# for arr in cnnp.get_author_list_with_pruning_method(feature_list, author_list, qp, 1.0)[1]:
+#     count += arr[0]
 
-avg_points = count# / float(len(qp))
-print "Average points after pruning: ", avg_points
-print "Pruning ratio: ", avg_points / len(feature_list)
+# avg_points = count# / float(len(qp))
+# print "Average points after pruning: ", avg_points
+# print "Pruning ratio: ", avg_points / len(feature_list)
