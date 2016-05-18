@@ -10,7 +10,7 @@ from data_etl.db_schema_classes.document import Document
 """
 docs_in_fact = [row['doc_id'] for row in data_warehouse.get_doc_ids_from_database_fact()]
 
-for author_id in range(1, 1000):
+for author_id in range(1, 200):
     """
         Using this method is more memory-friendly as the documents is
         retrieved sequentially
@@ -22,6 +22,7 @@ for author_id in range(1, 1000):
             docs.remove(doc)
             continue
 
+        print "Dumping novel with doc_id ", str(doc['doc_id'])
         plaintext_data_etl.read_paragraphs_and_split(Document(doc['doc_id'], doc['author_id'],
                                                               doc['doc_title'], 'lang', 'loc',
                                                               '1882-02-25', doc['doc_content'],
