@@ -8,6 +8,8 @@ from db_schema_classes.paragraph import Paragraph
 
 def read_paragraphs_and_split(doc):
     SQL_INSERT_QUERY = ''
+
+    # Historical problem
     ch = Chapter(doc.get_doc_id(), -1)
     SQL_INSERT_QUERY += ch.get_chapter_insert_query()
 
