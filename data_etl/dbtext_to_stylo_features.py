@@ -21,7 +21,7 @@ for author_id in range(9460, 9500):
     for doc in docs:
         if doc['doc_id'] in docs_in_fact:
             docs.remove(doc)
-	    print doc['doc_id'], "has already been done"
+            print doc['doc_id'], "has already been done"
             continue
 
         print "Dumping novel with doc_id ", str(doc['doc_id'])
