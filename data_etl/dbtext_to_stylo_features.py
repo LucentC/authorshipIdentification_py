@@ -10,16 +10,18 @@ from data_etl.db_schema_classes.document import Document
 """
 docs_in_fact = [row['doc_id'] for row in data_warehouse.get_doc_ids_from_database_fact()]
 
-for author_id in range(1, 200):
+for author_id in range(9460, 9500):
     """
         Using this method is more memory-friendly as the documents is
         retrieved sequentially
     """
+    print "do author id", author_id
     docs = data_warehouse.get_docs_from_database_document_by_author_id(author_id)
 
     for doc in docs:
         if doc['doc_id'] in docs_in_fact:
             docs.remove(doc)
+            print doc['doc_id'], "has already been done"
             continue
 
         print "Dumping novel with doc_id ", str(doc['doc_id'])
