@@ -10,7 +10,7 @@ from data_etl.db_schema_classes.document import Document
 """
 docs_in_fact = [row['doc_id'] for row in data_warehouse.get_doc_ids_from_database_fact()]
 
-for author_id in range(9460, 9500):
+for author_id in range(8940, 8950):
     """
         Using this method is more memory-friendly as the documents is
         retrieved sequentially
