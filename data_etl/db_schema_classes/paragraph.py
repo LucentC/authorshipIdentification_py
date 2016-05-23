@@ -10,13 +10,14 @@ from bigram import Bigram
 
 class Paragraph:
 
-        def __init__(self, doc_id, para=[]):
+        def __init__(self, doc_id, sw_id, para=[] ):
             """
                 Constructor of self class
 
             """
             """ The meta-data of the document """
             self.doc_id = doc_id
+            self.sw_id = sw_id
             #self.para_no = para_no
             self.file_path = ""
 
@@ -37,9 +38,9 @@ class Paragraph:
             self.word_occurrence = self.get_dict_of_word_and_occurrence()
 
         def get_para_insert_query(self):
-            return "INSERT INTO paragraph(doc_id, chapter_id, path) " \
-                   "VALUES ({}, currval('chapter_chapter_id_seq'), '{}');\n"\
-                    .format(self.doc_id, "somewhere")
+            return "INSERT INTO paragraph(doc_id, chapter_id, path,sw_id) " \
+                   "VALUES ({}, currval('chapter_chapter_id_seq'), '{}',{});\n"\
+                    .format(self.doc_id, "somewhere",self.sw_id)
 
         def regroup_tokens_to_self(self):
             self = "".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in self.tokenized_self]).strip()

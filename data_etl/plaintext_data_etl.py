@@ -6,16 +6,17 @@ from db_schema_classes.document import Document
 from db_schema_classes.paragraph import Paragraph
 
 
-def read_paragraphs_and_split(doc):
+def read_paragraphs_and_split(doc,sw_id):
     SQL_INSERT_QUERY = ''
 
     # Historical problem
     ch = Chapter(doc.get_doc_id(), -1)
     SQL_INSERT_QUERY += ch.get_chapter_insert_query()
 
-    paragraphs = doc.get_doc_paragraphs()
+    paragraphs = doc.get_doc_paragraphs(sw_id = sw_id)
+    print "get paragraph is ok"
     for para in paragraphs:
-        p = Paragraph(doc.get_doc_id(), para)
+        p = Paragraph(doc.get_doc_id(),sw_id, para)
         SQL_INSERT_QUERY += feature_queries_preprocessing.get_fact_insert_query(doc.get_doc_id(), p)
 
     connect_to_database.execute_insert_query(SQL_INSERT_QUERY)

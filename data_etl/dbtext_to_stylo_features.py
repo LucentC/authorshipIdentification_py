@@ -30,4 +30,4 @@ for author_id in range(0, 10):
         plaintext_data_etl.read_paragraphs_and_split(Document(doc['doc_id'], doc['author_id'],
                                                               doc['doc_title'], 'lang', 'loc',
                                                               '1882-02-25', doc['doc_content'],
-                                                              'url'))
+                                                              'url'),sw_id=slide_window_id)

@@ -26,7 +26,7 @@ class Document:
     def get_doc_content(self):
         return self.doc_content
 
-    def get_doc_paragraphs(self):
+    def get_doc_paragraphs(self,sw_id):
         """
             This function will return our self-defined paragraph, in the format of a list of lists.
             nltk is used here to tokenize the document's content.
@@ -34,6 +34,10 @@ class Document:
             For example, we just defined 1500 tokens to be a paragraph.
         """
         tokens = nltk.word_tokenize(self.doc_content.decode('utf-8'))
+        print "origin token 0", tokens[0], "token 501", tokens[501]
+        tokens = tokens[sw_id:]
+        print "new token 501", tokens[501]
+        print "slide window cut is ok"
         # Peter, place you code here
         paragraphs = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 500)]
         return paragraphs

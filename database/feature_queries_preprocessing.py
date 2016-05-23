@@ -16,6 +16,7 @@ def get_fact_insert_query(doc_id, paragraph):
     """
     SQL_INSERT_QUERY = ""
     SQL_INSERT_QUERY += paragraph.get_para_insert_query()
+    print "insert to db paragraph is ok"
     SQL_INSERT_QUERY += __format_insert_query(1, doc_id, paragraph.get_total_no_of_words())
     SQL_INSERT_QUERY += __format_insert_query(2, doc_id, paragraph.get_total_no_of_distinct_words())
     SQL_INSERT_QUERY += __format_insert_query(3, doc_id, paragraph.get_average_word_length())
