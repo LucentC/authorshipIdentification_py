@@ -56,6 +56,11 @@ def get_doc_ids_from_database_fact():
     rows = connect_to_database.execute_select_query(SQL_SELECT_QUERY)
     return rows
 
+def get_doc_ids_with_sw_id_from_database_paragraph(sw_id):
+    SQL_SELECT_QUERY = "SELECT DISTINCT doc_id FROM paragraph where sw_id = {} ORDER BY doc_id;".format(sw_id)
+    rows = connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+    return rows
+
 
 def get_docs_from_database_document_by_author_id(author_id):
     SQL_SELECT_QUERY = "SELECT doc_id, author_id, doc_title, doc_content FROM document " \

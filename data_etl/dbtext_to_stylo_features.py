@@ -8,9 +8,11 @@ from data_etl.db_schema_classes.document import Document
 
     Visit connect_to_database.py for more details.
 """
-docs_in_fact = [row['doc_id'] for row in data_warehouse.get_doc_ids_from_database_fact()]
+slide_window_id = 0
+#docs_in_fact = [row['doc_id'] for row in data_warehouse.get_doc_ids_from_database_fact()]
+docs_in_para =[row['doc_id'] for row in data_warehouse.get_doc_ids_with_sw_id_from_database_paragraph(sw_id=slide_window_id)]
 
-for author_id in range(9460, 9500):
+for author_id in range(0, 10):
     """
         Using this method is more memory-friendly as the documents is
         retrieved sequentially
@@ -19,9 +21,9 @@ for author_id in range(9460, 9500):
     docs = data_warehouse.get_docs_from_database_document_by_author_id(author_id)
 
     for doc in docs:
-        if doc['doc_id'] in docs_in_fact:
+        if doc['doc_id'] in docs_in_para:
             docs.remove(doc)
-            print doc['doc_id'], "has already been done"
+            print doc['doc_id'],"with slide window id",slide_window_id, "has already been done"
             continue
 
         print "Dumping novel with doc_id ", str(doc['doc_id'])
