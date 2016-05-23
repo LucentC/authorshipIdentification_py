@@ -14,7 +14,6 @@ def read_paragraphs_and_split(doc,sw_id):
     SQL_INSERT_QUERY += ch.get_chapter_insert_query()
 
     paragraphs = doc.get_doc_paragraphs(sw_id = sw_id)
-    print "get paragraph is ok"
     for para in paragraphs:
         p = Paragraph(doc.get_doc_id(),sw_id, para)
         SQL_INSERT_QUERY += feature_queries_preprocessing.get_fact_insert_query(doc.get_doc_id(), p)

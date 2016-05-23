@@ -34,10 +34,7 @@ class Document:
             For example, we just defined 1500 tokens to be a paragraph.
         """
         tokens = nltk.word_tokenize(self.doc_content.decode('utf-8'))
-        print "origin token 0", tokens[0], "token 501", tokens[501]
         tokens = tokens[sw_id:]
-        print "new token 501", tokens[501]
-        print "slide window cut is ok"
         # Peter, place you code here
         paragraphs = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 500)]
         return paragraphs

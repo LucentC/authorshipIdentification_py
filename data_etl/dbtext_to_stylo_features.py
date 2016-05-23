@@ -26,7 +26,7 @@ for author_id in range(0, 10):
             print doc['doc_id'],"with slide window id",slide_window_id, "has already been done"
             continue
 
-        print "Dumping novel with doc_id ", str(doc['doc_id'])
+        print "Dumping novel with doc_id ", str(doc['doc_id']),"slide window", slide_window_id
         plaintext_data_etl.read_paragraphs_and_split(Document(doc['doc_id'], doc['author_id'],
                                                               doc['doc_title'], 'lang', 'loc',
                                                               '1882-02-25', doc['doc_content'],
