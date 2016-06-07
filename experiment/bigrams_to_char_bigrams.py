@@ -1,7 +1,7 @@
 import itertools
 from database import connect_to_database
 
-SQL_SELECT_QUERY = 'SELECT bigram_id, doc_id, para_id, bigram FROM bigram_feature ORDER BY bigram_id LIMIT 100;'
+SQL_SELECT_QUERY = 'SELECT bigram_id, doc_id, para_id, bigram FROM bigram_feature ORDER BY bigram_id;'
 
 word_list = list(itertools.chain.from_iterable([[word for word in item['bigram'].split('-')]
              for item in connect_to_database.execute_select_query(SQL_SELECT_QUERY)]))
