@@ -8,3 +8,6 @@ def get_normalized_data(features):
     # z_scores = [(x_i - mean)/std_dev for x_i in x]
     X = np.array(features)
     return preprocessing.scale(X)
+
+
+
