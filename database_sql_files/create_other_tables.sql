@@ -39,3 +39,12 @@ CREATE TABLE bigram_feature (
     para_id INTEGER REFERENCES paragraph (para_id) NOT NULL,
     bigram VARCHAR(100) NOT NULL
 );
+
+-- create table char_bigram
+CREATE TABLE char_bigram_feature (
+    char_id SERIAL PRIMARY KEY NOT NULL,
+    bigram_id INTEGER REFERENCES bigram_feature(bigram_id) NOT NULL,
+    doc_id INTEGER REFERENCES document (doc_id) NOT NULL,
+    para_id INTEGER REFERENCES paragraph (para_id) NOT NULL,
+    char_bigram VARCHAR(5) NOT NULL
+);
