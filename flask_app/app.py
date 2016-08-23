@@ -1,17 +1,18 @@
-import os
 import csv
-import time
 import itertools
+import os
 from StringIO import StringIO
+
 from flask import Flask
 from flask import render_template, make_response, request, Markup, jsonify, session
-from werkzeug.utils import secure_filename
 from werkzeug.exceptions import abort
-from data_analysis import data_warehouse
-from data_analysis import data_to_csv
-from data_etl import plaintext_data_etl
+from werkzeug.utils import secure_filename
+
+from csv_exportation import data_to_csv
 from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
+from data_analysis import data_warehouse
 from data_analysis import modified_hausdorff_distance as MHD
+from data_etl import plaintext_data_etl
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'

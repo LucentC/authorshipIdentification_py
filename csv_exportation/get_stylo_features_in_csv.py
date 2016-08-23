@@ -1,4 +1,4 @@
-from data_analysis import data_to_csv
+from csv_exportation import data_to_csv
 from data_analysis import data_warehouse
 
 header_row = ['author id', 'document id', 'paragraph id'] + ['feature ' + str(i) for i in range(1, 57)]
