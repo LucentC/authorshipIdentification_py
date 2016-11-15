@@ -71,6 +71,11 @@ def get_docs_from_database_document_by_doc_id(doc_id):
     return rows
 
 
+def get_docs_name_by_doc_ids(doc_list):
+    SQL_SELECT_QUERY = "SELECT doc_id, doc_title FROM document WHERE doc_id IN ({})".format(','.join(doc_list))
+    rows = connect_to_database.execute_select_query(SQL_SELECT_QUERY)
+    return rows
+
 def get_all_doc_id_from_database_paragraph():
     SELECT_QUERY = "SELECT DISTINCT doc_id FROM paragraph ORDER BY doc_id;"
     rows = connect_to_database.execute_select_query(SELECT_QUERY)

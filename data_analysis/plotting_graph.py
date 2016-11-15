@@ -1,8 +1,10 @@
 import numpy as np
+
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from data_analysis import calculate_principle_component
+
 from data_analysis import calculate_linear_discriminant
+from data_analysis import calculate_principle_component
 
 
 def draw_2D_graph(authors, features):

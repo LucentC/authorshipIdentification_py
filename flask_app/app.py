@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 
 from csv_exportation import data_to_csv
 from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
+from data_analysis import comparision_top10
 from data_analysis import data_warehouse
 from data_analysis import modified_hausdorff_distance as MHD
 from data_etl import plaintext_data_etl
@@ -131,7 +132,7 @@ def get_knn_statics():
         abort(403)
 
     results = []
-    prefix_path = '/tmp/stylometric_app/knn_upload/'
+    prefix_path = '/var/tmp/stylometric_app/knn_upload/'
 
     f = request.files['file']
     path = os.path.join(prefix_path, secure_filename(f.filename))
@@ -259,6 +260,42 @@ def running_self_defined_distance():
                            content='TBC',
                            authors_list=data_warehouse.get_all_author_id_and_name()
                            )
+
+
+@app.route('/select-doc')
+def select_document():
+    if request.method == 'POST':
+        abort(403)
+
+    if request.method == 'GET':
+
+        doc_list = []
+        with open('/var/tmp/demo_queryset_all_docs.csv', 'rb') as csvfile:
+            demo_query_set = csv.reader(csvfile, delimiter=',')
+            for row in demo_query_set:
+                doc_list.append(row[0])
+
+        return render_template('data_visualize/select_doc.html',
+                               title='Select an author',
+                               content=u'Select an author in the following list and the system will display the '
+                                       u'details of that author you selected',
+                               doc_list=data_warehouse.get_docs_name_by_doc_ids(doc_list)
+                               )
+
+
+@app.route('/compare-top', methods=['POST'])
+def compare_authors():
+    if request.method == 'GET':
+        abort(403)
+
+    if request.method == 'POST':
+        doc_id = request.form['doc_id']
+        try:
+            comparision_top10.queryExp(int(doc_id))
+            return 'Success'
+        except ValueError as e:
+            print e.message
+            abort(403)
 
 
 @app.errorhandler(403)
