@@ -731,11 +731,11 @@ def queryExp(q):
                 result.append((doc, doc_to_au_dict[doc]))
             return result
 
-        fileNameString = "./expResult10K_one/" + str(q)
-        f = open(fileNameString, 'wb')
-        f.write(data)
-        f.close()
-        return
+        # fileNameString = "./expResult10K_one/" + str(q)
+        # f = open(fileNameString, 'wb')
+        # f.write(data)
+        # f.close()
+        return data
     except Exception as e:
         print e.message
         return

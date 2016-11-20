@@ -27,11 +27,21 @@ def index():
                                           u'<strong>Total number of authors</strong>, <strong>Total number of '
                                           u'documents</strong> and <strong>Total number of documents with Stylometric '
                                           u'features calculated</strong> will be shown.'),
-                           no_of_authors=data_warehouse.get_total_num_of_authors(),
-                           no_of_documents=data_warehouse.get_total_num_of_docs(),
-                           no_of_documents_with_stylo=data_warehouse.get_total_num_of_docs_with_stylo_values(),
+                           no_of_authors='Retrieving',
+                           no_of_documents='Retrieving',  # data_warehouse.get_total_num_of_docs(),
+                           no_of_documents_with_stylo='Retrieving',
+                           # data_warehouse.get_total_num_of_docs_with_stylo_values(),
                            author_and_docs=data_warehouse.get_author_and_written_docs_count()
                            )
+
+
+@app.route('/get-dbstat')
+def get_db_statistic():
+    return jsonify({
+        'no_of_authors': data_warehouse.get_total_num_of_authors(),
+        'no_of_documents': data_warehouse.get_total_num_of_docs(),
+        'no_of_documents_with_stylo': data_warehouse.get_total_num_of_docs_with_stylo_values(),
+    })
 
 
 @app.route('/details', methods=['GET', 'POST'])
@@ -89,7 +99,7 @@ def get_stylo_csv_file():
 
     output = make_response(string_io.getvalue())
     output.headers['Content-type'] = 'application/csv'
-    output.headers['Content-Disposition'] = 'attachment;filename=result.csv'
+    output.headers['Content-Disposition'] = 'attachment;filename=doc_{}.csv'.format(doc_id)
     return output
 
 
@@ -290,12 +300,12 @@ def compare_authors():
 
     if request.method == 'POST':
         doc_id = request.form['doc_id']
-        try:
-            comparision_top10.queryExp(int(doc_id))
-            return 'Success'
-        except ValueError as e:
-            print e.message
-            abort(403)
+        # try:
+        result = comparision_top10.queryExp(int(doc_id))
+        return result
+        # except ValueError as e:
+        #     print e.message
+        #     abort(403)
 
 
 @app.errorhandler(403)

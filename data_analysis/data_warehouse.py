@@ -91,7 +91,7 @@ def get_cross_tab_features_from_database_by_doc_id(doc_id):
                        "ct.f52, ct.f53, ct.f54, ct.f55, ct.f56, ct.f57  FROM crosstab('SELECT para_id, feature_id, " \
                        "feature_value FROM fact ORDER BY para_id, feature_id', 'SELECT DISTINCT feature_id FROM fact " \
                        "ORDER BY feature_id') as ct(para_id int, f1 real, f2 real, f3 real, f4 real, f5 real, f6 " \
-                       "real, f7 real, f8 real, f9 real, f10 real, f11real, f12 real, f13 real, f14 real, f15 real, " \
+                       "real, f7 real, f8 real, f9 real, f10 real, f11 real, f12 real, f13 real, f14 real, f15 real, " \
                        "f16 real, f17 real, f18 real, f19 real, f20 real, f21 real, f22 real, f23 real, f24 real, " \
                        "f25 real, f26 real, f27 real, f28 real, f29 real, f30 real, f31 real, f32 real, f33 real, " \
                        "f34 real, f35 real, f36 real, f37 real, f38 real, f39 real, f40 real, f41 real, f42 real, " \
