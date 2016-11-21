@@ -45,13 +45,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Sylometric Management System</a>
+            <a class="navbar-brand" href="/">SyloX System</a>
         </div>
 
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <!--    URL,    ID,         Style,                   Display Name -->
             {% set nav_bar = [
-                ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'Dashboard'),
+                ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'StyloX Dashboard'),
                 ('details', 'details', 'fa fa-fw fa-table', 'Details'),
                 ('#', 'algo', 'fa fa-fw fa-cloud', 'Algorithm'),
                 ('selffunc', 'selffunc', 'fa fa-fw fa-code', 'Self Distance'),
@@ -59,8 +60,8 @@
             ] -%}
 
             {% set algorithm = [
-                ('upload', 'upload', 'fa fa-fw fa-edit', 'KNN Authorship'),
-                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Stylometric Charts')
+                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Stylometric Comparison'),
+                ('select-doc', 'upload', 'fa fa-fw fa-edit', 'Authorship Identification'),
             ]-%}
 
             {% set active_page = active_page|default('dashboard') %}

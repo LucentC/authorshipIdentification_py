@@ -735,7 +735,23 @@ def queryExp(q):
         # f = open(fileNameString, 'wb')
         # f.write(data)
         # f.close()
-        return data
+        return doc_to_au_dict[q], {
+            'Time to generate long doc_list(LSH + SHD)': LSHLongListTime,
+            'Pruning Time (LSH + SHD)': LSHSHDPrunListTime,
+            'Time to return topk doclist (LSH + SHD):': LSH_SHDTop5ListTime,
+            'Time to generate long doc_list (LSH + M2HD):': LSHMHDLongListTime,
+            'Time to return topk doclist (LSH+M2HD):': LSHMHDLongListTime,
+            'docList Length LSH:': len(ListLSH_ALL),
+            'docList Length LSH_SHD:': len(ListLSH_SHDPrun),
+            'docList Length LSH_MHD:': LSH_MHD_len,
+            'docList Length LSH_M2HD': LSH_M2HD_len,
+            'prunRatio LSH_SHD:': len(ListLSH_ALL) / len(ListLSH_SHDPrun),
+            'prunRatio LSH_MHD:': len(ListLSH_ALL) / LSH_MHD_len,
+            'prunRatio LSH_M2HD:': len(ListLSH_ALL) / LSH_M2HD_len,
+            'LSH_SHD PKNN:': LSH_SHD_PKNN,
+            'LSH_MHD PKNN:': LSH_MHD_PKNN,
+            'LSH_M2HD PKNN:': LSH_M2HD_PKNN,
+        }
     except Exception as e:
         print e.message
         return

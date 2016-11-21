@@ -1,0 +1,14 @@
+{% extends 'template.html' %}
+{% set active_page = 'details' %}
+
+{% block body %}
+    <div class="row">
+        <h1>Author is {{ author }}</h1>
+        <h3>Below are the statistics:</h3>
+        <ul>
+            {% for key, val in stat %}
+                <li>{{ key }} {{ val }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -301,8 +301,14 @@ def compare_authors():
     if request.method == 'POST':
         doc_id = request.form['doc_id']
         # try:
-        result = comparision_top10.queryExp(int(doc_id))
-        return result
+        author_id, stat = comparision_top10.queryExp(int(doc_id))
+        print stat
+        return render_template('data_visualize/show_stat.html',
+                               title='Result',
+                               content='',
+                               author=data_warehouse.get_author_name_by_id(author_id),
+                               stat=stat.iteritems()
+                               )
         # except ValueError as e:
         #     print e.message
         #     abort(403)
