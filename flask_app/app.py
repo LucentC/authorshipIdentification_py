@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 from csv_exportation import data_to_csv
 from data_analysis import calculate_K_nearest_neighbors_classifier as cknn
 from data_analysis import comparision_top10
-from data_analysis import data_warehouse
+from data_analysis import data_warehouse, data_warehouse_v2
 from data_analysis import modified_hausdorff_distance as MHD
 from data_etl import plaintext_data_etl
 
@@ -289,25 +289,28 @@ def select_document():
                                title='Select an author',
                                content=u'Select an author in the following list and the system will display the '
                                        u'details of that author you selected',
-                               doc_list=data_warehouse.get_docs_name_by_doc_ids(doc_list)
+                               doc_list=data_warehouse_v2.get_docs_name_by_doc_ids(doc_list)
                                )
 
 
 @app.route('/compare-top', methods=['POST'])
 def compare_authors():
+    def to_percentage(dot_num):
+        return '{0:.2f} %'.format(float(dot_num) * 100)
+
     if request.method == 'GET':
         abort(403)
 
     if request.method == 'POST':
         doc_id = request.form['doc_id']
         # try:
-        author_id, stat = comparision_top10.queryExp(int(doc_id))
-        print stat
+        result = comparision_top10.queryExp(int(doc_id))
         return render_template('data_visualize/show_stat.html',
                                title='Result',
                                content='',
-                               author=data_warehouse.get_author_name_by_id(author_id),
-                               stat=stat.iteritems()
+                               author=data_warehouse_v2.get_author_name_by_doc_id(doc_id),
+                               probability=[(int(item[0]), data_warehouse_v2.get_author_name_by_id(int(item[0])),
+                                             to_percentage(item[1])) for item in result],
                                )
         # except ValueError as e:
         #     print e.message

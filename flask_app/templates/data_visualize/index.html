@@ -120,7 +120,7 @@
                                     data-href="/details?author_id={{ row['aid'] }}&doc_num={{ row['doc_num'] }}"
                                     style="cursor: pointer;">
                                     <td>{{ row['aid'] }}</td>
-                                    <td>{{ row['aname'] }}</td>
+                                    <td>{{ row['aname'].decode('utf-8') }}</td>
                                     <td>{{ row['doc_num'] }}</td>
                                 </tr>
                             {% endfor %}

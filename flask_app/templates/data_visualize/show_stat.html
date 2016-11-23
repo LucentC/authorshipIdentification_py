@@ -3,12 +3,30 @@
 
 {% block body %}
     <div class="row">
-        <h1>Author is {{ author }}</h1>
-        <h3>Below are the statistics:</h3>
-        <ul>
-            {% for key, val in stat %}
-                <li>{{ key }} {{ val }}</li>
-            {% endfor %}
-        </ul>
+        <h1>Original Author: {{ author }}</h1>
+        <h3>Below are the statistics of the LSH Authorship Identification Calculation:</h3>
+        <div class="col-lg-9">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Author ID</th>
+                        <th>Author Name</th>
+                        <th>Probability</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in probability %}
+                        <tr class="clickable-row"
+                            style="cursor: pointer;">
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1].decode('utf-8') }}</td>
+                            <td>{{ row[2] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

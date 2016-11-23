@@ -8,12 +8,25 @@
                 <label for="sel1">Select author (select one):</label>
                 <select class="form-control" name="doc_id">
                     {% for row in doc_list %}
-                        <option value="{{ row['doc_id'] }}">{{ row['doc_title'] }} - ({{ row['doc_id'] }})</option>
+                        <option value="{{ row['doc_id'] }}">{{ row['doc_title'].decode('utf-8') }} -
+                            ({{ row['doc_id'] }})
+                        </option>
                     {% endfor %}
                 </select>
                 <br>
-                <input type="submit" class="btn btn-primary btn-lg" value="Submit">
+                <input id="submit_button" onclick="submit_doc()" type="submit" class="btn btn-primary btn-lg"
+                       value="Submit">
             </div>
         </form>
+        <h1 id="warning_text" style="color: red; display: none">Please wait while the server is calculating...</h1>
     </div>
+{% endblock %}
+
+{% block external_js %}
+    <script>
+        function submit_doc() {
+            $("#submit_button").hide();
+            $("#warning_text").show();
+        }
+    </script>
 {% endblock %}

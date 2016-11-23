@@ -41,7 +41,7 @@
                     <select class="form-control" name="author_select" id="author_select">
                         <option value="" selected>-- Choose an author from the list --</option>
                         {%- for row in authors %}
-                            <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
+                            <option value="{{ row['author_id'] }}">{{ row['author_name'].decode('utf-8') }}</option>
                         {%- endfor %}
                     </select>
                 </div>
