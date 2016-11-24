@@ -97,44 +97,6 @@
         </div>
     </div>
     <!-- /.row -->
-
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-bar-chart fa-fw"></i> Details of each author</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead>
-                            <tr>
-                                <th>Author ID</th>
-                                <th>Author Name</th>
-                                <th>Number of Documents</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for row in author_and_docs %}
-                                <tr class="clickable-row"
-                                    data-href="/details?author_id={{ row['aid'] }}&doc_num={{ row['doc_num'] }}"
-                                    style="cursor: pointer;">
-                                    <td>{{ row['aid'] }}</td>
-                                    <td>{{ row['aname'].decode('utf-8') }}</td>
-                                    <td>{{ row['doc_num'] }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-right">
-                        <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 {% endblock %}
 
 {% block external_js %}

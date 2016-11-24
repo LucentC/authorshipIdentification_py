@@ -54,17 +54,12 @@
             {% set nav_bar = [
                 ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'StyloX Dashboard'),
                 ('details', 'details', 'fa fa-fw fa-table', 'Details'),
-                ('#', 'algo', 'fa fa-fw fa-cloud', 'Algorithm'),
-                ('selffunc', 'selffunc', 'fa fa-fw fa-code', 'Self Distance'),
+                ('select-doc', 'authoriden', 'fa fa-fw fa-edit', 'Authorship Identification'),
+                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Stylometric Comparison'),
                 ('https://github.com/CityUHKDB/pladetect_py', 'code', 'fa fa-fw fa-wrench', 'Code'),
-                ('#', 'publication', 'fa fa-fw fa-book', 'Publication'),
+                ('/publication', 'publication', 'fa fa-fw fa-book', 'Publication'),
                 ('#', 'video', 'fa fa-fw fa-video-camera', 'Video Clip'),
             ] -%}
-
-            {% set algorithm = [
-                ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Stylometric Comparison'),
-                ('select-doc', 'upload', 'fa fa-fw fa-edit', 'Authorship Identification'),
-            ]-%}
 
             {% set active_page = active_page|default('dashboard') %}
 

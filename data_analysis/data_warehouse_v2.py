@@ -29,3 +29,9 @@ def get_docs_name_by_doc_ids(doc_list):
     SQL_SELECT_QUERY = "SELECT doc_id, doc_title FROM document WHERE doc_id IN ({})".format(','.join(doc_list))
     rows = connect_to_database_v2.execute_select_query(SQL_SELECT_QUERY)
     return rows
+
+
+def get_total_no_of_paragraphes_by_doc_id(doc_id):
+    SQL_SELECT_QUERY = "SELECT COUNT(DISTINCT para_id) FROM paragraph WHERE doc_id = {};".format(int(doc_id))
+    rows = connect_to_database_v2.execute_select_query(SQL_SELECT_QUERY)[0][0]
+    return rows

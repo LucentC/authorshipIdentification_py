@@ -4,7 +4,7 @@ import os
 from StringIO import StringIO
 
 from flask import Flask
-from flask import render_template, make_response, request, Markup, jsonify, session
+from flask import render_template, make_response, request, Markup, jsonify, session, send_file
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
 
@@ -22,11 +22,8 @@ app.config['SECRET_KEY'] = 'secret'
 @app.route('/')
 def index():
     return render_template('data_visualize/index.html',
-                           title='Dashboard',
-                           content=Markup(u'This is the index page of this application.<br> In the following 3 boxes, '
-                                          u'<strong>Total number of authors</strong>, <strong>Total number of '
-                                          u'documents</strong> and <strong>Total number of documents with Stylometric '
-                                          u'features calculated</strong> will be shown.'),
+                           title='Welcome to the StyloX System',
+                           content='',
                            no_of_authors='Retrieving',
                            no_of_documents='Retrieving',  # data_warehouse.get_total_num_of_docs(),
                            no_of_documents_with_stylo='Retrieving',
@@ -175,12 +172,7 @@ def get_knn_statics():
 def get_chars():
     return render_template('data_visualize/charts.html',
                            title='Stylometric Charts',
-                           content=Markup(u'In this page, you can compare the writing styles of <strong>at most 3 '
-                                          u'documents</strong> in terms of stylometric features. Firstly, you need to '
-                                          u'select an author from the drop-down list. Afterwards, another drop-down '
-                                          u'list is shown for you to select the document. Finally, click the button '
-                                          u'<mark>Add to Table</mark> to add the document into the cache. You will '
-                                          u'need to repeat the steps until there are at least 2 documents.'),
+                           content=Markup(u'<strong>At most 3 documents</strong> are supported for comparison.'),
                            authors_list=data_warehouse.get_all_author_id_and_name()
                            )
 
@@ -286,9 +278,8 @@ def select_document():
                 doc_list.append(row[0])
 
         return render_template('data_visualize/select_doc.html',
-                               title='Select an author',
-                               content=u'Select an author in the following list and the system will display the '
-                                       u'details of that author you selected',
+                               title='Select an document',
+                               content=u'Select a document in the following list',
                                doc_list=data_warehouse_v2.get_docs_name_by_doc_ids(doc_list)
                                )
 
@@ -308,13 +299,20 @@ def compare_authors():
         return render_template('data_visualize/show_stat.html',
                                title='Result',
                                content='',
+                               doc_title=data_warehouse_v2.get_doc_title_by_id(doc_id),
                                author=data_warehouse_v2.get_author_name_by_doc_id(doc_id),
+                               no_of_paragraph=data_warehouse_v2.get_total_no_of_paragraphes_by_doc_id(doc_id),
                                probability=[(int(item[0]), data_warehouse_v2.get_author_name_by_id(int(item[0])),
                                              to_percentage(item[1])) for item in result],
                                )
         # except ValueError as e:
         #     print e.message
         #     abort(403)
+
+
+@app.route('/publication')
+def show_pdf_file():
+    return send_file('/var/tmp/short.pdf')
 
 
 @app.errorhandler(403)

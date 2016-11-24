@@ -1,11 +1,11 @@
 {% extends 'template.html' %}
-{% set active_page = 'details' %}
+{% set active_page = 'authoriden' %}
 
 {% block body %}
     <div class="row">
         <form method="post" action="compare-top" role="form">
             <div class="form-group">
-                <label for="sel1">Select author (select one):</label>
+                <label for="sel1">Select document (select one):</label>
                 <select class="form-control" name="doc_id">
                     {% for row in doc_list %}
                         <option value="{{ row['doc_id'] }}">{{ row['doc_title'].decode('utf-8') }} -
@@ -20,13 +20,19 @@
         </form>
         <h1 id="warning_text" style="color: red; display: none">Please wait while the server is calculating...</h1>
     </div>
+    <div class="row">
+        <div class="col-lg-12" id="spinning"></div>
+    </div>
 {% endblock %}
 
 {% block external_js %}
+    <!-- Spin JS -->
+    <script src="{{ url_for('static', filename='js/upload_external_js_func/spin.js') }}"></script>
     <script>
         function submit_doc() {
             $("#submit_button").hide();
             $("#warning_text").show();
+            $("#spinning").spin("large");
         }
     </script>
 {% endblock %}

@@ -3,14 +3,16 @@
 
 {% block body %}
     <div class="row">
-        <h1>Original Author: {{ author }}</h1>
-        <h3>Below are the statistics of the LSH Authorship Identification Calculation:</h3>
+        <h1>Document Title: {{ doc_title }}</h1>
+        <h2><i>Original Author</i> of the Query Document:</h2>
+        <h2 style="color: darkblue;">{{ author }}</h2>
+        <h3>Total number of paragraphes: {{ no_of_paragraph }}</h3>
+        <h3>The candidate authors of the query document are as follow</h3>
         <div class="col-lg-9">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
                     <tr>
-                        <th>Author ID</th>
                         <th>Author Name</th>
                         <th>Probability</th>
                     </tr>
@@ -19,7 +21,6 @@
                     {% for row in probability %}
                         <tr class="clickable-row"
                             style="cursor: pointer;">
-                            <td>{{ row[0] }}</td>
                             <td>{{ row[1].decode('utf-8') }}</td>
                             <td>{{ row[2] }}</td>
                         </tr>
