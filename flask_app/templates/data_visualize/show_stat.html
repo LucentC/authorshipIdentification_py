@@ -3,9 +3,9 @@
 
 {% block body %}
     <div class="row">
-        <h1>Document Title: {{ doc_title }}</h1>
+        <h1>Document Title: {{ doc_title.decode('utf-8') }}</h1>
         <h2><i>Original Author</i> of the Query Document:</h2>
-        <h2 style="color: darkblue;">{{ author }}</h2>
+        <h2 style="color: darkblue;">{{ author.decode('utf-8') }}</h2>
         <h3>Total number of paragraphes: {{ no_of_paragraph }}</h3>
         <h3>The candidate authors of the query document are as follow</h3>
         <div class="col-lg-9">

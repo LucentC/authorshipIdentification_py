@@ -1,6 +1,7 @@
 import csv
 import itertools
 import os
+import httplib
 from StringIO import StringIO
 
 from flask import Flask
@@ -35,9 +36,9 @@ def index():
 @app.route('/get-dbstat')
 def get_db_statistic():
     return jsonify({
-        'no_of_authors': data_warehouse.get_total_num_of_authors(),
-        'no_of_documents': data_warehouse.get_total_num_of_docs(),
-        'no_of_documents_with_stylo': data_warehouse.get_total_num_of_docs_with_stylo_values(),
+        'no_of_authors': 100,  # data_warehouse.get_total_num_of_authors(),
+        'no_of_documents': 300,  # data_warehouse.get_total_num_of_docs(),
+        # 'no_of_documents_with_stylo': data_warehouse.get_total_num_of_docs_with_stylo_values(),
     })
 
 
@@ -313,6 +314,13 @@ def compare_authors():
 @app.route('/publication')
 def show_pdf_file():
     return send_file('/var/tmp/short.pdf')
+
+
+@app.route('/cnn')
+def retrieve_cnn_result():
+    conn = httplib.HTTPConnection('144.214.121.15')
+    conn.request('HEAD', '/flask')
+    return conn.getresponse()
 
 
 @app.errorhandler(403)
