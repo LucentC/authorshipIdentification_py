@@ -332,6 +332,11 @@ def show_pdf_file():
     return send_file('/var/tmp/short.pdf')
 
 
+@app.route('/video')
+def show_video():
+    return send_file('/var/tmp/demo_clip.mp4')
+
+
 @app.route('/cnn')
 def retrieve_cnn_result():
     def to_percentage(dot_num):
