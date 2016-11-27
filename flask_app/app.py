@@ -2,6 +2,7 @@ import csv
 import itertools
 import os
 import httplib
+import requests
 from StringIO import StringIO
 
 from flask import Flask
@@ -279,8 +280,8 @@ def select_document():
                 doc_list.append(row[0])
 
         return render_template('data_visualize/select_doc.html',
-                               title='Select an document',
-                               content=u'Select a document in the following list',
+                               title='Select an document to query',
+                               content='Please select a query document',
                                doc_list=data_warehouse_v2.get_docs_name_by_doc_ids(doc_list)
                                )
 
@@ -290,6 +291,12 @@ def compare_authors():
     def to_percentage(dot_num):
         return '{0:.2f} %'.format(float(dot_num) * 100)
 
+    def format_cnn_query(doc_id, author_id_list):
+        query_str = '?doc_id={}'.format(doc_id)
+        for a_id in author_id_list:
+            query_str += '&author_id={}'.format(a_id)
+        return query_str
+
     if request.method == 'GET':
         abort(403)
 
@@ -297,6 +304,7 @@ def compare_authors():
         doc_id = request.form['doc_id']
         # try:
         result = comparision_top10.queryExp(int(doc_id))
+        session['cnn_query'] = format_cnn_query(doc_id, [int(item[0]) for item in result])
         return render_template('data_visualize/show_stat.html',
                                title='Result',
                                content='',
@@ -318,9 +326,14 @@ def show_pdf_file():
 
 @app.route('/cnn')
 def retrieve_cnn_result():
-    conn = httplib.HTTPConnection('144.214.121.15')
-    conn.request('HEAD', '/flask')
-    return conn.getresponse()
+    # if not request.is_xhr:
+    #     return 'Not Ajax'
+
+    if 'cnn_query' not in session:
+        return
+
+    res = requests.get('http://144.214.121.15:8080/flask/getresult{}'.format(session['cnn_query']))
+    return jsonify(res.json())
 
 
 @app.errorhandler(403)

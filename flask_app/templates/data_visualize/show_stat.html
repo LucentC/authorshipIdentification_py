@@ -28,6 +28,27 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-lg-9">
+                <button id="cnn_button" onclick="get_cnn()" class="btn btn-primary btn-lg">Apply CNN on the candidate
+                    authors above
+                </button>
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block external_js %}
+    <script>
+        function get_cnn() {
+            $("#cnn_button").hide();
+            $.ajax({
+                type: "GET",
+                url: "/cnn",
+                dataType: "json",
+                success: function (result) {
+                    alert(result);
+                }
+            });
+        }
+    </script>
 {% endblock %}
