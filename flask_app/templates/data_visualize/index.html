@@ -7,23 +7,23 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: '/get-dbstat',
-                success: function (stat) {
-                    $.each(stat, function (key, value) {
-                        if (key == "no_of_authors")
-                            $("#no_of_authors").text(value);
-                        else if (key == "no_of_documents")
-                            $("#no_of_documents").text(value);
-                        else
-                            $("#no_of_stylo_doc").text(value);
-                    });
-                }
-            });
-        });
-    </script>
+    {#    <script>#}
+    {#        $(document).ready(function () {#}
+    {#            $.ajax({#}
+    {#                url: '/get-dbstat',#}
+    {#                success: function (stat) {#}
+    {#                    $.each(stat, function (key, value) {#}
+    {#                        if (key == "no_of_authors")#}
+    {#                            $("#no_of_authors").text(value);#}
+    {#                        else if (key == "no_of_documents")#}
+    {#                            $("#no_of_documents").text(value);#}
+    {#                        else#}
+    {#                            $("#no_of_stylo_doc").text(value);#}
+    {#                    });#}
+    {#                }#}
+    {#            });#}
+    {#        });#}
+    {#    </script>#}
 {% endblock %}
 
 {% block body %}
@@ -59,8 +59,8 @@
                             <i class="fa fa-file-text fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge" id="no_of_documents">{{ no_of_documents }}</div>
-                            <div>Total number of documents</div>
+                            <div class="huge" id="no_of_documents">{{ avg_no_of_doc }}</div>
+                            <div>Average number of documents</div>
                         </div>
                     </div>
                 </div>
@@ -73,28 +73,30 @@
                 </a>
             </div>
         </div>
-        {#        <div class="col-lg-3 col-md-6">#}
-        {#            <div class="panel panel-yellow">#}
-        {#                <div class="panel-heading">#}
-        {#                    <div class="row">#}
-        {#                        <div class="col-xs-3">#}
-        {#                            <i class="fa fa-text-height fa-5x"></i>#}
-        {#                        </div>#}
-        {#                        <div class="col-xs-9 text-right">#}
-        {#                            <div class="huge" id="no_of_stylo_doc">{{ no_of_documents_with_stylo }}</div>#}
-        {#                            <div>Calculated stylometric features</div>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#                <a href="/details">#}
-        {#                    <div class="panel-footer">#}
-        {#                        <span class="pull-left">View Details</span>#}
-        {#                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>#}
-        {#                        <div class="clearfix"></div>#}
-        {#                    </div>#}
-        {#                </a>#}
-        {#            </div>#}
-        {#        </div>#}
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-9">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-text-height fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge" id="no_of_stylo_doc">{{ variation }}</div>
+                            <div>Variation among the length of sample doucments</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/details">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
     <!-- /.row -->
 {% endblock %}

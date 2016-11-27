@@ -26,11 +26,11 @@ def index():
     return render_template('data_visualize/index.html',
                            title='Welcome to the StyloX System',
                            content='',
-                           no_of_authors='Retrieving',
-                           no_of_documents='Retrieving',  # data_warehouse.get_total_num_of_docs(),
-                           no_of_documents_with_stylo='Retrieving',
+                           no_of_authors=100,
+                           avg_no_of_doc=3,  # data_warehouse.get_total_num_of_docs(),
+                           variation='1500 words to 1.2 million words',
                            # data_warehouse.get_total_num_of_docs_with_stylo_values(),
-                           author_and_docs=data_warehouse.get_author_and_written_docs_count()
+                           author_and_docs=data_warehouse.get_author_and_written_docs_count(),
                            )
 
 
