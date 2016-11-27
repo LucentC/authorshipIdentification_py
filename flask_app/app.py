@@ -297,6 +297,12 @@ def compare_authors():
             query_str += '&author_id={}'.format(a_id)
         return query_str
 
+    def can_apply_cnn(actual_author, author_list):
+        for a_id in author_list:
+            if int(actual_author) == int(a_id):
+                return True
+        return False
+
     if request.method == 'GET':
         abort(403)
 
@@ -313,6 +319,8 @@ def compare_authors():
                                no_of_paragraph=data_warehouse_v2.get_total_no_of_paragraphes_by_doc_id(doc_id),
                                probability=[(int(item[0]), data_warehouse_v2.get_author_name_by_id(int(item[0])),
                                              to_percentage(item[1])) for item in result],
+                               can_cnn=can_apply_cnn(int(data_warehouse_v2.get_author_id_by_doc_id(doc_id)),
+                                                     [int(item[0]) for item in result]),
                                )
         # except ValueError as e:
         #     print e.message
@@ -326,6 +334,9 @@ def show_pdf_file():
 
 @app.route('/cnn')
 def retrieve_cnn_result():
+    def to_percentage(dot_num):
+        return '{0:.2f} %'.format(float(dot_num) * 100)
+
     # if not request.is_xhr:
     #     return 'Not Ajax'
 
@@ -333,7 +344,8 @@ def retrieve_cnn_result():
         return
 
     res = requests.get('http://144.214.121.15:8080/flask/getresult{}'.format(session['cnn_query']))
-    return jsonify(res.json())
+    retdict = {data_warehouse_v2.get_author_name_by_id(int(key)): to_percentage(val) for key, val in res.json().items()}
+    return jsonify(retdict)
 
 
 @app.errorhandler(403)

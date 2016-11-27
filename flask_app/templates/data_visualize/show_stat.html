@@ -29,9 +29,31 @@
                 </table>
             </div>
             <div class="col-lg-9">
-                <button id="cnn_button" onclick="get_cnn()" class="btn btn-primary btn-lg">Apply CNN on the candidate
-                    authors above
-                </button>
+                {% if can_cnn %}
+                    <button id="cnn_button" onclick="get_cnn()" class="btn btn-primary btn-lg">Apply CNN on the
+                        candidate
+                        authors above
+                    </button>
+                {% else %}
+                    <h3>CNN query not support since the actual author is not in the above list</h3>
+                {% endif %}
+            </div>
+            <h3 id="cnn_msg" style="display: none; color: red;">Pleae wait while the server is processing the CNN
+                calculation.</h3>
+            <div id="cnn_table" class="col-lg-9" style="display: none;">
+                <h3>Result from CNN</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Author Name</th>
+                            <th>Probability</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -41,12 +63,17 @@
     <script>
         function get_cnn() {
             $("#cnn_button").hide();
+            $("#cnn_msg").show();
             $.ajax({
                 type: "GET",
                 url: "/cnn",
                 dataType: "json",
                 success: function (result) {
-                    alert(result);
+                    $tbody = $("#cnn_table").find("tbody");
+                    $.each(result, function (key, value) {
+                        $tbody.append("<tr><td>" + key + "</td><td>" + value + "</td></tr>");
+                    });
+                    $("#cnn_table").show();
                 }
             });
         }

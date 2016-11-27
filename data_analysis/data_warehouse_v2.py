@@ -14,6 +14,12 @@ def get_author_name_by_id(author_id):
         return -1
 
 
+def get_author_id_by_doc_id(doc_id):
+    SQL_SELECT_QUERY = "SELECT a.author_id FROM author a INNER JOIN document d ON a.author_id = d.author_id WHERE d.doc_id = {};".format(
+            doc_id)
+    return connect_to_database_v2.execute_select_query(SQL_SELECT_QUERY)[0]['author_id']
+
+
 def get_author_name_by_doc_id(doc_id):
     SQL_SELECT_QUERY = "SELECT author_name FROM author a INNER JOIN document d ON a.author_id = d.author_id WHERE d.doc_id = {};".format(
         doc_id)
