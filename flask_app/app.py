@@ -173,7 +173,7 @@ def get_knn_statics():
 @app.route('/charts')
 def get_chars():
     return render_template('data_visualize/charts.html',
-                           title='Stylometric Charts',
+                           title='Stylometric Comparison',
                            content=Markup(u'<strong>At most 3 documents</strong> are supported for comparison.'),
                            authors_list=data_warehouse.get_all_author_id_and_name()
                            )
@@ -280,7 +280,7 @@ def select_document():
                 doc_list.append(row[0])
 
         return render_template('data_visualize/select_doc.html',
-                               title='Select an document to query',
+                               title='Select a document to query',
                                content='Please select a query document',
                                doc_list=data_warehouse_v2.get_docs_name_by_doc_ids(doc_list)
                                )
