@@ -11,7 +11,7 @@ class Document:
         self.lang = lang
         self.loc_class = unicode(loc_class, 'utf-8', errors='ignore').encode('utf-8')
         self.release_date = release_date
-        self.doc_content = unicode(doc_content, 'utf-8', errors='ignore').encode('utf-8')
+        self.doc_content = doc_content.encode('utf-8')
         self.gu_url = gu_url
 
     def get_doc_id(self):
@@ -34,18 +34,18 @@ class Document:
             For example, we just defined 1500 tokens to be a paragraph.
         """
         tokens = nltk.word_tokenize(self.doc_content.decode('utf-8'))
-        paragraphs = [tokens[x:x + 1500] for x in xrange(0, len(tokens), 500)]
+        paragraphs = [tokens[x:x + 500] for x in xrange(0, len(tokens), 500)]
         return paragraphs
 
     def get_doc_insert_query(self):
         if self.author_id is -1:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, lang, loc_class, doc_content, " \
+            return "INSERT INTO document_unicode(author_id, doc_title, year_of_pub, lang, loc_class, doc_content, " \
                    "gutenberg_url) VALUES (currval('author_author_id_seq'), {}, {}, {}, {}, {}, {});\n"\
                     .format(QuotedString(self.doc_title).getquoted(), QuotedString(self.release_date).getquoted(),
                             QuotedString(self.lang), QuotedString(self.loc_class).getquoted(),
                             QuotedString(self.doc_content).getquoted(), QuotedString(self.gu_url).getquoted())
         else:
-            return "INSERT INTO document(author_id, doc_title, year_of_pub, lang, loc_class, doc_content, " \
+            return "INSERT INTO document_unicode(author_id, doc_title, year_of_pub, lang, loc_class, doc_content, " \
                    "gutenberg_url) VALUES ({}, {}, {}, {}, {}, {}, {});\n"\
                     .format(self.author_id, QuotedString(self.doc_title).getquoted(),
                             QuotedString(self.release_date).getquoted(), QuotedString(self.lang),

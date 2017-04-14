@@ -1,3 +1,4 @@
+import io
 import re
 import sys
 import zipfile
@@ -94,7 +95,7 @@ def read_file_get_content(file_path):
 
     try:
 
-        with open(path_to_store_txt + file_path, 'r') as doc_file:
+        with io.open(path_to_store_txt + file_path, mode='r', encoding='ISO-8859-1') as doc_file:
 
             contin = False
             content = ''
