@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: pyflask
+    ports:
+    - "5000:5000"
+    volumes:
+    - .:/tmp
+    environment:
+      TZ: "Asia/Bangkok"
+      FLASK_ENV: "development"
+    links:
+    - db
+    restart_policy:
+      condition: always
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: stylometry
+    volumes:
+    - .:/tmp
+    expose:
+    - 5432
+    restart_policy:
+      condition: always
