@@ -19,10 +19,17 @@ services:
     container_name: psql-compose
     environment:
       POSTGRES_PASSWORD: stylometry
-    volumes:
-    - $PWD/preconfigure.sh:/var/
-    - /pgdata/:/var/lib/postgresql/10/main
-    - /postgres/:/postgres/
+      PARMDBUSER: postgres
+      PARMNEWDBUSER: stylometry
+      PARMNEWDBPW: $PARMNEWDBUSER
+      PARMNEWDBNAME: $PARMNEWDBUSER
+
+    command: 
+      bash -c "su - $PARMDBUSER -c "psql -c \"CREATE USER $PARMNEWDBUSER WITH PASSWORD '$PARMNEWDBPW';\"" && su - $PARMDBUSER -c "psql -c \"CREATE DATABASE $PARMNEWDBNAME;\"" && su - $PARMDBUSER -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE $PARMNEWDBNAME TO $PARMNEWDBUSER;\"""
+    # volumes:
+    # - $PWD/preconfigure.sh:/var/
+    # - /pgdata/:/var/lib/postgresql/10/main
+    # - /postgres/:/postgres/
     expose:
     - 5432
     restart: always
