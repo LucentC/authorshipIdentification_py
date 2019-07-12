@@ -18,9 +18,9 @@ function create_database
 {
     # apt-get install $PARMPOSTGRESQL -y
     useradd -s /bin/bash -m $PARMNEWDBUSER
-    su - $PARMDBUSER -c "psql -c \"CREATE USER $PARMNEWDBUSER WITH PASSWORD '$PARMNEWDBPW';\""
-    su - $PARMDBUSER -c "psql -c \"CREATE DATABASE $PARMNEWDBNAME;\""
-    su - $PARMDBUSER -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE $PARMNEWDBNAME TO $PARMNEWDBUSER;\""
+    su $PARMDBUSER -c "psql -c \"CREATE USER $PARMNEWDBUSER WITH PASSWORD '$PARMNEWDBPW';\""
+    su $PARMDBUSER -c "psql -c \"CREATE DATABASE $PARMNEWDBNAME;\""
+    su $PARMDBUSER -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE $PARMNEWDBNAME TO $PARMNEWDBUSER;\""
 }
 
 function create_author_doc_tables
