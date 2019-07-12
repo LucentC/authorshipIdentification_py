@@ -20,6 +20,7 @@ services:
     environment:
       POSTGRES_PASSWORD: stylometry
     volumes:
+    - $PWD/preconfigure.sh:/var/
     - /pgdata/:/var/lib/postgresql/10/main
     - /postgres/:/postgres/
     expose:
