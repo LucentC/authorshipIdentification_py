@@ -9,5 +9,5 @@ RUN apt-get upgrade -y
 RUN apt-get install python-flask -y
 EXPOSE 80
 ENV FLASK_APP=flask_app/app.py
-ENTRYPOINT ["bash", "-c"]
-# CMD [ "python", "-m", "flask", "run", "--host=0.0.0.0","-p","80" ]
+ENTRYPOINT ["bash"]
+CMD ["./start.sh"]
