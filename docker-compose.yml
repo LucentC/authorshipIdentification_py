@@ -3,18 +3,20 @@ services:
   db:
     container_name: db
     image: postgres:10
-    volume:
-      - /postgres/:/docker-entrypoint-initdb.d/
+    restart_policy:
+      condition: always 
+    volumes:
+      - /postgres/demo:/docker-entrypoint-initdb.d/
       - /pgdata/:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=stylometry
       - POSTGRES_DB=stylometry
 
-  sytometry-web:
-    container_name: sytometry_web
+  stylometry-web:
+    container_name: stylometry_web
     build: 
       context: .
-      dockerfile: sytometry-web-dockerfile 
+      dockerfile: stylometry-web-dockerfile 
     links:
       - db
     ports:
