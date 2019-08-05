@@ -3,11 +3,12 @@ services:
   db:
     container_name: db
     image: postgres:10
-    restart_policy:
-      condition: always 
+    deploy:
+      restart_policy:
+        condition: always 
     volumes:
-      - /postgres/demo:/docker-entrypoint-initdb.d/
-      - /pgdata/:/var/lib/postgresql/data/
+      - /postgres/demo/:/docker-entrypoint-initdb.d/
+      - /pgdata:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=stylometry
       - POSTGRES_DB=stylometry
