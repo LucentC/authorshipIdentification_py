@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    image: postgres:10
+    volume:
+      - /postgres/:/docker-entrypoint-initdb.d/
+      - /pgdata/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=stylometry
+      - POSTGRES_DB=stylometry
+
+  sytometry-web:
+    container_name: sytometry_web
+    build: 
+      context: .
+      dockerfile: sytometry-web-dockerfile 
+    links:
+      - db
+    ports:
+      - 16112:80
