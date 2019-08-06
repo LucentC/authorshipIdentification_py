@@ -1,0 +1,24 @@
+FROM alpine
+
+RUN apk add --no-cache bash py2-pip postgresql-dev \
+	&& pip2 install --upgrade pip \
+	&& pip2 install flask nltk numpy==1.13.0rc1 scikit-learn==0.16 scrapy psycopg2
+RUN pip install --no-cache-dir --disable-pip-version-check scipy==0.19.0
+
+#POSTGRES
+RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+    apk update && \
+    apk add curl "libpq@edge<9.7" "postgresql-client@edge<9.7" "postgresql@edge<9.7" "postgresql-contrib@edge<9.7" && \
+    mkdir /docker-entrypoint-initdb.d && \
+    curl -o /usr/local/bin/gosu -sSL "https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64" && \
+    chmod +x /usr/local/bin/gosu && \
+    apk del curl && \
+    rm -rf /var/cache/apk/*
+
+ENV LANG en_US.utf8
+ENV PGDATA /var/lib/postgresql/data
+VOLUME /var/lib/postgresql/data
+
+COPY docker-entrypoint.sh /
+RUN docker-entrypoint.sh postgres
+EXPOSE 5432

@@ -1,9 +1,7 @@
 import psycopg2
 from psycopg2.extras import DictCursor
 
-connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'db' password = 'stylometry'"
-#connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' password = 'stylometry'"
-
+connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' password = 'stylometry'"
 
 # connection_string = "dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'"
 

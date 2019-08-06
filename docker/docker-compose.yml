@@ -7,8 +7,9 @@ services:
       restart_policy:
         condition: always 
     volumes:
-      - /postgres/demo/:/docker-entrypoint-initdb.d/
-      - /pgdata:/var/lib/postgresql/data/
+      - /Users/schent/Garage/playground/demo:/docker-entrypoint-initdb.d/
+      # - /postgres/demo/:/docker-entrypoint-initdb.d/
+      # - /pgdata:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=stylometry
       - POSTGRES_DB=stylometry
@@ -27,8 +28,8 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL: "admin@admin.com" 
-      - PGADMIN_DEFAULT_PASSWORD: "1q2w3e4rj"
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=1q2w3e4r
     links:
       - db
     ports:
