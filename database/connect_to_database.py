@@ -2,7 +2,8 @@ import psycopg2
 from psycopg2.extras import DictCursor
 
 connection_string = "dbname = 'stylometry' user = 'stylometry' host = 'localhost' password = 'stylometry'"
-
+psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
 # connection_string = "dbname = 'stylometry_v2' user = 'dickson' host = 'localhost' password = 'dickson'"
 
 
@@ -13,6 +14,7 @@ def execute_insert_query(query):
     """
     try:
         conn = psycopg2.connect(connection_string)
+        conn.set_client_encoding('UTF8')
         conn.autocommit = True
         cursor = conn.cursor()
         cursor.execute(query)
@@ -44,6 +46,7 @@ def execute_select_query(query):
     """
     try:
         conn = psycopg2.connect(connection_string)
+        conn.set_client_encoding('UTF8')
         cursor = conn.cursor(cursor_factory=DictCursor)
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -73,6 +76,7 @@ def test_if_author_exists(author):
 
     try:
         conn = psycopg2.connect(connection_string)
+        conn.set_client_encoding('UTF8')
         cursor = conn.cursor(cursor_factory=DictCursor)
         cursor.execute(author.get_if_author_existing_query())
         row = cursor.fetchone()
