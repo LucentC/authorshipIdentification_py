@@ -223,10 +223,13 @@ def return_doc_list():
 
 @app.route('/getcsv', methods=['POST'])
 def get_csv():
+
     author_list = []
     feature_list = []
 
     doc_id_list = request.form.getlist('doc_list')
+
+    
 
     for idx in range(0, len(doc_id_list)):
         features = data_warehouse.get_stylometric_features_by_doc_id(doc_id_list[idx])

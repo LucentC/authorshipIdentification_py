@@ -21,7 +21,7 @@ function add_rows_to_table() {
 function add_a_row(author, doc) {
     if ("content" in document.createElement("template")) {
         var t = document.querySelector("#author_docs").content;
-        t.querySelector('tr').id = doc.val();
+        t.querySelector('tr').id = doc.val(); //This is not doc_id 
 
         td = t.querySelectorAll("td");
         td[0].textContent = author.html();
@@ -30,7 +30,7 @@ function add_a_row(author, doc) {
         td[2].innerHTML = '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#doc_modal" ' +
             'onclick="get_content_by_id(' + doc.val() + ')"><span class="glyphicon glyphicon-folder-open"></span></button>';
 
-        td[3].innerHTML = '<input checked="" type="checkbox" class="doc_list" name="doc_list" value="'+ doc.val() + '" style="display: none;">' +
+        td[3].innerHTML = '<input checked="" type="checkbox" class="doc_list" name="doc_list" value="' + doc.val() + '" style="display: none;">' +
             '<button type="button" class="btn btn-warning" onclick="remove_row_from_table(' + doc.val() + ')">' +
             '<span class="glyphicon glyphicon-trash"></span></button>';
 
@@ -92,10 +92,11 @@ function show_author_doc_elements() {
 
 
 function add_options(id, key, val) {
+
     $("#" + id)
         .append($("<option></option>")
-            .val(key)
-            .html(val));
+            .val(val[0]) //Change key to val[0]
+            .html(val[1]));
 }
 
 
@@ -114,7 +115,7 @@ $("#author_select").on("change", function () {
         data: "author_id=" + this.value,
         dataType: "json",
         success: function (result) {
-            add_options("doc_select", "", "-- Choose a document written by this author --");
+            add_options("doc_select", "", ["", "-- Choose a document written by this author --"]);
 
             $.each(result, function (key, value) {
                 add_options("doc_select", key, value);
