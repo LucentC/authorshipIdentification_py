@@ -13,7 +13,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -33,140 +33,141 @@
 
 <body>
 
-<div id="wrapper">
+    <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">SyloX System</a>
-        </div>
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">SyloX System</a>
+            </div>
 
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <!--    URL,    ID,         Style,                   Display Name -->
-            {% set nav_bar = [
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <!--    URL,    ID,         Style,                   Display Name -->
+                {% set nav_bar = [
                 ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'StyloX Dashboard'),
                 ('details', 'details', 'fa fa-fw fa-table', 'Details'),
-                ('#', 'algo', 'fa fa-fw fa-cloud', 'Algorithm'),
+                ('charts', 'algo', 'fa fa-fw fa-cloud', 'Stylometric Comparison'),
                 ('selffunc', 'selffunc', 'fa fa-fw fa-code', 'Self Distance'),
                 ('https://github.com/CityUHKDB/pladetect_py', 'code', 'fa fa-fw fa-wrench', 'Code')
             ] -%}
 
-            {% set algorithm = [
+                <!---{% set algorithm = [
                 ('charts', 'charts','fa fa-fw fa-bar-chart-o', 'Stylometric Comparison'),
                 ('select-doc', 'upload', 'fa fa-fw fa-edit', 'Authorship Identification'),
-            ]-%}
+            ]-%}-->
 
-            {% set active_page = active_page|default('dashboard') %}
+                {% set active_page = active_page|default('dashboard') %}
 
-            <ul class="nav navbar-nav side-nav">
-                {% for href, id, class, caption in nav_bar %}
-                    <li{% if id == active_page %} class="active"{% endif %}>
+                <ul class="nav navbar-nav side-nav">
+                    {% for href, id, class, caption in nav_bar %}
+                    <li{% if id == active_page %} class="active" {% endif %}>
 
                         {% if id == 'algo' %}
 
-                            <a class data-toggle="collapse" data-target="#dropdown" href="{{ href|e }}" aria-expanded="true">
-                                <i class="{{ class|e }}"></i>
-                                {{ caption|e }}
-                                <i class="fa fa-fw fa-caret-square-o-down"></i>
-                            </a>
-                            <ul id="dropdown" class="collapse" aria-expanded="true">
+                        <a class data-toggle="collapse" data-target="#dropdown" href="{{ href|e }}"
+                            aria-expanded="true">
+                            <i class="{{ class|e }}"></i>
+                            {{ caption|e }}
+                            <!-- <i class="fa fa-fw fa-caret-square-o-down"></i> -->
+                        </a>
+                        <ul id="dropdown" class="collapse" aria-expanded="true">
 
-                                {% for sub_href, sub_id, sub_class, sub_caption in algorithm %}
-                                    <li>
-                                        <a href="{{ sub_href|e }}">
-                                            <i class="{{ sub_class|e }}"></i> {{ sub_caption|e }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
+                            <!-- {% for sub_href, sub_id, sub_class, sub_caption in algorithm %}
+                            <li>
+                                <a href="{{ sub_href|e }}">
+                                    <i class="{{ sub_class|e }}"></i> {{ sub_caption|e }}
+                                </a>
+                            </li>
+                            {% endfor %} -->
 
-                            </ul>
+                        </ul>
 
                         {% else %}
-                            <a href="{{ href|e }}"><i class="{{ class|e }}"></i> {{ caption|e }}</a>
+                        <a href="{{ href|e }}"><i class="{{ class|e }}"></i> {{ caption|e }}</a>
                         {% endif %}
 
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </nav>
-
-    <!-- Start of the page header. All the introductory text or meta-data of the page will be displayed in here -->
-    <div id="page-wrapper">
-
-        <div class="container-fluid">
-
-            <div id="fill">
-
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        {{ title }}
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <i class="fa fa-dashboard"></i> <a href="/">Dashboard</a>
                         </li>
-                        <li class="active">
-                            <i class="fa fa-bar-chart-o"></i> {{ title }}
-                        </li>
-                    </ol>
-                </div>
+                        {% endfor %}
+                </ul>
             </div>
-            <!-- /.row -->
+            <!-- /.navbar-collapse -->
+        </nav>
 
-            <!-- Flot Charts -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <!--<h2 class="page-header">{{ title }}</h2>-->
-                    <p id="header_text" class="lead">{{ content }}</p>
+        <!-- Start of the page header. All the introductory text or meta-data of the page will be displayed in here -->
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <div id="fill">
+
+                    <!-- Page Heading -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">
+                                {{ title }}
+                            </h1>
+                            <ol class="breadcrumb">
+                                <li>
+                                    <i class="fa fa-dashboard"></i> <a href="/">Dashboard</a>
+                                </li>
+                                <li class="active">
+                                    <i class="fa fa-bar-chart-o"></i> {{ title }}
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- Flot Charts -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!--<h2 class="page-header">{{ title }}</h2>-->
+                            <p id="header_text" class="lead">{{ content }}</p>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    {% block body %} {% endblock %}
+
                 </div>
-            </div>
-            <!-- /.row -->
-
-            {% block body %} {% endblock %}
 
             </div>
 
         </div>
-
+        <!-- /#wrapper -->
     </div>
-    <!-- /#wrapper -->
-</div>
 
-<!-- Flot Charts JavaScript -->
+    <!-- Flot Charts JavaScript -->
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
 
-<!-- Morris Charts JavaScript -->
-<script src="{{ url_for('static', filename='js/plugins/morris/raphael.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/plugins/morris/morris.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/plugins/morris/morris-data.js') }}"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="{{ url_for('static', filename='js/plugins/morris/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/morris/morris.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/morris/morris-data.js') }}"></script>
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-{% block external_js %}{% endblock %}
+    {% block external_js %}{% endblock %}
 
 </body>
 
