@@ -2,7 +2,7 @@ function get_content_by_id(doc_id) {
 
     $.ajax({
         type: "POST",
-        url: "/sytlometry/doccontent",
+        url: "/stylometry/doccontent",
         data: "doc_id=" + doc_id,
         success: function (result) {
 
