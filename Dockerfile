@@ -8,7 +8,6 @@ RUN apt-get update -y && \
 RUN adduser --ingroup sudo --disabled-password --gecos '' stylometry
 ENV PYTHONPATH=/usr/lib/python{2.7,3,3.6}/dist-packages:$PYTHONPATH 
 COPY [".", "/tmp"]
-COPY ["default","/etc/nginx/sites-available/default"]
 WORKDIR /tmp
 EXPOSE 80 
 EXPOSE 5432
