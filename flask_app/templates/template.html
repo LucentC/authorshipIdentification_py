@@ -45,14 +45,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url_for('index') }}">SyloX System</a>
+                <a class="navbar-brand" href="/stylometry{{ url_for('index') }}">SyloX System</a>
             </div>
 
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <!--    URL,    ID,         Style,                   Display Name -->
                 {% set nav_bar = [
-                ('/', 'dashboard' ,'fa fa-fw fa-dashboard', 'StyloX Dashboard'),
+                ('/stylometry/', 'dashboard' ,'fa fa-fw fa-dashboard', 'StyloX Dashboard'),
                 ('details', 'details', 'fa fa-fw fa-table', 'Details'),
                 ('charts', 'algo', 'fa fa-fw fa-cloud', 'Stylometric Comparison'),
                 ('selffunc', 'selffunc', 'fa fa-fw fa-code', 'Self Distance'),
