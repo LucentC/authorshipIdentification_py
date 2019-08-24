@@ -2,7 +2,7 @@
 
 IMGNAME=stylometry_web
 LOCALPORT=16112
-VOL="-v /pgdata/:/var/lib/postgresql/9.5/main -v /postgres/demo/stylometry_final.sql:/postgres/stylometry_demo.sql"
+VOL="-v /postgres/demo/stylometry_demo.sql:/postgres/stylometry_demo.sql"
 
 if [[ "$(docker images -q $IMGNAME 2> /dev/null)" == "" ]]; then
   docker build -t $IMGNAME .;

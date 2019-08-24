@@ -118,9 +118,9 @@
 
 {% block external_js %}
 <!-- Spin JS -->
-<script src="{{ url_for('static', filename='stylometry/js/upload_external_js_func/spin.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/upload_external_js_func/spin.js') }}"></script>
 <!-- Dropzone JS -->
-<script src="{{ url_for('static', filename='stylometry/js/upload_external_js_func/dropzone.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/upload_external_js_func/dropzone.js') }}"></script>
 <!-- External JS -->
-<script src="{{ url_for('static', filename='stylometry/js/upload_external_js_func/author_selection.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/upload_external_js_func/author_selection.js') }}"></script>
 {% endblock %}

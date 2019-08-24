@@ -128,10 +128,10 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="{{ url_for('static', filename='stylometry/js/chart_external_js_func/scatter_graph_lib.js') }}"></script>
-<script src="{{ url_for('static', filename='stylometry/js/chart_external_js_func/chart_external.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/chart_external_js_func/scatter_graph_lib.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/chart_external_js_func/chart_external.js') }}"></script>
 <script
-    src="{{ url_for('static', filename='stylometry/js/chart_external_js_func/chart_external_all_features.js') }}"></script>
-<script src="{{ url_for('static', filename='stylometry/js/chart_external_js_func/draw_graph.js') }}"></script>
-<script src="{{ url_for('static', filename='stylometry/js/get_doc_content.js') }}"></script>
+    src="stylometry/{{ url_for('static', filename='js/chart_external_js_func/chart_external_all_features.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/chart_external_js_func/draw_graph.js') }}"></script>
+<script src="stylometry/{{ url_for('static', filename='js/get_doc_content.js') }}"></script>
 {% endblock %}
