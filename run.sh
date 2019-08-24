@@ -12,7 +12,6 @@ fi
 echo $VOL
 docker run --name $NAME -d --restart=always -e FLASK_DEBUG=1 -p $LOCALPORT:80 $VOL $IMGNAME bash -c \
   "service postgresql start && \
-	 service nginx start && \
   ./preconfigure.sh ipost && \
   su stylometry -c \"psql -d stylometry -f /postgres/stylometry.sql\" && \
   python -m flask run -h -0.0.0.0"
