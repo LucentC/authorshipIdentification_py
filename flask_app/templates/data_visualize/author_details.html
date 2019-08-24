@@ -3,16 +3,17 @@
 {% set active_page = 'details' %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-lg-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-bar-chart fa-fw"></i> Documents that are written by <mark>{{ title }}</mark></h3>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart fa-fw"></i> Documents that are written by
+                    <mark>{{ title }}</mark></h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
                             <tr>
                                 <th>Document ID</th>
                                 <th>Document Title</th>
@@ -20,40 +21,40 @@
                                 <th>Read me</th>
                                 <th>Get Stylometric Values</th>
                             </tr>
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
                             {% for row in doc_list %}
-                                <tr>
-                                    <td>{{ row['doc_id'] }}</td>
-                                    <td>{{ row['doc_title'] }}</td>
-                                    <td>{{ row['year_of_pub'] }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-success" data-toggle="modal"
-                                                data-target="#doc_modal"
-                                                onclick="get_content_by_id({{ row['doc_id'] }})">Click me
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger"
-                                                onclick="get_stylometric_csv({{ row['doc_id'] }})">Get File
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ row['doc_id'] }}</td>
+                                <td>{{ row['doc_title'] }}</td>
+                                <td>{{ row['year_of_pub'] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                        data-target="#doc_modal" onclick="get_content_by_id({{ row['doc_id'] }})">Click
+                                        me
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="get_stylometric_csv({{ row['doc_id'] }})">Get File
+                                    </button>
+                                </td>
+                            </tr>
                             {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-right">
-                        <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-right">
+                    <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    {{ show_modal() }}
+{{ show_modal() }}
 {% endblock %}
 
 {% block external_js %}
-<script src="{{ url_for('static', filename='js/get_doc_content.js') }}"></script>
+<script src="{{ url_for('static', filename='stylometry/js/get_doc_content.js') }}"></script>
 {% endblock %}

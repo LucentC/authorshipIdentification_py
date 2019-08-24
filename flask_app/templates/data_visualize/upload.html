@@ -4,125 +4,123 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block self_style %}
-    <!-- Dropzone CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/basic.css">
-    <style>
-        #dropzone {
-            margin-bottom: 3rem;
-        }
+<!-- Dropzone CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/basic.css">
+<style>
+    #dropzone {
+        margin-bottom: 3rem;
+    }
 
-        .dropzone {
-            border: 2px dashed #0087F7;
-            border-radius: 5px;
-            background: white;
-        }
+    .dropzone {
+        border: 2px dashed #0087F7;
+        border-radius: 5px;
+        background: white;
+    }
 
-        .dropzone .dz-message {
-            font-weight: 400;
-        }
+    .dropzone .dz-message {
+        font-weight: 400;
+    }
 
-        .dropzone .dz-message .note {
-            font-size: 0.8em;
-            font-weight: 200;
-            display: block;
-            margin-top: 1.4rem;
-        }
+    .dropzone .dz-message .note {
+        font-size: 0.8em;
+        font-weight: 200;
+        display: block;
+        margin-top: 1.4rem;
+    }
 
-        .needsclick {
-            font-size: 1.5em;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-    </style>
+    .needsclick {
+        font-size: 1.5em;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
 
-    <div id="actions" class="row">
+<div id="actions" class="row">
 
-        <div class="col-lg-7">
-            <!-- The fileinput-button span is used to style the file input field as button -->
+    <div class="col-lg-7">
+        <!-- The fileinput-button span is used to style the file input field as button -->
         <span class="btn btn-success fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Add files...</span>
         </span>
-            <button type="submit" class="btn btn-primary start">
-                <i class="glyphicon glyphicon-upload"></i>
-                <span>Start upload</span>
-            </button>
-            <button type="reset" class="btn btn-warning cancel">
-                <i class="glyphicon glyphicon-ban-circle"></i>
-                <span>Cancel upload</span>
-            </button>
-        </div>
+        <button type="submit" class="btn btn-primary start">
+            <i class="glyphicon glyphicon-upload"></i>
+            <span>Start upload</span>
+        </button>
+        <button type="reset" class="btn btn-warning cancel">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+            <span>Cancel upload</span>
+        </button>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-3 checkbox form-group">
-            <form action="">
-                <label>
-                    <input id="author_sel" type="checkbox" value="">Activate the authors selection list
-                </label>
-            </form>
-        </div>
-        <div id="author_select_list" class="col-lg-5 form-group" style="display: none;">
-            <form id="authors"  action="">
-                <select name="authors" class="form-control" multiple>
-                    {% for row in authors_list %}
-                        <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
-                    {% endfor %}
-                </select>
-            </form>
-        </div>
+<div class="row">
+    <div class="col-lg-3 checkbox form-group">
+        <form action="">
+            <label>
+                <input id="author_sel" type="checkbox" value="">Activate the authors selection list
+            </label>
+        </form>
     </div>
-
-    <div class="row" id="warning_banner" style="display: none;">
-        <div class="col-lg-9 alert alert-danger">
-            <strong>Error! </strong>
-            <i id="warning_message"></i>
-        </div>
+    <div id="author_select_list" class="col-lg-5 form-group" style="display: none;">
+        <form id="authors" action="">
+            <select name="authors" class="form-control" multiple>
+                {% for row in authors_list %}
+                <option value="{{ row['author_id'] }}">{{ row['author_name'] }}</option>
+                {% endfor %}
+            </select>
+        </form>
     </div>
+</div>
 
-    <div id="dropzone" class="row">
-        <div class="col-lg-9">
-            <form action="/knnstatics"
-                  class="dropzone needsclick dz-clickable"
-                  id="demo-upload">
-                <div class="dz-message needsclick">
-                    Drop files here or click to upload.
-                    <br>
+<div class="row" id="warning_banner" style="display: none;">
+    <div class="col-lg-9 alert alert-danger">
+        <strong>Error! </strong>
+        <i id="warning_message"></i>
+    </div>
+</div>
+
+<div id="dropzone" class="row">
+    <div class="col-lg-9">
+        <form action="/knnstatics" class="dropzone needsclick dz-clickable" id="demo-upload">
+            <div class="dz-message needsclick">
+                Drop files here or click to upload.
+                <br>
                 <span class="note needsclick">
                     Now it only supports files with <mark>txt</mark> extension.
                 </span>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div class="row" id="result" style="display: none;">
-        <div class="col-lg-9">
-            <table class="table table-hover" id="result_table">
-                <thead>
+<div class="row" id="result" style="display: none;">
+    <div class="col-lg-9">
+        <table class="table table-hover" id="result_table">
+            <thead>
                 <tr>
                     <th>Author Name</th>
                     <th>Probability</th>
                 </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-9" id="spinning"></div>
-    </div>
+<div class="row">
+    <div class="col-lg-9" id="spinning"></div>
+</div>
 {% endblock %}
 
 {% block external_js %}
-    <!-- Spin JS -->
-    <script src="{{ url_for('static', filename='js/upload_external_js_func/spin.js') }}"></script>
-    <!-- Dropzone JS -->
-    <script src="{{ url_for('static', filename='js/upload_external_js_func/dropzone.js') }}"></script>
-    <!-- External JS -->
-    <script src="{{ url_for('static', filename='js/upload_external_js_func/author_selection.js') }}"></script>
+<!-- Spin JS -->
+<script src="{{ url_for('static', filename='stylometry/js/upload_external_js_func/spin.js') }}"></script>
+<!-- Dropzone JS -->
+<script src="{{ url_for('static', filename='stylometry/js/upload_external_js_func/dropzone.js') }}"></script>
+<!-- External JS -->
+<script src="{{ url_for('static', filename='stylometry/js/upload_external_js_func/author_selection.js') }}"></script>
 {% endblock %}
