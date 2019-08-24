@@ -6,7 +6,7 @@ function get_csv_of_all_features_by_doc_list() {
 
     $.ajax({
         type: "POST",
-        url: "/getcsv",
+        url: "/stylometry/getcsv",
         data: $(".doc_list:checked").serialize(),
         cache: false,
         dataType: "text",

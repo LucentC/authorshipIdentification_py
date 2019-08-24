@@ -6,7 +6,7 @@ function get_csv_by_doc_list() {
 
     $.ajax({
         type: "POST",
-        url: "/getcsv",
+        url: "/stylometry/getcsv",
         data: $(".doc_list:checked").serialize(),
         cache: false,
         dataType: "text",
@@ -30,20 +30,20 @@ function get_csv_by_doc_list() {
 function get_distance() {
     $.ajax({
         type: "POST",
-        url: "/gethausdis",
+        url: "/stylometry/gethausdis",
         data: $(".doc_list:checked").serialize(),
         cache: false,
         dataType: "json",
         success: function (result) {
             $("#distance_table").show();
-            $.each(result, function(key, value){
+            $.each(result, function (key, value) {
                 $("#distance_table > tbody:last").append("<tr><td>" + key + "</td><td>" + value + "</td></tr>");
             })
         }
     });
 }
 
-$("#select_dimensions").on('change', function(){
+$("#select_dimensions").on('change', function () {
 
     if (!this.value) {
         alert("Honestly, I have no idea how you did that.");

@@ -146,13 +146,13 @@
                     $("#warning_banner").show();
                 });
 
-                this.on("drop", function (file, response){
+                this.on("drop", function (file, response) {
                     authors = [];
 
                     if ($("#author_sel:checkbox").is(":checked")) {
                         $.ajax({
                             type: "POST",
-                            url: "/saveauthors",
+                            url: "/stylometry/saveauthors",
                             data: $("#authors").serialize(),
                             cache: false,
                             dataType: "text"

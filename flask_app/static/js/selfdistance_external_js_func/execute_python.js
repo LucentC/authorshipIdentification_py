@@ -6,7 +6,7 @@ function get_csv_by_doc_list() {
 
     $.ajax({
         type: "POST",
-        url: "/getcsv",
+        url: "/stylometry/getcsv",
         data: $(".doc_list:checked").serialize(),
         cache: false,
         dataType: "text",
@@ -42,7 +42,7 @@ function runit() {
     mypre.innerHTML = '';
     Sk.pre = "output";
 
-    Sk.configure({output: outf, read: builtinRead});
+    Sk.configure({ output: outf, read: builtinRead });
     (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
 
     var myPromise = Sk.misceval.asyncToPromise(function () {

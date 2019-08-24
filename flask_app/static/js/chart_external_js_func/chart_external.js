@@ -111,7 +111,7 @@ $("#author_select").on("change", function () {
 
     $.ajax({
         type: "POST",
-        url: "/getdoclist",
+        url: "/stylometry/getdoclist",
         data: "author_id=" + this.value,
         dataType: "json",
         success: function (result) {
