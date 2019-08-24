@@ -3,10 +3,10 @@
 
 {% block onload_js %}
 <!-- jQuery -->
-<script src="{{ url_for('static', filename='stylometry/js/jquery-2.2.2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-2.2.2.min.js') }}"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="{{ url_for('static', filename='stylometry/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ url_for('get_author_details') }}">
+            <a href="/details">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ url_for('get_author_details') }}">
+            <a href="/details">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ url_for('get_author_details') }}">
+            <a href="/details">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -117,7 +117,7 @@
                         <tbody>
                             {% for row in author_and_docs %}
                             <tr class="clickable-row"
-                                data-href="{{ url_for('get_author_details') }}?author_id={{ row['aid'] }}&doc_num={{ row['doc_num'] }}"
+                                data-href="/details?author_id={{ row['aid'] }}&doc_num={{ row['doc_num'] }}"
                                 style="cursor: pointer;">
                                 <td>{{ row['aid'] }}</td>
                                 <td>{{ row['aname'] }}</td>
